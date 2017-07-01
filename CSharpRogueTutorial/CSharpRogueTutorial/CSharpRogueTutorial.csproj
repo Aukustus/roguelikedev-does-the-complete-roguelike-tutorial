@@ -51,8 +51,9 @@
     <Compile Include="BearLibTerminal.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controls.cs" />
+    <Compile Include="GameMap.cs" />
     <Compile Include="GameObject.cs" />
-    <Compile Include="MapCreation.cs" />
+    <Compile Include="MapMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering.cs" />

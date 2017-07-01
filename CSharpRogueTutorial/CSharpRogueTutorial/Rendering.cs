@@ -11,7 +11,7 @@ namespace CSharpRogueTutorial
             {
                 for (int y = 0; y < Constants.MapHeight; y++)
                 {
-                    if (Rogue.GameWorld.Map[x,y].blocked)
+                    if (Rogue.GameWorld.Map.tiles[x,y].blocked)
                     {
                         Terminal.PutExt(x, y, 0, 0, '#');
                     }

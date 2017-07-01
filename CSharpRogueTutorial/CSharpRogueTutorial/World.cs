@@ -6,7 +6,7 @@ namespace CSharpRogueTutorial
     [Serializable]
     class World
     {
-        public Tile[,] Map;
+        public GameMap Map;
         public GameObject Player;
         public List<GameObject> Objects;
 

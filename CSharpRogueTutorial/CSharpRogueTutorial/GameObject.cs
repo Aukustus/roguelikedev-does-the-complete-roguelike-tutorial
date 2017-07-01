@@ -29,7 +29,7 @@ namespace CSharpRogueTutorial
 
         internal void Move(int dx, int dy)
         {
-            if (Rogue.GameWorld.Map[x + dx, y + dy].blocked == false)
+            if (!MapMethods.MapBlocked(x + dx, y + dy))
             {
                 x += dx;
                 y += dy;

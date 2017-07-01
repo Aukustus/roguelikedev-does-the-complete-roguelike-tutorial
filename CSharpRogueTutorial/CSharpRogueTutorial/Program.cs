@@ -23,7 +23,7 @@ namespace RogueTutorial
             GameWorld.Player = new GameObject('@', "red", 0, 0);
             GameWorld.Objects.Add(GameWorld.Player);
 
-            GameWorld.Map = MapCreation.MakeMaze();
+            GameWorld.Map = MapMethods.MakeMaze();
         }
 
         private static void MainLoop()

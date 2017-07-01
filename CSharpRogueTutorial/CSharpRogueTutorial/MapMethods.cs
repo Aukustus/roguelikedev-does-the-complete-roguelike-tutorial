@@ -20,12 +20,12 @@ namespace CSharpRogueTutorial
         }
     }
 
-    class Point
+    class Coordinate
     {
         public int x;
         public int y;
 
-        public Point(int X, int Y)
+        public Coordinate(int X, int Y)
         {
             x = X;
             y = Y;
@@ -47,12 +47,12 @@ namespace CSharpRogueTutorial
             endY = Y + Height;
         }
 
-        internal Point Center()
+        internal Coordinate Center()
         {
             int centerX = (startX + endX) / 2;
             int centerY = (startY + endY) / 2;
 
-            return new Point(centerX, centerY);
+            return new Coordinate(centerX, centerY);
         }
 
         internal bool Intersect(Room otherRoom)
@@ -61,13 +61,13 @@ namespace CSharpRogueTutorial
         }
     }
 
-    class MapCreation
+    class MapMethods
     {
-        public static Random rand = new Random();
+        public static Random rand = new Random();          
 
-        public static Tile[,] MakeMap()
+        public static GameMap MakeMap()
         {
-            Tile[,] map = BlankMap(true);
+            Tile[,] tiles = BlankTiles(true);
 
             List<Room> roomList = new List<Room>();
 
@@ -83,21 +83,11 @@ namespace CSharpRogueTutorial
 
                 Room newRoom = new Room(x, y, width, height);
 
-                bool failed = false;
-                foreach (Room otherRoom in roomList)
+                if (!Intersects(roomList, newRoom))
                 {
-                    if (newRoom.Intersect(otherRoom))
-                    {
-                        failed = true;
-                        break;
-                    }
-                }
+                    CreateRoom(newRoom, ref tiles);
 
-                if (!failed)
-                {
-                    CreateRoom(newRoom, ref map);
-
-                    Point newCenter = newRoom.Center();
+                    Coordinate newCenter = newRoom.Center();
 
                     if (roomCount == 0)
                     {
@@ -106,17 +96,17 @@ namespace CSharpRogueTutorial
                     }
                     else
                     {
-                        Point previousCenter = roomList[roomCount - 1].Center();
+                        Coordinate previousCenter = roomList[roomCount - 1].Center();
 
                         if (rand.Next(0, 2) == 0)
                         {
-                            CreateHorizontalTunnel(previousCenter.x, newCenter.x, previousCenter.y, ref map);
-                            CreateVerticalTunnel(previousCenter.y, newCenter.y, newCenter.x, ref map);
+                            CreateHorizontalTunnel(previousCenter.x, newCenter.x, previousCenter.y, ref tiles);
+                            CreateVerticalTunnel(previousCenter.y, newCenter.y, newCenter.x, ref tiles);
                         }
                         else
                         {
-                            CreateVerticalTunnel(previousCenter.y, newCenter.y, previousCenter.x, ref map);
-                            CreateHorizontalTunnel(previousCenter.x, newCenter.x, newCenter.y, ref map);
+                            CreateVerticalTunnel(previousCenter.y, newCenter.y, previousCenter.x, ref tiles);
+                            CreateHorizontalTunnel(previousCenter.x, newCenter.x, newCenter.y, ref tiles);
                         }
                     }
 
@@ -125,37 +115,50 @@ namespace CSharpRogueTutorial
                 }
             }
 
-            return map;
+            return new GameMap(tiles);
         }
 
-        private static void CreateRoom(Room room, ref Tile[,] map)
+        private static bool Intersects(List<Room> roomList, Room currentRoom)
+        {
+            foreach (Room otherRoom in roomList)
+            {
+                if (currentRoom.Intersect(otherRoom))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static void CreateRoom(Room room, ref Tile[,] tiles)
         {
             for (int x = room.startX + 1; x < room.endX; x++)
             {
                 for (int y = room.startY + 1; y < room.endY; y++)
                 {
-                    map[x, y].blocked = false;
+                    tiles[x, y].blocked = false;
                 }
             }
         }
 
-        private static void CreateHorizontalTunnel(int x1, int x2, int y, ref Tile[,] map)
+        private static void CreateHorizontalTunnel(int x1, int x2, int y, ref Tile[,] tiles)
         {
             for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2) + 1; x++)
             {
-                map[x, y].blocked = false;
+                tiles[x, y].blocked = false;
             }
         }
 
-        private static void CreateVerticalTunnel(int y1, int y2, int x, ref Tile[,] map)
+        private static void CreateVerticalTunnel(int y1, int y2, int x, ref Tile[,] tiles)
         {
             for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2) + 1; y++)
             {
-                map[x, y].blocked = false;
+                tiles[x, y].blocked = false;
             }
         }
 
-        private static Tile[,] BlankMap(bool Blocked)
+        private static Tile[,] BlankTiles(bool Blocked)
         {
             Tile[,] map = new Tile[Constants.MapWidth, Constants.MapHeight];
 
@@ -170,9 +173,9 @@ namespace CSharpRogueTutorial
             return map;
         }
 
-        public static Tile[,] MakeMaze()
+        public static GameMap MakeMaze()
         {
-            Tile[,] map = BlankMap(true);
+            Tile[,] tiles = BlankTiles(true);
 
             for (int x = 0; x < Constants.MapWidth - 1; x++)
             {
@@ -180,44 +183,49 @@ namespace CSharpRogueTutorial
                 {
                     if (x % 2 != 0 && y % 2 != 0)
                     {
-                        map[x, y] = new Tile(false);
+                        tiles[x, y] = new Tile(false);
                     }
                 }
             }
 
-            CarveMaze(1, 1, ref map);
+            CarveMaze(1, 1, ref tiles);
 
             Rogue.GameWorld.Player.x = 1;
             Rogue.GameWorld.Player.y = 1;
 
-            return map;
+            return new GameMap(tiles);
         }
 
-        public static void CarveMaze(int startx, int starty, ref Tile[,] map)
+        public static void CarveMaze(int startx, int starty, ref Tile[,] tiles)
         {
-            map[startx, starty].visited = true;
+            tiles[startx, starty].visited = true;
 
-            foreach (Point tile in GetMazeNeighbours(startx, starty))
+            foreach (Coordinate tile in GetMazeNeighbours(startx, starty))
             {
-                if (map[tile.x, tile.y].visited == false)
+                if (tiles[tile.x, tile.y].visited == false)
                 {
-                    map[(tile.x + startx) / 2, (tile.y + starty) / 2].blocked = false;
+                    tiles[(tile.x + startx) / 2, (tile.y + starty) / 2].blocked = false;
 
-                    CarveMaze(tile.x, tile.y, ref map);
+                    CarveMaze(tile.x, tile.y, ref tiles);
                 }
             }
         }
 
-        public static List<Point> GetMazeNeighbours(int x, int y)
+        public static List<Coordinate> GetMazeNeighbours(int x, int y)
         {
-            List<Point> neighbours = new List<Point>();
+            List<Coordinate> neighbours = new List<Coordinate>();
 
-            if (x - 2 >= 0) neighbours.Add(new Point(x - 2, y));
-            if (x + 2 <= Constants.MapWidth - 2) neighbours.Add(new Point(x + 2, y));
-            if (y - 2 >= 0) neighbours.Add(new Point(x, y - 2));
-            if (y + 2 <= Constants.MapHeight - 2) neighbours.Add(new Point(x, y + 2));
+            if (x - 2 >= 0) neighbours.Add(new Coordinate(x - 2, y));
+            if (x + 2 <= Constants.MapWidth - 2) neighbours.Add(new Coordinate(x + 2, y));
+            if (y - 2 >= 0) neighbours.Add(new Coordinate(x, y - 2));
+            if (y + 2 <= Constants.MapHeight - 2) neighbours.Add(new Coordinate(x, y + 2));
 
             return neighbours.OrderBy(a => rand.Next()).ToList();
+        }
+
+        public static bool MapBlocked(int x, int y)
+        {
+            return Rogue.GameWorld.Map.tiles[x, y].blocked;
         }
     }
 }
