@@ -142,6 +142,11 @@ namespace CSharpRogueTutorial
             }
         }
 
+        private static int DistanceBetween(int x1, int y1, int x2, int y2)
+        {
+            return (int)(Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2)));
+        }
+
         private static void CreateHorizontalTunnel(int x1, int x2, int y, ref Tile[,] tiles)
         {
             for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2) + 1; x++)

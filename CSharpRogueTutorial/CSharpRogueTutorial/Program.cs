@@ -1,6 +1,7 @@
 ﻿using CSharpRogueTutorial;
 using System.Collections.Generic;
 using BearLib;
+using System;
 
 namespace RogueTutorial
 {
@@ -23,7 +24,7 @@ namespace RogueTutorial
             GameWorld.Player = new GameObject('@', "red", 0, 0);
             GameWorld.Objects.Add(GameWorld.Player);
 
-            GameWorld.Map = MapMethods.MakeMaze();
+            GameWorld.Map = MapMethods.MakeMap();
         }
 
         private static void MainLoop()
