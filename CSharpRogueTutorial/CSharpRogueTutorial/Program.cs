@@ -12,7 +12,22 @@ namespace RogueTutorial
         private static void Initialize()
         {
             Terminal.Open();
-            Terminal.Set("window: size=" + Constants.ScreenWidth.ToString() + "x" + Constants.ScreenHeight.ToString() + "; font: VeraMono.ttf, size=12");
+            Terminal.Set("window: size=" + Constants.ScreenWidth.ToString() + "x" + Constants.ScreenHeight.ToString() + "; font: Cheepicus.png, size=16x16");
+            Terminal.Set("0xE000: Tileset.png, size=32x32");
+
+            PreCalcFov();
+        }
+
+        private static void PreCalcFov()
+        {
+            for (int i = 0; i < 360; i += 3)
+            {
+                double ax = Math.Sin(i / (180 / Math.PI));
+                double ay = Math.Cos(i / (180 / Math.PI));
+
+                Constants.PreCalcSin.Add(i, ax);
+                Constants.PreCalcCos.Add(i, ay);
+            }
         }
 
         private static void NewGame()
@@ -21,7 +36,7 @@ namespace RogueTutorial
 
             GameWorld.Objects = new List<GameObject>();
 
-            GameWorld.Player = new GameObject('@', "red", 0, 0);
+            GameWorld.Player = new GameObject(Constants.Tiles.PlayerTile, "white", 0, 0);
             GameWorld.Objects.Add(GameWorld.Player);
 
             GameWorld.Map = MapMethods.MakeMap();
@@ -33,11 +48,22 @@ namespace RogueTutorial
             {
                 Rendering.RenderAll();
 
-                bool exit = Controls.HandleKeys();
+                Constants.PlayerAction action = Controls.HandleKeys();
 
-                if (exit)
+                if (action == Constants.PlayerAction.ExitGame)
                 {
                     break;
+                }
+
+                if (action == Constants.PlayerAction.UsedTurn)
+                {
+                    foreach (GameObject obj in GameWorld.Objects)
+                    {
+                        if (obj != GameWorld.Player)
+                        {
+
+                        }
+                    }
                 }
             }
 

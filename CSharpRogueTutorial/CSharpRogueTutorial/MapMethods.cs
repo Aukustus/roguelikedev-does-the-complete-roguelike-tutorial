@@ -5,22 +5,7 @@ using System.Linq;
 
 namespace CSharpRogueTutorial
 {
-    [Serializable]
-    class Tile
-    {
-        public bool blocked;
-        public bool explored;
-        public bool visited;
-
-        public Tile(bool Blocked)
-        {
-            blocked = Blocked;
-            explored = false;
-            visited = false;
-        }
-    }
-
-    class Coordinate
+    struct Coordinate
     {
         public int x;
         public int y;
@@ -29,35 +14,6 @@ namespace CSharpRogueTutorial
         {
             x = X;
             y = Y;
-        }
-    }
-
-    class Room
-    {
-        public int startX;
-        public int startY;
-        public int endX;
-        public int endY;
-
-        public Room(int X, int Y, int Width, int Height)
-        {
-            startX = X;
-            startY = Y;
-            endX = X + Width;
-            endY = Y + Height;
-        }
-
-        internal Coordinate Center()
-        {
-            int centerX = (startX + endX) / 2;
-            int centerY = (startY + endY) / 2;
-
-            return new Coordinate(centerX, centerY);
-        }
-
-        internal bool Intersect(Room otherRoom)
-        {
-            return (startX <= otherRoom.endX && endX >= otherRoom.startX && startY <= otherRoom.endY && endY >= otherRoom.startY);
         }
     }
 
@@ -85,7 +41,7 @@ namespace CSharpRogueTutorial
 
                 if (!Intersects(roomList, newRoom))
                 {
-                    CreateRoom(newRoom, ref tiles);
+                    newRoom.CarveRoomToMap(ref tiles);
 
                     Coordinate newCenter = newRoom.Center();
 
@@ -108,12 +64,16 @@ namespace CSharpRogueTutorial
                             CreateVerticalTunnel(previousCenter.y, newCenter.y, previousCenter.x, ref tiles);
                             CreateHorizontalTunnel(previousCenter.x, newCenter.x, newCenter.y, ref tiles);
                         }
+
+                        newRoom.PlaceObjects();
                     }
 
                     roomList.Add(newRoom);
                     roomCount += 1;
                 }
             }
+
+            Camera.SetCamera();
 
             return new GameMap(tiles);
         }
@@ -129,17 +89,6 @@ namespace CSharpRogueTutorial
             }
 
             return false;
-        }
-
-        private static void CreateRoom(Room room, ref Tile[,] tiles)
-        {
-            for (int x = room.startX + 1; x < room.endX; x++)
-            {
-                for (int y = room.startY + 1; y < room.endY; y++)
-                {
-                    tiles[x, y].blocked = false;
-                }
-            }
         }
 
         private static int DistanceBetween(int x1, int y1, int x2, int y2)
@@ -198,6 +147,8 @@ namespace CSharpRogueTutorial
             Rogue.GameWorld.Player.x = 1;
             Rogue.GameWorld.Player.y = 1;
 
+            Camera.SetCamera();
+
             return new GameMap(tiles);
         }
 
@@ -228,9 +179,42 @@ namespace CSharpRogueTutorial
             return neighbours.OrderBy(a => rand.Next()).ToList();
         }
 
+        public static bool Blocked(int x, int y)
+        {
+            if (x < 0 || y < 0 && x >= Constants.MapWidth || y >= Constants.MapHeight)
+            {
+                return true;
+            }
+
+            foreach (GameObject obj in Rogue.GameWorld.Objects)
+            {
+                if (obj.x == x && obj.y == y && obj.blocks)
+                {
+                    return true;
+                }
+            }
+
+            return Rogue.GameWorld.Map.tiles[x, y].blocked;
+        }
+
         public static bool MapBlocked(int x, int y)
         {
+            if (x < 0 || y < 0 && x >= Constants.MapWidth || y >= Constants.MapHeight)
+            {
+                return true;
+            }
+
             return Rogue.GameWorld.Map.tiles[x, y].blocked;
+        }
+
+        public static bool MapExplored(int x, int y)
+        {
+            if (x < 0 || y < 0 || x >= Constants.MapWidth || y >= Constants.MapHeight)
+            {
+                return false;
+            }
+
+            return Rogue.GameWorld.Map.tiles[x, y].explored;
         }
     }
 }

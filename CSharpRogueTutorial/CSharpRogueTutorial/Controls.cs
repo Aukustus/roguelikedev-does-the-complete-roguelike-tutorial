@@ -13,33 +13,37 @@ namespace CSharpRogueTutorial
 
         public static int[] EscapeKeys = { Terminal.TK_ESCAPE };
 
-        public static bool HandleKeys()
+        public static Constants.PlayerAction HandleKeys()
         {
             int key = Terminal.Read();
 
             if (LeftMovement.Contains(key))
             {
-                Rogue.GameWorld.Player.Move(-1, 0);
+                Rogue.GameWorld.Player.PlayerMoveOrAttack(-1, 0);
+                return Constants.PlayerAction.UsedTurn;
             }
             else if (RightMovement.Contains(key))
             {
-                Rogue.GameWorld.Player.Move(1, 0);
+                Rogue.GameWorld.Player.PlayerMoveOrAttack(1, 0);
+                return Constants.PlayerAction.UsedTurn;
             }
             else if (UpMovement.Contains(key))
             {
-                Rogue.GameWorld.Player.Move(0, -1);
+                Rogue.GameWorld.Player.PlayerMoveOrAttack(0, -1);
+                return Constants.PlayerAction.UsedTurn;
             }
             else if (DownMovement.Contains(key))
             {
-                Rogue.GameWorld.Player.Move(0, 1);
+                Rogue.GameWorld.Player.PlayerMoveOrAttack(0, 1);
+                return Constants.PlayerAction.UsedTurn;
             }
 
             else if (EscapeKeys.Contains(key))
             {
-                return true;
+                return Constants.PlayerAction.ExitGame;
             }
 
-            return false;
+            return Constants.PlayerAction.NotUsedTurn;
         }
     }
 }
