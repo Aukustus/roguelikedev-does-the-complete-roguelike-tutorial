@@ -58,16 +58,11 @@ namespace CSharpRogueTutorial
             }
         }
 
-        internal bool Intersect(Room otherRoom)
-        {
-            return (startX <= otherRoom.endX && endX >= otherRoom.startX && startY <= otherRoom.endY && endY >= otherRoom.startY);
-        }
-
         internal bool Intersects(List<Room> roomList)
         {
             foreach (Room otherRoom in roomList)
             {
-                if (Intersect(otherRoom))
+                if (startX <= otherRoom.endX && endX >= otherRoom.startX && startY <= otherRoom.endY && endY >= otherRoom.startY)
                 {
                     return true;
                 }
