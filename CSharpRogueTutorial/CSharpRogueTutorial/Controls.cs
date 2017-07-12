@@ -11,6 +11,11 @@ namespace CSharpRogueTutorial
         static int[] UpMovement = { Terminal.TK_UP, Terminal.TK_KP_8, Terminal.TK_K };
         static int[] DownMovement = { Terminal.TK_DOWN, Terminal.TK_KP_2, Terminal.TK_J };
 
+        static int[] UpLeftMovement = { Terminal.TK_KP_7, Terminal.TK_Y };
+        static int[] UpRightMovement = { Terminal.TK_KP_9, Terminal.TK_U };
+        static int[] DownLeftMovement = { Terminal.TK_KP_1, Terminal.TK_B };
+        static int[] DownRightMovement = { Terminal.TK_KP_3, Terminal.TK_N };
+
         public static int[] EscapeKeys = { Terminal.TK_ESCAPE };
 
         public static Constants.PlayerAction HandleKeys()
@@ -35,6 +40,26 @@ namespace CSharpRogueTutorial
             else if (DownMovement.Contains(key))
             {
                 Rogue.GameWorld.Player.PlayerMoveOrAttack(0, 1);
+                return Constants.PlayerAction.UsedTurn;
+            }
+            else if (UpLeftMovement.Contains(key))
+            {
+                Rogue.GameWorld.Player.PlayerMoveOrAttack(-1, -1);
+                return Constants.PlayerAction.UsedTurn;
+            }
+            else if (UpRightMovement.Contains(key))
+            {
+                Rogue.GameWorld.Player.PlayerMoveOrAttack(1, -1);
+                return Constants.PlayerAction.UsedTurn;
+            }
+            else if (DownLeftMovement.Contains(key))
+            {
+                Rogue.GameWorld.Player.PlayerMoveOrAttack(-1, 1);
+                return Constants.PlayerAction.UsedTurn;
+            }
+            else if (DownRightMovement.Contains(key))
+            {
+                Rogue.GameWorld.Player.PlayerMoveOrAttack(1, 1);
                 return Constants.PlayerAction.UsedTurn;
             }
 

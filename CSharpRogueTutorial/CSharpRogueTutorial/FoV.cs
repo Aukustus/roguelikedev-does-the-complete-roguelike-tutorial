@@ -7,7 +7,7 @@ namespace CSharpRogueTutorial
     {
         public static void RayCast()
         {
-            for (int i = 0; i < 360; i += 3)
+            for (int i = 0; i < 360; i += Constants.FoVSteps)
             {
                 double ax = Constants.PreCalcSin[i];
                 double ay = Constants.PreCalcCos[i];
@@ -44,7 +44,7 @@ namespace CSharpRogueTutorial
                 return true;
             }
 
-            for (int i = 0; i < 360; i += 3)
+            for (int i = 0; i < 360; i += Constants.FoVSteps)
             {
                 double ax = Constants.PreCalcSin[i];
                 double ay = Constants.PreCalcCos[i];

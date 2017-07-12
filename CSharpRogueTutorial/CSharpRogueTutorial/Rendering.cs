@@ -28,7 +28,7 @@ namespace CSharpRogueTutorial
                             DrawMapTile(x, y, Constants.Tiles.FloorTile, "white");
                         }
                     }
-                    else if (MapMethods.MapExplored(x, y))
+                    else if (GameMap.MapExplored(x, y))
                     {
                         if (Rogue.GameWorld.Map.tiles[x, y].blocked)
                         {

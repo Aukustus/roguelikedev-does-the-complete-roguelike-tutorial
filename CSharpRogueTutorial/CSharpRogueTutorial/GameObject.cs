@@ -9,7 +9,6 @@ namespace CSharpRogueTutorial
     class GameObject
     {
         public char tile;
-        public string color;
         public int x;
         public int y;
         public bool blocks;
@@ -18,12 +17,11 @@ namespace CSharpRogueTutorial
 
         public IEnumerable<GameObject> GameWorld { get; private set; }
 
-        public GameObject(char Tile, string Color, int X, int Y, bool Blocks = true)
+        public GameObject(char Tile, int X, int Y, bool Blocks = true)
         {
             x = X;
             y = Y;
             tile = Tile;
-            color = Color;
             blocks = Blocks;
         }
 
@@ -33,15 +31,14 @@ namespace CSharpRogueTutorial
             int drawX = (x - Rogue.GameWorld.Player.CameraX) * 2 + 1;
             int drawY = (y - Rogue.GameWorld.Player.CameraY) * 2 + 1;
 
-            Terminal.Color(Terminal.ColorFromName(color));
-            Terminal.Print(drawX, drawY, "[offset=8,8]" +  tile.ToString());
-
             Terminal.Color(Terminal.ColorFromName("white"));
+
+            Terminal.Print(drawX, drawY, "[offset=8,8]" +  tile.ToString());
         }
 
         internal void Move(int dx, int dy)
         {
-            if (!MapMethods.Blocked(x + dx, y + dy))
+            if (!GameMap.Blocked(x + dx, y + dy))
             {
                 x += dx;
                 y += dy;
@@ -56,7 +53,7 @@ namespace CSharpRogueTutorial
             int targetX = x + dx;
             int targetY = y + dy;
 
-            if (MapMethods.MapBlocked(x + dx, y + dy))
+            if (GameMap.MapBlocked(x + dx, y + dy))
             {
                 return;
             }

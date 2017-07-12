@@ -1,5 +1,6 @@
 ﻿using RogueTutorial;
 using System;
+using System.Collections.Generic;
 
 namespace CSharpRogueTutorial
 {
@@ -28,11 +29,11 @@ namespace CSharpRogueTutorial
 
             if (rand.Next(0, 2) == 1)
             {
-                monster = new GameObject(Constants.Tiles.OrcTile, "white", center.x, center.y);
+                monster = new GameObject(Constants.Tiles.OrcTile, center.x, center.y);
             }
             else
             {
-                monster = new GameObject(Constants.Tiles.TrollTile, "white", center.x, center.y);
+                monster = new GameObject(Constants.Tiles.TrollTile, center.x, center.y);
             }
 
             Rogue.GameWorld.Objects.Add(monster);
@@ -60,6 +61,19 @@ namespace CSharpRogueTutorial
         internal bool Intersect(Room otherRoom)
         {
             return (startX <= otherRoom.endX && endX >= otherRoom.startX && startY <= otherRoom.endY && endY >= otherRoom.startY);
+        }
+
+        internal bool Intersects(List<Room> roomList)
+        {
+            foreach (Room otherRoom in roomList)
+            {
+                if (Intersect(otherRoom))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

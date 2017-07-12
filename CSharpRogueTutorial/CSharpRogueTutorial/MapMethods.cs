@@ -23,7 +23,7 @@ namespace CSharpRogueTutorial
 
         public static GameMap MakeMap()
         {
-            Tile[,] tiles = BlankTiles(true);
+            GameMap map = new GameMap(true);
 
             List<Room> roomList = new List<Room>();
 
@@ -39,9 +39,9 @@ namespace CSharpRogueTutorial
 
                 Room newRoom = new Room(x, y, width, height);
 
-                if (!Intersects(roomList, newRoom))
+                if (!newRoom.Intersects(roomList))
                 {
-                    newRoom.CarveRoomToMap(ref tiles);
+                    newRoom.CarveRoomToMap(ref map.tiles);
 
                     Coordinate newCenter = newRoom.Center();
 
@@ -56,13 +56,13 @@ namespace CSharpRogueTutorial
 
                         if (rand.Next(0, 2) == 0)
                         {
-                            CreateHorizontalTunnel(previousCenter.x, newCenter.x, previousCenter.y, ref tiles);
-                            CreateVerticalTunnel(previousCenter.y, newCenter.y, newCenter.x, ref tiles);
+                            map.CreateHorizontalTunnel(previousCenter.x, newCenter.x, previousCenter.y);
+                            map.CreateVerticalTunnel(previousCenter.y, newCenter.y, newCenter.x);
                         }
                         else
                         {
-                            CreateVerticalTunnel(previousCenter.y, newCenter.y, previousCenter.x, ref tiles);
-                            CreateHorizontalTunnel(previousCenter.x, newCenter.x, newCenter.y, ref tiles);
+                            map.CreateVerticalTunnel(previousCenter.y, newCenter.y, previousCenter.x);
+                            map.CreateHorizontalTunnel(previousCenter.x, newCenter.x, newCenter.y);
                         }
 
                         newRoom.PlaceObjects();
@@ -75,61 +75,12 @@ namespace CSharpRogueTutorial
 
             Camera.SetCamera();
 
-            return new GameMap(tiles);
-        }
-
-        private static bool Intersects(List<Room> roomList, Room currentRoom)
-        {
-            foreach (Room otherRoom in roomList)
-            {
-                if (currentRoom.Intersect(otherRoom))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static int DistanceBetween(int x1, int y1, int x2, int y2)
-        {
-            return (int)(Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2)));
-        }
-
-        private static void CreateHorizontalTunnel(int x1, int x2, int y, ref Tile[,] tiles)
-        {
-            for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2) + 1; x++)
-            {
-                tiles[x, y].blocked = false;
-            }
-        }
-
-        private static void CreateVerticalTunnel(int y1, int y2, int x, ref Tile[,] tiles)
-        {
-            for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2) + 1; y++)
-            {
-                tiles[x, y].blocked = false;
-            }
-        }
-
-        private static Tile[,] BlankTiles(bool Blocked)
-        {
-            Tile[,] map = new Tile[Constants.MapWidth, Constants.MapHeight];
-
-            for (int x = 0; x < Constants.MapWidth; x++)
-            {
-                for (int y = 0; y < Constants.MapHeight; y++)
-                {
-                    map[x, y] = new Tile(Blocked);
-                }
-            }
-
             return map;
         }
 
         public static GameMap MakeMaze()
         {
-            Tile[,] tiles = BlankTiles(true);
+            GameMap map = new GameMap(true);
 
             for (int x = 0; x < Constants.MapWidth - 1; x++)
             {
@@ -137,19 +88,19 @@ namespace CSharpRogueTutorial
                 {
                     if (x % 2 != 0 && y % 2 != 0)
                     {
-                        tiles[x, y] = new Tile(false);
+                        map.tiles[x, y] = new Tile(false);
                     }
                 }
             }
 
-            CarveMaze(1, 1, ref tiles);
+            CarveMaze(1, 1, ref map.tiles);
 
             Rogue.GameWorld.Player.x = 1;
             Rogue.GameWorld.Player.y = 1;
 
             Camera.SetCamera();
 
-            return new GameMap(tiles);
+            return map;
         }
 
         public static void CarveMaze(int startx, int starty, ref Tile[,] tiles)
@@ -177,44 +128,6 @@ namespace CSharpRogueTutorial
             if (y + 2 <= Constants.MapHeight - 2) neighbours.Add(new Coordinate(x, y + 2));
 
             return neighbours.OrderBy(a => rand.Next()).ToList();
-        }
-
-        public static bool Blocked(int x, int y)
-        {
-            if (x < 0 || y < 0 && x >= Constants.MapWidth || y >= Constants.MapHeight)
-            {
-                return true;
-            }
-
-            foreach (GameObject obj in Rogue.GameWorld.Objects)
-            {
-                if (obj.x == x && obj.y == y && obj.blocks)
-                {
-                    return true;
-                }
-            }
-
-            return Rogue.GameWorld.Map.tiles[x, y].blocked;
-        }
-
-        public static bool MapBlocked(int x, int y)
-        {
-            if (x < 0 || y < 0 && x >= Constants.MapWidth || y >= Constants.MapHeight)
-            {
-                return true;
-            }
-
-            return Rogue.GameWorld.Map.tiles[x, y].blocked;
-        }
-
-        public static bool MapExplored(int x, int y)
-        {
-            if (x < 0 || y < 0 || x >= Constants.MapWidth || y >= Constants.MapHeight)
-            {
-                return false;
-            }
-
-            return Rogue.GameWorld.Map.tiles[x, y].explored;
         }
     }
 }

@@ -12,7 +12,6 @@ namespace CSharpRogueTutorial
 
         public World()
         {
-
         }
     }
 }

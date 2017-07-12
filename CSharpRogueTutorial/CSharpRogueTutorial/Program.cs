@@ -20,7 +20,7 @@ namespace RogueTutorial
 
         private static void PreCalcFov()
         {
-            for (int i = 0; i < 360; i += 3)
+            for (int i = 0; i < 360; i += Constants.FoVSteps)
             {
                 double ax = Math.Sin(i / (180 / Math.PI));
                 double ay = Math.Cos(i / (180 / Math.PI));
@@ -36,7 +36,7 @@ namespace RogueTutorial
 
             GameWorld.Objects = new List<GameObject>();
 
-            GameWorld.Player = new GameObject(Constants.Tiles.PlayerTile, "white", 0, 0);
+            GameWorld.Player = new GameObject(Constants.Tiles.PlayerTile, 0, 0);
             GameWorld.Objects.Add(GameWorld.Player);
 
             GameWorld.Map = MapMethods.MakeMap();
