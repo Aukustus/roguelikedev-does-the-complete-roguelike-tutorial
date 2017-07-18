@@ -34,6 +34,11 @@ namespace CSharpRogueTutorial
             Rogue.GameWorld.Player.CameraY += dy;
         }
 
+        public static Coordinate CameraToCoordinate(int x, int y)
+        {
+            return new Coordinate(x + Rogue.GameWorld.Player.CameraX, y + Rogue.GameWorld.Player.CameraY);
+        }
+
         public static void SetCamera()
         {
             int x = Rogue.GameWorld.Player.X - Constants.CameraWidth / 2;

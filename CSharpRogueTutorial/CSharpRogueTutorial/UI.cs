@@ -70,11 +70,40 @@ namespace CSharpRogueTutorial
             Terminal.Color(Terminal.ColorFromName("white"));
         }
 
+        private static void MouseHoverLook()
+        {
+            int mouseX = Terminal.State(Terminal.TK_MOUSE_X) - 1;
+            int mouseY = Terminal.State(Terminal.TK_MOUSE_Y) - 1;
+
+            if (mouseX >= 0 && mouseY >= 0 && mouseX <= 61 && mouseY <= 25)
+            {
+                if (mouseX % 2 != 0)
+                {
+                    mouseX -= 1;
+                }
+                if (mouseY % 2 != 0)
+                {
+                    mouseY -= 1;
+                }
+
+                Coordinate coord = Camera.CameraToCoordinate(mouseX / 2, mouseY / 2);
+
+                foreach (GameObject obj in Rogue.GameWorld.Objects)
+                {
+                    if (obj.X == coord.X && obj.Y == coord.Y)
+                    {
+                        Terminal.Print(mouseX, mouseY, obj.Name);
+                    }
+                }
+            }
+        }
+
         public static void DrawUI()
         {
             DrawBorders();
             DrawStats();
             DrawMessages();
+            MouseHoverLook();
         }
     }
 }
