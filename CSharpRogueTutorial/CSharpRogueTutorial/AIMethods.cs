@@ -7,6 +7,11 @@ namespace CSharpRogueTutorial
     {
         public static void BasicMonster(GameObject self)
         {
+            if (self.Fighter.HP <= 0)
+            {
+                return;
+            }
+
             if (FoV.InFov(self.X, self.Y, Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, self))
             {
                 self.Fighter.SeenPlayerX = Rogue.GameWorld.Player.X;
@@ -30,6 +35,11 @@ namespace CSharpRogueTutorial
                     self.Fighter.SeenPlayerX = null;
                     self.Fighter.SeenPlayerY = null;
                 }
+            }
+            else if (self.Fighter.TurnDirection != null)
+            {
+                self.Fighter.Direction = self.Fighter.TurnDirection.Value;
+                self.Fighter.TurnDirection = null;
             }
             else
             {

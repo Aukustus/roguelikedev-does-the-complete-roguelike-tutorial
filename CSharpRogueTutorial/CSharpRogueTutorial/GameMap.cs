@@ -12,7 +12,7 @@ namespace CSharpRogueTutorial
 
         public Tile(bool blocked)
         {
-            this.Blocked = blocked;
+            Blocked = blocked;
             Explored = false;
             Visited = false;
         }

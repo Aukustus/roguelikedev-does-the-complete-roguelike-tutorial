@@ -5,18 +5,33 @@ using System.Linq;
 namespace CSharpRogueTutorial
 {
     [Serializable]
+    class Message
+    {
+        public string Text;
+        public string Color;
+
+        public Message(string text, string color)
+        {
+            Text = text;
+            Color = color;
+        }
+    }
+
+    [Serializable]
     class MessageLog
     {
-        public List<string> Messages = new List<string>();
+        public List<Message> Messages = new List<Message>();
 
         public MessageLog()
         {
 
         }
 
-        public void AddMessage(string message)
-        {
-            Messages.AddRange(WordWrap(message));
+        public void AddMessage(string message, string color)
+        { 
+            List<Message> wrappedMessages = WordWrap(message, color);
+
+            Messages.AddRange(wrappedMessages);
 
             while (Messages.Count() > Constants.MessageLogLength)
             {
@@ -24,11 +39,11 @@ namespace CSharpRogueTutorial
             }
         }
 
-        private static List<string> WordWrap(string text)
+        private static List<Message> WordWrap(string text, string color)
         {
             int maxLineLength = 60;
 
-            List<string> list = new List<string>();
+            List<Message> list = new List<Message>();
 
             int currentIndex;
 
@@ -41,7 +56,7 @@ namespace CSharpRogueTutorial
                 currentIndex = lastWrap + maxLineLength > text.Length ? text.Length : (text.LastIndexOfAny(new[] { ' ', ',', '.', '?', '!', ':', ';', '-', '\n', '\r', '\t' }, Math.Min(text.Length - 1, lastWrap + maxLineLength)) + 1);
                 if (currentIndex <= lastWrap)
                     currentIndex = Math.Min(lastWrap + maxLineLength, text.Length);
-                list.Add(text.Substring(lastWrap, currentIndex - lastWrap).Trim(whitespace));
+                list.Add(new Message(text.Substring(lastWrap, currentIndex - lastWrap).Trim(whitespace), color));
                 lastWrap = currentIndex;
             } while (currentIndex < text.Length);
 

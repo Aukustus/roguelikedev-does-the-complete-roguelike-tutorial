@@ -10,7 +10,9 @@ namespace CSharpRogueTutorial
             Terminal.Put(0, 0, Constants.Symbols.NW);
 
             for (int x = 1; x < 79; x++)
+            {
                 Terminal.Put(x, 0, Constants.Symbols.HorizonalBar);
+            }
 
             Terminal.Put(63, 0, Constants.Symbols.DownCross);
             Terminal.Put(79, 0, Constants.Symbols.NE);
@@ -26,7 +28,9 @@ namespace CSharpRogueTutorial
             Terminal.Put(79, Constants.ScreenHeight - 1, Constants.Symbols.SE);
 
             for (int y = 1; y < Constants.ScreenHeight - 1; y++)
+            {
                 Terminal.Put(63, y, Constants.Symbols.VerticalBar);
+            }
 
             Terminal.Put(0, Constants.ScreenHeight - 9, Constants.Symbols.RightCross);
             Terminal.Put(63, Constants.ScreenHeight - 9, Constants.Symbols.LeftCross);
@@ -38,7 +42,9 @@ namespace CSharpRogueTutorial
             }
 
             for (int x = 64; x < 79; x++)
+            {
                 Terminal.Put(x, Constants.ScreenHeight - 1, Constants.Symbols.HorizonalBar);
+            }
         }
 
         private static void DrawStats()
@@ -52,11 +58,16 @@ namespace CSharpRogueTutorial
         {
             int y = 28;
 
-            foreach (string message in Rogue.GameWorld.MessageLog.Messages)
+            foreach (Message message in Rogue.GameWorld.MessageLog.Messages)
             {
-                Terminal.Print(1, y, message);
+                Terminal.Color(Terminal.ColorFromName(message.Color));
+
+                Terminal.Print(1, y, message.Text);
+
                 y += 1;
             }
+
+            Terminal.Color(Terminal.ColorFromName("white"));
         }
 
         public static void DrawUI()

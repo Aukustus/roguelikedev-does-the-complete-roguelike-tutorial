@@ -6,14 +6,14 @@ namespace CSharpRogueTutorial
     {
         public static void PlayerDeath(GameObject owner)
         {
-            Rogue.GameWorld.MessageLog.AddMessage(owner.Name + " dies.");
+            Rogue.GameWorld.MessageLog.AddMessage(owner.Name + " dies.", "red");
             owner.Tile = Constants.Tiles.CorpseTile;
             Rogue.GameWorld.State = Constants.GameState.Dead;
         }
 
         public static void GenericDeath(GameObject owner)
         {
-            Rogue.GameWorld.MessageLog.AddMessage(owner.Name + " dies.");
+            Rogue.GameWorld.MessageLog.AddMessage(owner.Name + " dies.", "red");
 
             owner.Fighter.AI = Constants.AI.None;
             owner.Blocks = false;
