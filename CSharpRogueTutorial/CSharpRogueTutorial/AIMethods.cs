@@ -41,11 +41,6 @@ namespace CSharpRogueTutorial
                     self.Fighter.SeenPlayerY = null;
                 }
             }
-            else if (self.Fighter.TurnDirection != null)
-            {
-                self.Fighter.Direction = self.Fighter.TurnDirection.Value;
-                self.Fighter.TurnDirection = null;
-            }
             else
             {
                 int choice = Constants.Angles[new Random().Next(0, Constants.Angles.Length)];
