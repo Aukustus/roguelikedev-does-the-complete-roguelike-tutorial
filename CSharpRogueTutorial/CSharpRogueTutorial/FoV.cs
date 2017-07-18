@@ -7,15 +7,17 @@ namespace CSharpRogueTutorial
     {
         public static void RayCast()
         {
-            for (int i = 0; i < 360; i += Constants.FoVSteps)
+            int angle = Rogue.GameWorld.Player.Fighter.Direction;
+
+            for (int i = angle - 45; i < angle + 46; i += Constants.FoVSteps)
             {
                 double ax = Constants.PreCalcSin[i];
                 double ay = Constants.PreCalcCos[i];
 
-                double x = Rogue.GameWorld.Player.x;
-                double y = Rogue.GameWorld.Player.y;
+                double x = Rogue.GameWorld.Player.X;
+                double y = Rogue.GameWorld.Player.Y;
 
-                Rogue.GameWorld.Map.tiles[(int)x, (int)y].explored = true;
+                Rogue.GameWorld.Map.Tiles[(int)x, (int)y].Explored = true;
 
                 for (int j = 0; j < Constants.TorchRadius; j++)
                 {
@@ -27,9 +29,9 @@ namespace CSharpRogueTutorial
                         break;
                     }
 
-                    Rogue.GameWorld.Map.tiles[(int)Math.Round(x), (int)Math.Round(y)].explored = true;
+                    Rogue.GameWorld.Map.Tiles[(int)Math.Round(x), (int)Math.Round(y)].Explored = true;
 
-                    if (Rogue.GameWorld.Map.tiles[(int)Math.Round(x), (int)Math.Round(y)].blocked)
+                    if (Rogue.GameWorld.Map.Tiles[(int)Math.Round(x), (int)Math.Round(y)].Blocked)
                     {
                         break;
                     }
@@ -37,14 +39,16 @@ namespace CSharpRogueTutorial
             }
         }
 
-        public static bool InFov(int sourceX, int sourceY, int targetX, int targetY)
+        public static bool InFov(int sourceX, int sourceY, int targetX, int targetY, GameObject owner)
         {
             if (sourceX == targetX && sourceY == targetY)
             {
                 return true;
             }
 
-            for (int i = 0; i < 360; i += Constants.FoVSteps)
+            int angle = owner.Fighter.Direction;
+
+            for (int i = angle - 45; i < angle + 46; i += Constants.FoVSteps)
             {
                 double ax = Constants.PreCalcSin[i];
                 double ay = Constants.PreCalcCos[i];
@@ -67,7 +71,7 @@ namespace CSharpRogueTutorial
                         return true;
                     }
 
-                    if (Rogue.GameWorld.Map.tiles[(int)Math.Round(x), (int)Math.Round(y)].blocked)
+                    if (Rogue.GameWorld.Map.Tiles[(int)Math.Round(x), (int)Math.Round(y)].Blocked)
                     {
                         break;
                     }

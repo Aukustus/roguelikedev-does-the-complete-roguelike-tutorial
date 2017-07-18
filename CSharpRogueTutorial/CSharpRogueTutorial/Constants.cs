@@ -15,10 +15,19 @@ namespace CSharpRogueTutorial
         public const int CameraWidth = 30;
         public const int CameraHeight = 12;
 
+        public const int MessageLogLength = 7;
+
         public static Dictionary<int, double> PreCalcSin = new Dictionary<int, double>();
         public static Dictionary<int, double> PreCalcCos = new Dictionary<int, double>();
 
         public enum PlayerAction { UsedTurn, NotUsedTurn, ExitGame };
+        public enum AI { None, BasicMonster };
+        public enum Death { PlayerDeath, GenericDeath };
+        public enum GameState { Playing, Dead };
+
+        public static int[] Angles = { 0, 45, 90, 135, 180, 225, 270, 315 };
+
+        public static Dictionary<string, int> Layers = new Dictionary<string, int>();
 
         public struct Symbols
         {
@@ -42,6 +51,7 @@ namespace CSharpRogueTutorial
             public const char PlayerTile = (char)0xE002;
             public const char OrcTile = (char)0xE004;
             public const char TrollTile = (char)0xE005;
+            public const char CorpseTile = (char)0xE006;
         }
     }
 }

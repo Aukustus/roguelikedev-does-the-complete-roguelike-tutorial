@@ -12,15 +12,24 @@ namespace RogueTutorial
         private static void Initialize()
         {
             Terminal.Open();
-            Terminal.Set("window: size=" + Constants.ScreenWidth.ToString() + "x" + Constants.ScreenHeight.ToString() + "; font: Cheepicus.png, size=16x16");
+            Terminal.Set("window: size=" + Constants.ScreenWidth.ToString() + "x" + Constants.ScreenHeight.ToString() + "; font: Cheepicus.png, size=16x16; input.filter={keyboard, mouse}");
             Terminal.Set("0xE000: Tileset.png, size=32x32");
 
             PreCalcFov();
+            AddLayers();
+        }
+
+        private static void AddLayers()
+        {
+            Constants.Layers.Add("Map", 0);
+            Constants.Layers.Add("Items", 1);
+            Constants.Layers.Add("Monsters", 2);
+            Constants.Layers.Add("Player", 3);
         }
 
         private static void PreCalcFov()
         {
-            for (int i = 0; i < 360; i += Constants.FoVSteps)
+            for (int i = -360; i < 361; i += Constants.FoVSteps)
             {
                 double ax = Math.Sin(i / (180 / Math.PI));
                 double ay = Math.Cos(i / (180 / Math.PI));
@@ -35,11 +44,15 @@ namespace RogueTutorial
             GameWorld = new World();
 
             GameWorld.Objects = new List<GameObject>();
-
-            GameWorld.Player = new GameObject(Constants.Tiles.PlayerTile, 0, 0);
+            GameWorld.MessageLog = new MessageLog();
+            GameWorld.Player = new GameObject("Player", Constants.Tiles.PlayerTile, 0, 0);
             GameWorld.Objects.Add(GameWorld.Player);
 
+            GameWorld.Player.Fighter = new Fighter(GameWorld.Player, 12, 6, 3, Constants.AI.None, Constants.Death.PlayerDeath);
+
             GameWorld.Map = MapMethods.MakeMap();
+
+            GameWorld.State = Constants.GameState.Playing;
         }
 
         private static void MainLoop()
@@ -55,13 +68,13 @@ namespace RogueTutorial
                     break;
                 }
 
-                if (action == Constants.PlayerAction.UsedTurn)
+                if (GameWorld.State == Constants.GameState.Playing && action == Constants.PlayerAction.UsedTurn)
                 {
                     foreach (GameObject obj in GameWorld.Objects)
                     {
-                        if (obj != GameWorld.Player)
+                        if (obj != GameWorld.Player && obj.Fighter != null)
                         {
-
+                            obj.Fighter.TakeTurn();
                         }
                     }
                 }

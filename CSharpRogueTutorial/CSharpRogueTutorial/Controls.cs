@@ -16,54 +16,103 @@ namespace CSharpRogueTutorial
         static int[] DownLeftMovement = { Terminal.TK_KP_1, Terminal.TK_B };
         static int[] DownRightMovement = { Terminal.TK_KP_3, Terminal.TK_N };
 
+        static int[] SkipTurn = { Terminal.TK_PERIOD, Terminal.TK_KP_5 };
+
         public static int[] EscapeKeys = { Terminal.TK_ESCAPE };
 
         public static Constants.PlayerAction HandleKeys()
         {
             int key = Terminal.Read();
 
-            if (LeftMovement.Contains(key))
+            if (Rogue.GameWorld.State == Constants.GameState.Playing)
             {
-                Rogue.GameWorld.Player.PlayerMoveOrAttack(-1, 0);
-                return Constants.PlayerAction.UsedTurn;
-            }
-            else if (RightMovement.Contains(key))
-            {
-                Rogue.GameWorld.Player.PlayerMoveOrAttack(1, 0);
-                return Constants.PlayerAction.UsedTurn;
-            }
-            else if (UpMovement.Contains(key))
-            {
-                Rogue.GameWorld.Player.PlayerMoveOrAttack(0, -1);
-                return Constants.PlayerAction.UsedTurn;
-            }
-            else if (DownMovement.Contains(key))
-            {
-                Rogue.GameWorld.Player.PlayerMoveOrAttack(0, 1);
-                return Constants.PlayerAction.UsedTurn;
-            }
-            else if (UpLeftMovement.Contains(key))
-            {
-                Rogue.GameWorld.Player.PlayerMoveOrAttack(-1, -1);
-                return Constants.PlayerAction.UsedTurn;
-            }
-            else if (UpRightMovement.Contains(key))
-            {
-                Rogue.GameWorld.Player.PlayerMoveOrAttack(1, -1);
-                return Constants.PlayerAction.UsedTurn;
-            }
-            else if (DownLeftMovement.Contains(key))
-            {
-                Rogue.GameWorld.Player.PlayerMoveOrAttack(-1, 1);
-                return Constants.PlayerAction.UsedTurn;
-            }
-            else if (DownRightMovement.Contains(key))
-            {
-                Rogue.GameWorld.Player.PlayerMoveOrAttack(1, 1);
-                return Constants.PlayerAction.UsedTurn;
+                if (LeftMovement.Contains(key))
+                {
+                    if (Rogue.GameWorld.Player.Fighter.Direction == 90)
+                    {
+                        Rogue.GameWorld.Player.PlayerMoveOrAttack(-1, 0);
+                    }
+
+                    Rogue.GameWorld.Player.Fighter.Direction = 90;
+                    return Constants.PlayerAction.UsedTurn;
+                }
+                else if (RightMovement.Contains(key))
+                {
+                    if (Rogue.GameWorld.Player.Fighter.Direction == 270)
+                    {
+                        Rogue.GameWorld.Player.PlayerMoveOrAttack(1, 0);
+                    }
+
+                    Rogue.GameWorld.Player.Fighter.Direction = 270;
+                    return Constants.PlayerAction.UsedTurn;
+                }
+                else if (UpMovement.Contains(key))
+                {
+                    if (Rogue.GameWorld.Player.Fighter.Direction == 0)
+                    {
+                        Rogue.GameWorld.Player.PlayerMoveOrAttack(0, -1);
+                    }
+
+                    Rogue.GameWorld.Player.Fighter.Direction = 0;
+                    return Constants.PlayerAction.UsedTurn;
+                }
+                else if (DownMovement.Contains(key))
+                {
+                    if (Rogue.GameWorld.Player.Fighter.Direction == 180)
+                    {
+                        Rogue.GameWorld.Player.PlayerMoveOrAttack(0, 1);
+                    }
+
+                    Rogue.GameWorld.Player.Fighter.Direction = 180;
+                    return Constants.PlayerAction.UsedTurn;
+                }
+                else if (UpLeftMovement.Contains(key))
+                {
+                    if (Rogue.GameWorld.Player.Fighter.Direction == 45)
+                    {
+                        Rogue.GameWorld.Player.PlayerMoveOrAttack(-1, -1);
+                    }
+
+                    Rogue.GameWorld.Player.Fighter.Direction = 45;
+                    return Constants.PlayerAction.UsedTurn;
+                }
+                else if (UpRightMovement.Contains(key))
+                {
+                    if (Rogue.GameWorld.Player.Fighter.Direction == 315)
+                    {
+                        Rogue.GameWorld.Player.PlayerMoveOrAttack(1, -1);
+                    }
+
+                    Rogue.GameWorld.Player.Fighter.Direction = 315;
+                    return Constants.PlayerAction.UsedTurn;
+                }
+                else if (DownLeftMovement.Contains(key))
+                {
+                    if (Rogue.GameWorld.Player.Fighter.Direction == 135)
+                    {
+                        Rogue.GameWorld.Player.PlayerMoveOrAttack(-1, 1);
+                    }
+
+                    Rogue.GameWorld.Player.Fighter.Direction = 135;
+                    return Constants.PlayerAction.UsedTurn;
+                }
+                else if (DownRightMovement.Contains(key))
+                {
+                    if (Rogue.GameWorld.Player.Fighter.Direction == 225)
+                    {
+                        Rogue.GameWorld.Player.PlayerMoveOrAttack(1, 1);
+                    }
+
+                    Rogue.GameWorld.Player.Fighter.Direction = 225;
+                    return Constants.PlayerAction.UsedTurn;
+                }
+                else if (SkipTurn.Contains(key))
+                {
+                    return Constants.PlayerAction.UsedTurn;
+                }
             }
 
-            else if (EscapeKeys.Contains(key))
+            if (EscapeKeys.Contains(key))
             {
                 return Constants.PlayerAction.ExitGame;
             }

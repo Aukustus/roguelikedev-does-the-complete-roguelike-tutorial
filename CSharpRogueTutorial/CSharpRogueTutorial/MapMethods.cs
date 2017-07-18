@@ -7,13 +7,13 @@ namespace CSharpRogueTutorial
 {
     struct Coordinate
     {
-        public int x;
-        public int y;
+        public int X;
+        public int Y;
 
-        public Coordinate(int X, int Y)
+        public Coordinate(int x, int y)
         {
-            x = X;
-            y = Y;
+            X = x;
+            Y = y;
         }
     }
 
@@ -41,14 +41,14 @@ namespace CSharpRogueTutorial
 
                 if (!newRoom.Intersects(roomList))
                 {
-                    newRoom.CarveRoomToMap(ref map.tiles);
+                    newRoom.CarveRoomToMap(ref map.Tiles);
 
                     Coordinate newCenter = newRoom.Center();
 
                     if (roomCount == 0)
                     {
-                        Rogue.GameWorld.Player.x = newCenter.x;
-                        Rogue.GameWorld.Player.y = newCenter.y;
+                        Rogue.GameWorld.Player.X = newCenter.X;
+                        Rogue.GameWorld.Player.Y = newCenter.Y;
                     }
                     else
                     {
@@ -56,13 +56,13 @@ namespace CSharpRogueTutorial
 
                         if (rand.Next(0, 2) == 0)
                         {
-                            map.CreateHorizontalTunnel(previousCenter.x, newCenter.x, previousCenter.y);
-                            map.CreateVerticalTunnel(previousCenter.y, newCenter.y, newCenter.x);
+                            map.CreateHorizontalTunnel(previousCenter.X, newCenter.X, previousCenter.Y);
+                            map.CreateVerticalTunnel(previousCenter.Y, newCenter.Y, newCenter.X);
                         }
                         else
                         {
-                            map.CreateVerticalTunnel(previousCenter.y, newCenter.y, previousCenter.x);
-                            map.CreateHorizontalTunnel(previousCenter.x, newCenter.x, newCenter.y);
+                            map.CreateVerticalTunnel(previousCenter.Y, newCenter.Y, previousCenter.X);
+                            map.CreateHorizontalTunnel(previousCenter.X, newCenter.X, newCenter.Y);
                         }
 
                         newRoom.PlaceObjects();
@@ -88,15 +88,15 @@ namespace CSharpRogueTutorial
                 {
                     if (x % 2 != 0 && y % 2 != 0)
                     {
-                        map.tiles[x, y] = new Tile(false);
+                        map.Tiles[x, y] = new Tile(false);
                     }
                 }
             }
 
-            CarveMaze(1, 1, ref map.tiles);
+            CarveMaze(1, 1, ref map.Tiles);
 
-            Rogue.GameWorld.Player.x = 1;
-            Rogue.GameWorld.Player.y = 1;
+            Rogue.GameWorld.Player.X = 1;
+            Rogue.GameWorld.Player.Y = 1;
 
             Camera.SetCamera();
 
@@ -105,15 +105,15 @@ namespace CSharpRogueTutorial
 
         public static void CarveMaze(int startx, int starty, ref Tile[,] tiles)
         {
-            tiles[startx, starty].visited = true;
+            tiles[startx, starty].Visited = true;
 
             foreach (Coordinate tile in GetMazeNeighbours(startx, starty))
             {
-                if (tiles[tile.x, tile.y].visited == false)
+                if (tiles[tile.X, tile.Y].Visited == false)
                 {
-                    tiles[(tile.x + startx) / 2, (tile.y + starty) / 2].blocked = false;
+                    tiles[(tile.X + startx) / 2, (tile.Y + starty) / 2].Blocked = false;
 
-                    CarveMaze(tile.x, tile.y, ref tiles);
+                    CarveMaze(tile.X, tile.Y, ref tiles);
                 }
             }
         }

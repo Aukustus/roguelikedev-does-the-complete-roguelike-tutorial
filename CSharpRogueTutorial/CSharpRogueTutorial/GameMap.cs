@@ -6,29 +6,29 @@ namespace CSharpRogueTutorial
     [Serializable]
     class Tile
     {
-        public bool blocked;
-        public bool explored;
-        public bool visited;
+        public bool Blocked;
+        public bool Explored;
+        public bool Visited;
 
-        public Tile(bool Blocked)
+        public Tile(bool blocked)
         {
-            blocked = Blocked;
-            explored = false;
-            visited = false;
+            this.Blocked = blocked;
+            Explored = false;
+            Visited = false;
         }
     }
 
     [Serializable]
     class GameMap
     {
-        public Tile[,] tiles;
+        public Tile[,] Tiles;
 
         public GameMap(bool solid)
         {
-            tiles = BlankTiles(solid);
+            Tiles = BlankTiles(solid);
         }
 
-        private static Tile[,] BlankTiles(bool Blocked)
+        private static Tile[,] BlankTiles(bool blocked)
         {
             Tile[,] map = new Tile[Constants.MapWidth, Constants.MapHeight];
 
@@ -36,7 +36,7 @@ namespace CSharpRogueTutorial
             {
                 for (int y = 0; y < Constants.MapHeight; y++)
                 {
-                    map[x, y] = new Tile(Blocked);
+                    map[x, y] = new Tile(blocked);
                 }
             }
 
@@ -47,7 +47,7 @@ namespace CSharpRogueTutorial
         {
             for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2) + 1; x++)
             {
-                tiles[x, y].blocked = false;
+                Tiles[x, y].Blocked = false;
             }
         }
 
@@ -55,7 +55,7 @@ namespace CSharpRogueTutorial
         {
             for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2) + 1; y++)
             {
-                tiles[x, y].blocked = false;
+                Tiles[x, y].Blocked = false;
             }
         }
 
@@ -68,13 +68,13 @@ namespace CSharpRogueTutorial
 
             foreach (GameObject obj in Rogue.GameWorld.Objects)
             {
-                if (obj.x == x && obj.y == y && obj.blocks)
+                if (obj.X == x && obj.Y == y && obj.Blocks)
                 {
                     return true;
                 }
             }
 
-            return Rogue.GameWorld.Map.tiles[x, y].blocked;
+            return Rogue.GameWorld.Map.Tiles[x, y].Blocked;
         }
 
         public static bool MapBlocked(int x, int y)
@@ -84,7 +84,7 @@ namespace CSharpRogueTutorial
                 return true;
             }
 
-            return Rogue.GameWorld.Map.tiles[x, y].blocked;
+            return Rogue.GameWorld.Map.Tiles[x, y].Blocked;
         }
 
         public static bool MapExplored(int x, int y)
@@ -94,7 +94,7 @@ namespace CSharpRogueTutorial
                 return false;
             }
 
-            return Rogue.GameWorld.Map.tiles[x, y].explored;
+            return Rogue.GameWorld.Map.Tiles[x, y].Explored;
         }
     }
 }

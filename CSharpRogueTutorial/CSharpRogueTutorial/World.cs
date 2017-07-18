@@ -9,6 +9,9 @@ namespace CSharpRogueTutorial
         public GameMap Map;
         public GameObject Player;
         public List<GameObject> Objects;
+        public List<GameObject> Items;
+        public MessageLog MessageLog;
+        public Constants.GameState State;
 
         public World()
         {

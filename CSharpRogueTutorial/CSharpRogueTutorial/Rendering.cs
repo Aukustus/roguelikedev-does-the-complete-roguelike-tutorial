@@ -13,13 +13,10 @@ namespace CSharpRogueTutorial
             {
                 for (int y = 0 + Rogue.GameWorld.Player.CameraY; y < Constants.CameraHeight + Rogue.GameWorld.Player.CameraY + 1; y++)
                 {
-                    int drawX = (x - Rogue.GameWorld.Player.CameraX) * 2 + 1;
-                    int drawY = (y - Rogue.GameWorld.Player.CameraY) * 2 + 1;
-
-                    if (FoV.InFov(Rogue.GameWorld.Player.x, Rogue.GameWorld.Player.y, x, y))
+                    if (FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, x, y, Rogue.GameWorld.Player))
                     {
                         Terminal.Color(Terminal.ColorFromName("white"));
-                        if (Rogue.GameWorld.Map.tiles[x, y].blocked)
+                        if (Rogue.GameWorld.Map.Tiles[x, y].Blocked)
                         {
                             DrawMapTile(x, y, Constants.Tiles.WallTile, "white");
                         }
@@ -30,7 +27,7 @@ namespace CSharpRogueTutorial
                     }
                     else if (GameMap.MapExplored(x, y))
                     {
-                        if (Rogue.GameWorld.Map.tiles[x, y].blocked)
+                        if (Rogue.GameWorld.Map.Tiles[x, y].Blocked)
                         {
                             DrawMapTile(x, y, Constants.Tiles.WallTile, "grey");
                         }
@@ -45,7 +42,7 @@ namespace CSharpRogueTutorial
 
         private static void DrawMapTile(int x, int y, char tile, string color)
         {
-            Terminal.Layer(2);
+            Terminal.Layer(Constants.Layers["Map"]);
 
             int drawX = (x - Rogue.GameWorld.Player.CameraX) * 2 + 1;
             int drawY = (y - Rogue.GameWorld.Player.CameraY) * 2 + 1;
@@ -60,60 +57,28 @@ namespace CSharpRogueTutorial
         {
             foreach (GameObject obj in Rogue.GameWorld.Objects)
             {
-                if (FoV.InFov(Rogue.GameWorld.Player.x, Rogue.GameWorld.Player.y, obj.x, obj.y))
+                if (FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, obj.X, obj.Y, Rogue.GameWorld.Player))
                 {
-                    obj.Draw();
+                    obj.Draw("white");
+                }
+                else if (Rogue.GameWorld.Map.Tiles[obj.X, obj.Y].Explored && obj.AlwaysVisible && Camera.WithinCamera(obj.X, obj.Y))
+                {
+                    obj.Draw("grey");
                 }
             }
 
-            Rogue.GameWorld.Player.Draw();
-        }
-
-        private static void DrawBorders()
-        {
-            Terminal.Put(0, 0, Constants.Symbols.NW);
-
-            for (int x = 1; x < 79; x++)
-                Terminal.Put(x, 0, Constants.Symbols.HorizonalBar);
-
-            Terminal.Put(63, 0, Constants.Symbols.DownCross);
-            Terminal.Put(79, 0, Constants.Symbols.NE);
-
-            for (int y = 1; y < Constants.ScreenHeight - 1; y++)
-            {
-                Terminal.Put(0, y, Constants.Symbols.VerticalBar);
-                Terminal.Put(79, y, Constants.Symbols.VerticalBar);
-            }
-
-            Terminal.Put(0, Constants.ScreenHeight - 1, Constants.Symbols.SW);
-            Terminal.Put(63, Constants.ScreenHeight - 1, Constants.Symbols.UpCross);
-            Terminal.Put(79, Constants.ScreenHeight - 1, Constants.Symbols.SE);
-
-            for (int y = 1; y < Constants.ScreenHeight - 1; y++)
-                Terminal.Put(63, y, Constants.Symbols.VerticalBar);
-
-            Terminal.Put(0, Constants.ScreenHeight - 9, Constants.Symbols.RightCross);
-            Terminal.Put(63, Constants.ScreenHeight - 9, Constants.Symbols.LeftCross);
-
-            for (int x = 1; x < 63; x++)
-            {
-                Terminal.Put(x, Constants.ScreenHeight - 9, Constants.Symbols.HorizonalBar);
-                Terminal.Put(x, Constants.ScreenHeight - 1, Constants.Symbols.HorizonalBar);
-            }
-
-            for (int x = 64; x < 79; x++)
-                Terminal.Put(x, Constants.ScreenHeight - 1, Constants.Symbols.HorizonalBar);
+            Rogue.GameWorld.Player.Draw("white");
         }
 
         public static void RenderAll()
         {
             Terminal.Clear();
 
-            DrawBorders();
-
             DrawMap();
 
             DrawObjects();
+
+            UI.DrawUI();
 
             Terminal.Refresh();
         }

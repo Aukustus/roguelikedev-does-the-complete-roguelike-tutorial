@@ -6,17 +6,17 @@ namespace CSharpRogueTutorial
 {
     struct Room
     {
-        public int startX;
-        public int startY;
-        public int endX;
-        public int endY;
+        public int StartX;
+        public int StartY;
+        public int EndX;
+        public int EndY;
 
-        public Room(int X, int Y, int Width, int Height)
+        public Room(int x, int y, int width, int height)
         {
-            startX = X;
-            startY = Y;
-            endX = X + Width;
-            endY = Y + Height;
+            StartX = x;
+            StartY = y;
+            EndX = x + width;
+            EndY = y + height;
         }
 
         internal void PlaceObjects()
@@ -29,11 +29,13 @@ namespace CSharpRogueTutorial
 
             if (rand.Next(0, 2) == 1)
             {
-                monster = new GameObject(Constants.Tiles.OrcTile, center.x, center.y);
+                monster = new GameObject("Orc", Constants.Tiles.OrcTile, center.X, center.Y);
+                monster.Fighter = new Fighter(monster, 8, 5, 2, Constants.AI.BasicMonster, Constants.Death.GenericDeath);
             }
             else
             {
-                monster = new GameObject(Constants.Tiles.TrollTile, center.x, center.y);
+                monster = new GameObject("Troll", Constants.Tiles.TrollTile, center.X, center.Y);
+                monster.Fighter = new Fighter(monster, 10, 6, 3, Constants.AI.BasicMonster, Constants.Death.GenericDeath);
             }
 
             Rogue.GameWorld.Objects.Add(monster);
@@ -41,19 +43,19 @@ namespace CSharpRogueTutorial
 
         internal Coordinate Center()
         {
-            int centerX = (startX + endX) / 2;
-            int centerY = (startY + endY) / 2;
+            int centerX = (StartX + EndX) / 2;
+            int centerY = (StartY + EndY) / 2;
 
             return new Coordinate(centerX, centerY);
         }
 
         internal void CarveRoomToMap(ref Tile[,] tiles)
         {
-            for (int x = startX + 1; x < endX; x++)
+            for (int x = StartX + 1; x < EndX; x++)
             {
-                for (int y = startY + 1; y < endY; y++)
+                for (int y = StartY + 1; y < EndY; y++)
                 {
-                    tiles[x, y].blocked = false;
+                    tiles[x, y].Blocked = false;
                 }
             }
         }
@@ -62,7 +64,7 @@ namespace CSharpRogueTutorial
         {
             foreach (Room otherRoom in roomList)
             {
-                if (startX <= otherRoom.endX && endX >= otherRoom.startX && startY <= otherRoom.endY && endY >= otherRoom.startY)
+                if (StartX <= otherRoom.EndX && EndX >= otherRoom.StartX && StartY <= otherRoom.EndY && EndY >= otherRoom.StartY)
                 {
                     return true;
                 }

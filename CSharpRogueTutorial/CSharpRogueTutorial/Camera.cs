@@ -8,22 +8,22 @@ namespace CSharpRogueTutorial
         {
             if (dx == -1)
             {
-                if (Rogue.GameWorld.Player.x > Constants.CameraWidth / 2 - 1 && Rogue.GameWorld.Player.x < Constants.MapWidth - 1 - Constants.CameraWidth / 2)
+                if (Rogue.GameWorld.Player.X > Constants.CameraWidth / 2 - 1 && Rogue.GameWorld.Player.X < Constants.MapWidth - 1 - Constants.CameraWidth / 2)
                     MoveCamera(-1, 0);
             }
             else if (dx == 1)
             {
-                if (Rogue.GameWorld.Player.x > Constants.CameraWidth / 2 && Rogue.GameWorld.Player.x < Constants.MapWidth - Constants.CameraWidth / 2)
+                if (Rogue.GameWorld.Player.X > Constants.CameraWidth / 2 && Rogue.GameWorld.Player.X < Constants.MapWidth - Constants.CameraWidth / 2)
                     MoveCamera(1, 0);
             }
             if (dy == -1)
             {
-                if (Rogue.GameWorld.Player.y > Constants.CameraHeight / 2 - 1 && Rogue.GameWorld.Player.y < Constants.MapHeight - Constants.CameraHeight / 2 - 1)
+                if (Rogue.GameWorld.Player.Y > Constants.CameraHeight / 2 - 1 && Rogue.GameWorld.Player.Y < Constants.MapHeight - Constants.CameraHeight / 2 - 1)
                     MoveCamera(0, -1);
             }
             else if (dy == 1)
             {
-                if (Rogue.GameWorld.Player.y > Constants.CameraHeight / 2 && Rogue.GameWorld.Player.y < Constants.MapHeight - Constants.CameraHeight / 2)
+                if (Rogue.GameWorld.Player.Y > Constants.CameraHeight / 2 && Rogue.GameWorld.Player.Y < Constants.MapHeight - Constants.CameraHeight / 2)
                     MoveCamera(0, 1);
             }
         }
@@ -36,8 +36,8 @@ namespace CSharpRogueTutorial
 
         public static void SetCamera()
         {
-            int x = Rogue.GameWorld.Player.x - Constants.CameraWidth / 2;
-            int y = Rogue.GameWorld.Player.y - Constants.CameraHeight / 2;
+            int x = Rogue.GameWorld.Player.X - Constants.CameraWidth / 2;
+            int y = Rogue.GameWorld.Player.Y - Constants.CameraHeight / 2;
 
             if (x < 0)
             {
@@ -58,6 +58,14 @@ namespace CSharpRogueTutorial
 
             Rogue.GameWorld.Player.CameraX = x;
             Rogue.GameWorld.Player.CameraY = y;
+        }
+
+        public static bool WithinCamera(int x, int y)
+        {
+            int drawX = (x - Rogue.GameWorld.Player.CameraX) * 2 + 1;
+            int drawY = (y - Rogue.GameWorld.Player.CameraY) * 2 + 1;
+
+            return drawX >= 0 && drawX < 62 && drawY >= 0 && drawY < 27;
         }
     }
 }
