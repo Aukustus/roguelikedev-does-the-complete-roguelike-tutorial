@@ -12,7 +12,12 @@ namespace CSharpRogueTutorial
                 return;
             }
 
-            if (FoV.InFov(self.X, self.Y, Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, self))
+            if (self.Fighter.TurnDirection != null)
+            {
+                self.Fighter.Direction = self.Fighter.TurnDirection.Value;
+                self.Fighter.TurnDirection = null;
+            }
+            else if (FoV.InFov(self.X, self.Y, Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, self))
             {
                 self.Fighter.SeenPlayerX = Rogue.GameWorld.Player.X;
                 self.Fighter.SeenPlayerY = Rogue.GameWorld.Player.Y;

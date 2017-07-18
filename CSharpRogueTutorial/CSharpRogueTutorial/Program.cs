@@ -48,7 +48,7 @@ namespace RogueTutorial
             GameWorld.Player = new GameObject("Player", Constants.Tiles.PlayerTile, 0, 0);
             GameWorld.Objects.Add(GameWorld.Player);
 
-            GameWorld.Player.Fighter = new Fighter(GameWorld.Player, 12, 6, 3, Constants.AI.None, Constants.Death.PlayerDeath);
+            GameWorld.Player.Fighter = new Fighter(GameWorld.Player, 24, 6, 4, Constants.AI.None, Constants.Death.PlayerDeath);
 
             GameWorld.Map = MapMethods.MakeMap();
 

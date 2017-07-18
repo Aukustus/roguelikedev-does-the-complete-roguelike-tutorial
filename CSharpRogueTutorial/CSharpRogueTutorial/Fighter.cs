@@ -50,42 +50,34 @@ namespace CSharpRogueTutorial
             if (attacker.X == Owner.X && attacker.Y == Owner.Y - 1 && Direction != 0)
             {
                 TurnDirection = 0;
-                Rogue.GameWorld.MessageLog.AddMessage(Owner.Name + " turns.", "white");
             }
             else if (attacker.X == Owner.X - 1 && attacker.Y == Owner.Y - 1 && Direction != 45)
             {
                 TurnDirection = 45;
-                Rogue.GameWorld.MessageLog.AddMessage(Owner.Name + " turns.", "white");
             }
             else if (attacker.X == Owner.X - 1 && attacker.Y == Owner.Y && Direction != 90)
             {
                 TurnDirection = 90;
-                Rogue.GameWorld.MessageLog.AddMessage(Owner.Name + " turns.", "white");
             }
             else if (attacker.X == Owner.X - 1 && attacker.Y == Owner.Y + 1 && Direction != 135)
             {
                 TurnDirection = 135;
-                Rogue.GameWorld.MessageLog.AddMessage(Owner.Name + " turns.", "white");
             }
             else if (attacker.X == Owner.X && attacker.Y == Owner.Y + 1 && Direction != 180)
             {
                 TurnDirection = 180;
-                Rogue.GameWorld.MessageLog.AddMessage(Owner.Name + " turns.", "white");
             }
             else if (attacker.X == Owner.X + 1 && attacker.Y == Owner.Y + 1 && Direction != 225)
             {
                 TurnDirection = 225;
-                Rogue.GameWorld.MessageLog.AddMessage(Owner.Name + " turns.", "white");
             }
             else if (attacker.X == Owner.X + 1 && attacker.Y == Owner.Y && Direction != 270)
             {
                 TurnDirection = 270;
-                Rogue.GameWorld.MessageLog.AddMessage(Owner.Name + " turns.", "white");
             }
             else if (attacker.X == Owner.X + 1 && attacker.Y == Owner.Y - 1 && Direction != 315)
             {
                 TurnDirection = 315;
-                Rogue.GameWorld.MessageLog.AddMessage(Owner.Name + " turns.", "white");
             }
             else
             {
