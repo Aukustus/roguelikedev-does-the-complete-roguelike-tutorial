@@ -21,9 +21,10 @@ namespace CSharpRogueTutorial
         public static Dictionary<int, double> PreCalcCos = new Dictionary<int, double>();
 
         public enum PlayerAction { UsedTurn, NotUsedTurn, ExitGame };
-        public enum AI { None, BasicMonster };
+        public enum AI { None, BasicMonster, ConfusedMonster };
         public enum Death { PlayerDeath, GenericDeath };
         public enum GameState { Playing, Dead };
+        public enum UseFunctions { None, HealingPotion, LightningBolt, Confusion, Fireball }
 
         public static int[] Angles = { 0, 45, 90, 135, 180, 225, 270, 315 };
 
@@ -52,6 +53,9 @@ namespace CSharpRogueTutorial
             public const char OrcTile = (char)0xE004;
             public const char TrollTile = (char)0xE005;
             public const char CorpseTile = (char)0xE006;
+
+            public const char HealingPotionTile = (char)0xE008;
+            public const char ScrollTile = (char)0xE009;
         }
     }
 }

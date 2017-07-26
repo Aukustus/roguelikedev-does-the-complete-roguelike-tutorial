@@ -18,6 +18,7 @@ namespace CSharpRogueTutorial
         public bool AlwaysVisible;
 
         public Fighter Fighter = null;
+        public Item Item = null;
 
         public GameObject(string name, char tile, int x, int y, bool blocks = true)
         {
@@ -58,7 +59,7 @@ namespace CSharpRogueTutorial
 
             foreach (GameObject obj in Rogue.GameWorld.Objects)
             {
-                if (obj.X == targetX && obj.Y == targetY && obj.Fighter != null && obj.Fighter.AI != Constants.AI.None)
+                if (obj.X == targetX && obj.Y == targetY && obj.Fighter != null && obj.Fighter.AI.Type != Constants.AI.None)
                 {
                     Fighter.MeleeAttack(obj);
                     return;
@@ -193,6 +194,8 @@ namespace CSharpRogueTutorial
                     Move(first.X - X, first.Y - Y);
                 }
             }
+
+            path = null;
 
             return;
         }

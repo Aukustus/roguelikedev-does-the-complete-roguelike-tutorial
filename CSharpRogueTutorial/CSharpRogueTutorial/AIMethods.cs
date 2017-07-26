@@ -86,5 +86,65 @@ namespace CSharpRogueTutorial
                 }
             }
         }
+            
+        public static void ConfusedMonster(GameObject self)
+        {
+            if (self.Fighter.HP <= 0)
+            {
+                return;
+            }
+
+            self.Fighter.AI.TempAILength -= 1;
+
+            if (self.Fighter.AI.TempAILength == 0)
+            {
+                self.Fighter.AI.Type = self.Fighter.AI.OldAIType;
+
+                Rogue.GameWorld.MessageLog.AddMessage(self.Name + " is no longer confused.");
+                return;
+            }
+
+            int choice = Constants.Angles[new Random().Next(0, Constants.Angles.Length)];
+
+            if (choice == self.Fighter.Direction)
+            {
+                if (self.Fighter.Direction == 0)
+                {
+                    self.Move(0, -1);
+                }
+                else if (self.Fighter.Direction == 45)
+                {
+                    self.Move(-1, -1);
+                }
+                else if (self.Fighter.Direction == 90)
+                {
+                    self.Move(-1, 0);
+                }
+                else if (self.Fighter.Direction == 135)
+                {
+                    self.Move(-1, 1);
+                }
+                else if (self.Fighter.Direction == 180)
+                {
+                    self.Move(0, 1);
+                }
+                else if (self.Fighter.Direction == 225)
+                {
+                    self.Move(1, 1);
+                }
+                else if (self.Fighter.Direction == 270)
+                {
+                    self.Move(1, 0);
+                }
+                else if (self.Fighter.Direction == 315)
+                {
+                    self.Move(1, -1);
+                }
+            }
+            else
+            {
+                self.Fighter.Direction = choice;
+            }
+        }
     }
 }

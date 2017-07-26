@@ -65,7 +65,8 @@ namespace CSharpRogueTutorial
                             map.CreateHorizontalTunnel(previousCenter.X, newCenter.X, newCenter.Y);
                         }
 
-                        newRoom.PlaceObjects();
+                        newRoom.PlaceMonsters(rand);
+                        newRoom.PlaceItems(rand);
                     }
 
                     roomList.Add(newRoom);

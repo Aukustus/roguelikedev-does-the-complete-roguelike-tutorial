@@ -1,5 +1,6 @@
 ﻿using RogueTutorial;
 using System;
+using System.Collections.Generic;
 
 namespace CSharpRogueTutorial
 {
@@ -11,12 +12,16 @@ namespace CSharpRogueTutorial
         public int Attack;
         public int Defense;
 
+        public List<GameObject> Inventory = new List<GameObject>();
+
         public int? SeenPlayerX = null;
         public int? SeenPlayerY = null;
 
         public int Direction = 0;
         public int? TurnDirection = null;
-        public Constants.AI AI;
+
+        public AI AI;
+
         public Constants.Death DeathFunction;
 
         public GameObject Owner;
@@ -28,7 +33,7 @@ namespace CSharpRogueTutorial
             Max_HP = hp;
             Attack = attack;
             Defense = defense;
-            AI = ai;
+            AI = new AI(ai);
             DeathFunction = death;
         }
 
@@ -42,6 +47,16 @@ namespace CSharpRogueTutorial
             if (target != Rogue.GameWorld.Player)
             {
                 target.Fighter.TurnToFaceAttacker(Owner);
+            }
+        }
+
+        internal void Heal(int amount)
+        {
+            HP += amount;
+
+            if (HP > Max_HP)
+            {
+                HP = Max_HP;
             }
         }
 
@@ -100,24 +115,14 @@ namespace CSharpRogueTutorial
 
         internal void Death()
         {
-            switch (DeathFunction)
-            {
-                case Constants.Death.PlayerDeath:
-                    DeathMethods.PlayerDeath(Owner);
-                    break;
-                case Constants.Death.GenericDeath:
-                    DeathMethods.GenericDeath(Owner);
-                    break;
-            }
+            typeof(DeathMethods).GetMethod(DeathFunction.ToString()).Invoke(null, new object[] { Owner });
         }
 
         internal void TakeTurn()
         {
-            switch (AI)
+            if (AI.Type != Constants.AI.None)
             {
-                case Constants.AI.BasicMonster:
-                    AIMethods.BasicMonster(Owner);
-                    break;
+                typeof(AIMethods).GetMethod(AI.Type.ToString()).Invoke(null, new object[] { Owner });
             }
         }
     }

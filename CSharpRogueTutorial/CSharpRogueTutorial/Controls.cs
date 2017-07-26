@@ -1,5 +1,6 @@
 ﻿using BearLib;
 using RogueTutorial;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CSharpRogueTutorial
@@ -8,8 +9,8 @@ namespace CSharpRogueTutorial
     {
         static int[] LeftMovement = { Terminal.TK_LEFT, Terminal.TK_KP_4, Terminal.TK_H };
         static int[] RightMovement = { Terminal.TK_RIGHT, Terminal.TK_KP_6, Terminal.TK_L };
-        static int[] UpMovement = { Terminal.TK_UP, Terminal.TK_KP_8, Terminal.TK_K };
-        static int[] DownMovement = { Terminal.TK_DOWN, Terminal.TK_KP_2, Terminal.TK_J };
+        public static int[] UpMovement = { Terminal.TK_UP, Terminal.TK_KP_8, Terminal.TK_K };
+        public static int[] DownMovement = { Terminal.TK_DOWN, Terminal.TK_KP_2, Terminal.TK_J };
 
         static int[] UpLeftMovement = { Terminal.TK_KP_7, Terminal.TK_Y };
         static int[] UpRightMovement = { Terminal.TK_KP_9, Terminal.TK_U };
@@ -17,8 +18,10 @@ namespace CSharpRogueTutorial
         static int[] DownRightMovement = { Terminal.TK_KP_3, Terminal.TK_N };
 
         static int[] SkipTurn = { Terminal.TK_PERIOD, Terminal.TK_KP_5 };
+        static int[] InventoryKey = { Terminal.TK_I};
 
         public static int[] EscapeKeys = { Terminal.TK_ESCAPE };
+        public static int[] ActionKeys = { Terminal.TK_SPACE };
 
         public static Constants.PlayerAction HandleKeys()
         {
@@ -106,9 +109,36 @@ namespace CSharpRogueTutorial
                     Rogue.GameWorld.Player.Fighter.Direction = 225;
                     return Constants.PlayerAction.UsedTurn;
                 }
+                else if (InventoryKey.Contains(key))
+                {
+                    Item.DisplayInventory();
+                }
                 else if (SkipTurn.Contains(key))
                 {
                     return Constants.PlayerAction.UsedTurn;
+                }
+                else if(key == Terminal.TK_G)
+                {
+                    UseMethods.Confusion(Rogue.GameWorld.Player);
+                }
+                else if (ActionKeys.Contains(key))
+                {
+                    GameObject toPick = null;
+
+                    foreach (GameObject item in Rogue.GameWorld.Objects)
+                    {
+                        if (item.Item != null && item.X == Rogue.GameWorld.Player.X && item.Y == Rogue.GameWorld.Player.Y)
+                        {
+                            toPick = item;
+                            break;
+                        }
+                    }
+
+                    if (toPick != null)
+                    {
+                        toPick.Item.Pick(Rogue.GameWorld.Player);
+                        return Constants.PlayerAction.UsedTurn;
+                    }
                 }
             }
 

@@ -15,7 +15,7 @@ namespace CSharpRogueTutorial
         {
             Rogue.GameWorld.MessageLog.AddMessage(owner.Name + " dies.", "red");
 
-            owner.Fighter.AI = Constants.AI.None;
+            owner.Fighter.AI.Type = Constants.AI.None;
             owner.Blocks = false;
             owner.AlwaysVisible = true;
             owner.SendToBack();

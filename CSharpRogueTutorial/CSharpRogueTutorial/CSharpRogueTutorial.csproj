@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI.cs" />
     <Compile Include="AIMethods.cs" />
     <Compile Include="BearLibTerminal.cs" />
     <Compile Include="Camera.cs" />
@@ -59,17 +60,22 @@
     <Compile Include="FoV.cs" />
     <Compile Include="GameMap.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="MapMethods.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="MessageLog.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="UI.cs" />
+    <Compile Include="UseMethods.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
