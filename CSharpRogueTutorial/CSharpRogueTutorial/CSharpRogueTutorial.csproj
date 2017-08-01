@@ -57,6 +57,7 @@
     <Compile Include="Controls.cs" />
     <Compile Include="DeathMethods.cs" />
     <Compile Include="Fighter.cs" />
+    <Compile Include="File.cs" />
     <Compile Include="FoV.cs" />
     <Compile Include="GameMap.cs" />
     <Compile Include="GameObject.cs" />

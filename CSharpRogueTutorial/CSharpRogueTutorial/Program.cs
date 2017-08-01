@@ -55,6 +55,15 @@ namespace RogueTutorial
             GameWorld.State = Constants.GameState.Playing;
         }
 
+        private static void LoadGame()
+        {
+            GameWorld = File.LoadGame();
+            
+            GameWorld.State = Constants.GameState.Playing;
+
+            GameWorld.MessageLog.AddMessage("Game loaded.", "white");
+        }
+
         private static void MainLoop()
         {
             while (true)
@@ -65,6 +74,8 @@ namespace RogueTutorial
 
                 if (action == Constants.PlayerAction.ExitGame)
                 {
+                    File.SaveGame();
+                    MainMenu();
                     break;
                 }
 
@@ -83,11 +94,38 @@ namespace RogueTutorial
             Terminal.Close();
         }
 
+        public static void MainMenu()
+        {
+            int? choice = Menu.BasicMenu("Game", new List<string>() { "New Game", "Load Game" }, "Exit");
+
+            if (choice == 0)
+            {
+                NewGame();
+                MainLoop();
+            }
+            else if (choice == 1)
+            {
+                try
+                {
+                    LoadGame();
+                    MainLoop();
+                }
+                catch
+                {
+                    MainMenu();
+                }
+                
+            }
+            else if (choice == null)
+            {
+                Terminal.Close();
+            }
+        }
+
         static void Main(string[] args)
         {
             Initialize();
-            NewGame();
-            MainLoop();
+            MainMenu();
         }
     }
 }
