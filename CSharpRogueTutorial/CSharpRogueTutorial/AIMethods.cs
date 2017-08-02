@@ -22,7 +22,7 @@ namespace CSharpRogueTutorial
                 self.Fighter.SeenPlayerX = Rogue.GameWorld.Player.X;
                 self.Fighter.SeenPlayerY = Rogue.GameWorld.Player.Y;
 
-                if (CommonMethods.DistanceBetween(self.X, self.Y, Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y) < 2 && Rogue.GameWorld.Player.Fighter.HP > 0)
+                if (CommonMethods.DistanceBetween(self.X, self.Y, Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y) < 1.41 && Rogue.GameWorld.Player.Fighter.HP > 0)
                 {
                     self.Fighter.MeleeAttack(Rogue.GameWorld.Player);
                 }

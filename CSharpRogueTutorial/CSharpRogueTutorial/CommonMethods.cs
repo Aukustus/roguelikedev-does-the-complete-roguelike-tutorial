@@ -6,9 +6,9 @@ namespace CSharpRogueTutorial
 {
     class CommonMethods
     {
-        public static int DistanceBetween(int x1, int y1, int x2, int y2)
+        public static double DistanceBetween(int x1, int y1, int x2, int y2)
         {
-            return (int)(Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2)));
+            return Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
         }
 
         public static GameObject ClosestMonster(GameObject owner)
@@ -20,7 +20,7 @@ namespace CSharpRogueTutorial
             {
                 if (obj != owner && obj.Fighter != null && obj.Fighter.AI.Type != Constants.AI.None && FoV.InFov(owner.X, owner.Y, obj.X, obj.Y, owner))
                 {
-                    int distance = DistanceBetween(owner.X, owner.Y, obj.X, obj.Y);
+                    int distance = (int)DistanceBetween(owner.X, owner.Y, obj.X, obj.Y);
                     if (distance < closestDist)
                     {
                         closestObject = obj;

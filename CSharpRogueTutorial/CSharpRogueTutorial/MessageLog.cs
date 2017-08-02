@@ -28,7 +28,7 @@ namespace CSharpRogueTutorial
         }
 
         public void AddMessage(string message, string color = "white")
-        { 
+        {
             List<Message> wrappedMessages = WordWrap(message, color);
 
             Messages.AddRange(wrappedMessages);

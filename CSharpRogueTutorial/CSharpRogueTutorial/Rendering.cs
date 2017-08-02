@@ -9,14 +9,14 @@ namespace CSharpRogueTutorial
         {
             FoV.RayCast();
 
-            for (int x = 0 + Rogue.GameWorld.Player.CameraX; x < Constants.CameraWidth + Rogue.GameWorld.Player.CameraX + 1; x++)
+            for (int x = Rogue.GameWorld.Player.CameraX - 1; x < Constants.CameraWidth + Rogue.GameWorld.Player.CameraX + 1 + 1; x++)
             {
-                for (int y = 0 + Rogue.GameWorld.Player.CameraY; y < Constants.CameraHeight + Rogue.GameWorld.Player.CameraY + 1; y++)
+                for (int y = Rogue.GameWorld.Player.CameraY - 1; y < Constants.CameraHeight + Rogue.GameWorld.Player.CameraY + 1 + 1; y++)
                 {
                     if (FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, x, y, Rogue.GameWorld.Player))
                     {
                         Terminal.Color(Terminal.ColorFromName("white"));
-                        if (Rogue.GameWorld.Map.Tiles[x, y].Blocked)
+                        if (GameMap.MapBlocked(x, y))
                         {
                             DrawMapTile(x, y, Constants.Tiles.WallTile, "white");
                         }
@@ -27,7 +27,7 @@ namespace CSharpRogueTutorial
                     }
                     else if (GameMap.MapExplored(x, y))
                     {
-                        if (Rogue.GameWorld.Map.Tiles[x, y].Blocked)
+                        if (GameMap.MapBlocked(x, y))
                         {
                             DrawMapTile(x, y, Constants.Tiles.WallTile, "grey");
                         }
@@ -44,19 +44,26 @@ namespace CSharpRogueTutorial
         {
             Terminal.Layer(Constants.Layers["Map"]);
 
-            int drawX = (x - Rogue.GameWorld.Player.CameraX) * 2 + 1;
-            int drawY = (y - Rogue.GameWorld.Player.CameraY) * 2 + 1;
+            int drawX = (x - Rogue.GameWorld.Player.CameraX) * 4 + 5;
+            int drawY = (y - Rogue.GameWorld.Player.CameraY) * 4 + 5;
 
             Terminal.Color(Terminal.ColorFromName(color));
 
-            Terminal.PutExt(drawX, drawY, 8, 8, tile);
+            int offsetX = 24 - Rogue.GameWorld.Player.OffsetX;
+            int offsetY = 24 - Rogue.GameWorld.Player.OffsetY;
+
+            Terminal.PutExt(drawX, drawY, offsetX, offsetY, tile);
             Terminal.Color(Terminal.ColorFromName("white"));
         }
 
-        private static void DrawObjects()
+        private static void DrawObjects(GameObject skip)
         {
             foreach (GameObject obj in Rogue.GameWorld.Objects)
             {
+                if (skip != null && obj == skip)
+                {
+                    continue;
+                }
                 if (FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, obj.X, obj.Y, Rogue.GameWorld.Player))
                 {
                     obj.Draw("white");
@@ -70,17 +77,20 @@ namespace CSharpRogueTutorial
             Rogue.GameWorld.Player.Draw("white");
         }
 
-        public static void RenderAll()
+        public static void RenderAll(GameObject skip = null)
         {
             Terminal.Clear();
 
-            DrawMap();
-
-            DrawObjects();
-
             UI.DrawUI();
 
-            Terminal.Refresh();
+            DrawMap();
+
+            DrawObjects(skip);
+
+            if (skip == null)
+            {
+                Terminal.Refresh();
+            }
         }
     }
 }

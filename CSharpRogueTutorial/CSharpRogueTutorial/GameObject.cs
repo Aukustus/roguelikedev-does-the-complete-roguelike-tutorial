@@ -17,6 +17,9 @@ namespace CSharpRogueTutorial
         public string Name;
         public bool AlwaysVisible;
 
+        public int OffsetX = 0;
+        public int OffsetY = 0;
+
         public Fighter Fighter = null;
         public Item Item = null;
 
@@ -30,7 +33,7 @@ namespace CSharpRogueTutorial
             AlwaysVisible = false;
         }
 
-        internal void Draw(string color)
+        internal void Draw(string color, bool monsterMoving = false)
         {
             if (this == Rogue.GameWorld.Player)
                 Terminal.Layer(Constants.Layers["Player"]);
@@ -39,12 +42,29 @@ namespace CSharpRogueTutorial
             else
                 Terminal.Layer(Constants.Layers["Items"]);
 
-            int drawX = (X - Rogue.GameWorld.Player.CameraX) * 2 + 1;
-            int drawY = (Y - Rogue.GameWorld.Player.CameraY) * 2 + 1;
+            int drawX = (X - Rogue.GameWorld.Player.CameraX) * 4 + 5;
+            int drawY = (Y - Rogue.GameWorld.Player.CameraY) * 4 + 5;
 
             Terminal.Color(Terminal.ColorFromName(color));
 
-            Terminal.Print(drawX, drawY, "[offset=8,8]" + Tile.ToString());
+            int offsetX = 24;
+            int offsetY = 24;
+
+            if (monsterMoving == true)
+            {
+                offsetX += OffsetX;
+                offsetY += OffsetY;
+            }
+            else
+            {
+                if (this != Rogue.GameWorld.Player)
+                {
+                    offsetX -= Rogue.GameWorld.Player.OffsetX;
+                    offsetY -= Rogue.GameWorld.Player.OffsetY;
+                }
+            }
+
+            Terminal.Print(drawX, drawY, "[offset=" + offsetX.ToString() + "," + offsetY.ToString() + "]" + Tile.ToString());
         }
 
         internal void PlayerMoveOrAttack(int dx, int dy)
@@ -71,81 +91,125 @@ namespace CSharpRogueTutorial
 
         internal void Move(int dx, int dy)
         {
+            if (this != Rogue.GameWorld.Player)
+            {
+                if (dx == 0 && dy == -1)
+                {
+                    if (Fighter.Direction != 0)
+                    {
+                        Fighter.Direction = 0;
+                        return;
+                    }
+                }
+                if (dx == -1 && dy == -1)
+                {
+                    if (Fighter.Direction != 45)
+                    {
+                        Fighter.Direction = 45;
+                        return;
+                    }
+                }
+                if (dx == -1 && dy == 0)
+                {
+                    if (Fighter.Direction != 90)
+                    {
+                        Fighter.Direction = 90;
+                        return;
+                    }
+                }
+                if (dx == -1 && dy == 1)
+                {
+                    if (Fighter.Direction != 135)
+                    {
+                        Fighter.Direction = 135;
+                        return;
+                    }
+                }
+                if (dx == 0 && dy == 1)
+                {
+                    if (Fighter.Direction != 180)
+                    {
+                        Fighter.Direction = 180;
+                        return;
+                    }
+                }
+                if (dx == 1 && dy == 1)
+                {
+                    if (Fighter.Direction != 225)
+                    {
+                        Fighter.Direction = 225;
+                        return;
+                    }
+                }
+                if (dx == 1 && dy == 0)
+                {
+                    if (Fighter.Direction != 270)
+                    {
+                        Fighter.Direction = 270;
+                        return;
+                    }
+                }
+                if (dx == 1 && dy == -1)
+                {
+                    if (Fighter.Direction != 315)
+                    {
+                        Fighter.Direction = 315;
+                        return;
+                    }
+                }
+            }
+
             if (!GameMap.Blocked(X + dx, Y + dy))
             {
-                if (this != Rogue.GameWorld.Player)
+                if (this == Rogue.GameWorld.Player || FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, X, Y, Rogue.GameWorld.Player))
                 {
-                    if (dx == 0 && dy == -1)
+                    if (dx == 1 || dx == -1)
                     {
-                        if (Fighter.Direction != 0)
+                        for (int i = 0; i < 16; i++)
                         {
-                            Fighter.Direction = 0;
-                            return;
+                            OffsetX += Constants.MoveSmoothSteps * dx;
+                            if (this != Rogue.GameWorld.Player)
+                            {
+                                Rendering.RenderAll(this);
+                                Draw("white", true);
+                                Terminal.Refresh();
+                            }
+                            else
+                            {
+                                Rendering.RenderAll();
+                            }
                         }
+
+                        OffsetX = 0;
                     }
-                    if (dx == -1 && dy == -1)
+                    if (dy == 1 || dy == -1)
                     {
-                        if (Fighter.Direction != 45)
+                        for (int i = 0; i < 16; i++)
                         {
-                            Fighter.Direction = 45;
-                            return;
+                            OffsetY += Constants.MoveSmoothSteps * dy;
+                            if (this != Rogue.GameWorld.Player)
+                            {
+                                Rendering.RenderAll(this);
+                                Draw("white", true);
+                                Terminal.Refresh();
+                            }
+                            else
+                            {
+                                Rendering.RenderAll();
+                            }
                         }
+
+                        OffsetY = 0;
                     }
-                    if (dx == -1 && dy == 0)
+
+                    if (this == Rogue.GameWorld.Player)
                     {
-                        if (Fighter.Direction != 90)
-                        {
-                            Fighter.Direction = 90;
-                            return;
-                        }
-                    }
-                    if (dx == -1 && dy == 1)
-                    {
-                        if (Fighter.Direction != 135)
-                        {
-                            Fighter.Direction = 135;
-                            return;
-                        }
-                    }
-                    if (dx == 0 && dy == 1)
-                    {
-                        if (Fighter.Direction != 180)
-                        {
-                            Fighter.Direction = 180;
-                            return;
-                        }
-                    }
-                    if (dx == 1 && dy == 1)
-                    {
-                        if (Fighter.Direction != 225)
-                        {
-                            Fighter.Direction = 225;
-                            return;
-                        }
-                    }
-                    if (dx == 1 && dy == 0)
-                    {
-                        if (Fighter.Direction != 270)
-                        {
-                            Fighter.Direction = 270;
-                            return;
-                        }
-                    }
-                    if (dx == 1 && dy == -1)
-                    {
-                        if (Fighter.Direction != 315)
-                        {
-                            Fighter.Direction = 315;
-                            return;
-                        }
+                        Camera.HandleMoveCamera(dx, dy);
                     }
                 }
 
                 X += dx;
                 Y += dy;
-
-                if (this == Rogue.GameWorld.Player)
-                    Camera.HandleMoveCamera(dx, dy);
             }
         }
 
@@ -181,7 +245,7 @@ namespace CSharpRogueTutorial
             pathMap.SetCellProperties(X, Y, true, true);
             pathMap.SetCellProperties(targetX, targetY, true, true);
 
-            PathFinder pFinder = new PathFinder(pathMap, 1.41);
+            PathFinder pFinder = new PathFinder(pathMap);
 
             Path path = pFinder.TryFindShortestPath(pathMap.GetCell(X, Y), pathMap.GetCell(targetX, targetY));
 

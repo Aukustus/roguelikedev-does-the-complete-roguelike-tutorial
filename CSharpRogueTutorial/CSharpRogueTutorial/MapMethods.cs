@@ -34,8 +34,8 @@ namespace CSharpRogueTutorial
                 int width = rand.Next(5, 8);
                 int height = rand.Next(5, 8);
 
-                int x = rand.Next(0, Constants.MapWidth - width - 1);
-                int y = rand.Next(0, Constants.MapHeight - height - 1);
+                int x = rand.Next(0 + 10, Constants.MapWidth - width - 1 - 10);
+                int y = rand.Next(0 + 10, Constants.MapHeight - height - 1 - 10);
 
                 Room newRoom = new Room(x, y, width, height);
 

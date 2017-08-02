@@ -12,8 +12,9 @@ namespace RogueTutorial
         private static void Initialize()
         {
             Terminal.Open();
-            Terminal.Set("window: size=" + Constants.ScreenWidth.ToString() + "x" + Constants.ScreenHeight.ToString() + "; font: Cheepicus.png, size=16x16; input.filter={keyboard, mouse}");
-            Terminal.Set("0xE000: Tileset.png, size=32x32");
+            Terminal.Set("window: size=" + Constants.ScreenWidth.ToString() + "x" + Constants.ScreenHeight.ToString() + "; font: MainFont.png, transparent=red, size=16x16; input.filter={keyboard, mouse}");
+            Terminal.Set("0xE000: Tileset.png, size=64x64");
+            Terminal.Set("0xE100: UI.png, size=16x16");
 
             PreCalcFov();
             AddLayers();
@@ -25,11 +26,12 @@ namespace RogueTutorial
             Constants.Layers.Add("Items", 1);
             Constants.Layers.Add("Monsters", 2);
             Constants.Layers.Add("Player", 3);
+            Constants.Layers.Add("UI", 4);
         }
 
         private static void PreCalcFov()
         {
-            for (int i = -360; i < 361; i += Constants.FoVSteps)
+            for (int i = -720; i < 721; i += Constants.FoVSteps)
             {
                 double ax = Math.Sin(i / (180 / Math.PI));
                 double ay = Math.Cos(i / (180 / Math.PI));
