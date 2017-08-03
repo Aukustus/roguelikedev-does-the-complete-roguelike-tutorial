@@ -5,14 +5,14 @@ namespace CSharpRogueTutorial
     class Constants
     {
         public const int ScreenWidth = 80;
-        public const int ScreenHeight = 42;
+        public const int ScreenHeight = 45;
 
         public const int MapWidth = 100;
         public const int MapHeight = 35;
 
         public const int TorchRadius = 3;
         public const int CameraWidth = 15;
-        public const int CameraHeight = 6;
+        public const int CameraHeight = 8;
 
         public const int FoVSteps = 1;
         public const int TurnSteps = 6;
@@ -21,7 +21,7 @@ namespace CSharpRogueTutorial
 
         public const int MoveSmoothSteps = 4;
 
-        public const int MessageLogLength = 7;
+        public const int MessageLogLength = 6;
 
         public static Dictionary<int, double> PreCalcSin = new Dictionary<int, double>();
         public static Dictionary<int, double> PreCalcCos = new Dictionary<int, double>();

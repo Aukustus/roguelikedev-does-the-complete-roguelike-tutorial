@@ -19,6 +19,7 @@ namespace CSharpRogueTutorial
             owner.Blocks = false;
             owner.AlwaysVisible = true;
             owner.SendToBack();
+            owner.Name = "Remains of " + owner.Name;
             owner.Tile = Constants.Tiles.CorpseTile;
         }
     }

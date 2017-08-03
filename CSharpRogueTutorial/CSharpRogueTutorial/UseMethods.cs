@@ -50,11 +50,16 @@ namespace CSharpRogueTutorial
 
             Rogue.GameWorld.Objects.Add(spell);
 
+            Rendering.RenderAll();
+            Terminal.Refresh();
+
             for (int times = 0; times < Constants.SpellRange; times++)
             {
-                if (Rogue.GameWorld.Player.Fighter.Direction == 270)
+                if (Rogue.GameWorld.Player.Fighter.Direction == 90 || Rogue.GameWorld.Player.Fighter.Direction == 270)
                 {
-                    if (GameMap.MapBlocked(spell.X + 1, spell.Y))
+                    int dx = Rogue.GameWorld.Player.Fighter.Direction == 90 ? -1 : 1;
+
+                    if (GameMap.MapBlocked(spell.X + dx, spell.Y))
                     {
                         break;
                     }
@@ -66,9 +71,9 @@ namespace CSharpRogueTutorial
                     for (int x = 0; x < 16; x++)
                     {
                         Rendering.RenderAll(spell);
-                        spell.OffsetX += Constants.MoveSmoothSteps;
+                        spell.OffsetX += Constants.MoveSmoothSteps * dx;
 
-                        if (GameMap.MapExplored(spell.X + 1, spell.Y) || FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, spell.X + 1, spell.Y, Rogue.GameWorld.Player))
+                        if (GameMap.MapExplored(spell.X + dx, spell.Y) || FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, spell.X + dx, spell.Y, Rogue.GameWorld.Player))
                         {
                             spell.Draw("white", true);
                         }
@@ -76,12 +81,14 @@ namespace CSharpRogueTutorial
                         Terminal.Refresh();
                     }
 
-                    spell.X += 1;
+                    spell.X += dx;
                     spell.OffsetX = 0;
                 }
-                else if (Rogue.GameWorld.Player.Fighter.Direction == 90)
+                else if (Rogue.GameWorld.Player.Fighter.Direction == 0 || Rogue.GameWorld.Player.Fighter.Direction == 180)
                 {
-                    if (GameMap.MapBlocked(spell.X - 1, spell.Y))
+                    int dy = Rogue.GameWorld.Player.Fighter.Direction == 0 ? -1 : 1;
+
+                    if (GameMap.MapBlocked(spell.X, spell.Y + dy))
                     {
                         break;
                     }
@@ -93,9 +100,9 @@ namespace CSharpRogueTutorial
                     for (int x = 0; x < 16; x++)
                     {
                         Rendering.RenderAll(spell);
-                        spell.OffsetX -= Constants.MoveSmoothSteps;
+                        spell.OffsetY += Constants.MoveSmoothSteps * dy;
 
-                        if (GameMap.MapExplored(spell.X - 1, spell.Y) || FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, spell.X - 1, spell.Y, Rogue.GameWorld.Player))
+                        if (GameMap.MapExplored(spell.X, spell.Y + dy) || FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, spell.X, spell.Y + dy, Rogue.GameWorld.Player))
                         {
                             spell.Draw("white", true);
                         }
@@ -103,61 +110,7 @@ namespace CSharpRogueTutorial
                         Terminal.Refresh();
                     }
 
-                    spell.X -= 1;
-                    spell.OffsetX = 0;
-                }
-                else if (Rogue.GameWorld.Player.Fighter.Direction == 0)
-                {
-                    if (GameMap.MapBlocked(spell.X, spell.Y - 1))
-                    {
-                        break;
-                    }
-                    if (CommonMethods.TargetInCoordinate(spell.X, spell.Y))
-                    {
-                        break;
-                    }
-
-                    for (int x = 0; x < 16; x++)
-                    {
-                        Rendering.RenderAll(spell);
-                        spell.OffsetY -= Constants.MoveSmoothSteps;
-
-                        if (GameMap.MapExplored(spell.X, spell.Y - 1) || FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, spell.X, spell.Y - 1, Rogue.GameWorld.Player))
-                        {
-                            spell.Draw("white", true);
-                        }
-
-                        Terminal.Refresh();
-                    }
-
-                    spell.Y -= 1;
-                    spell.OffsetY = 0;
-                }
-                else if (Rogue.GameWorld.Player.Fighter.Direction == 180)
-                {
-                    if (GameMap.MapBlocked(spell.X, spell.Y + 1))
-                    {
-                        break;
-                    }
-                    if (CommonMethods.TargetInCoordinate(spell.X, spell.Y))
-                    {
-                        break;
-                    }
-
-                    for (int x = 0; x < 16; x++)
-                    {
-                        Rendering.RenderAll(spell);
-                        spell.OffsetY += Constants.MoveSmoothSteps;
-
-                        if (GameMap.MapExplored(spell.X, spell.Y + 1) || FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, spell.X, spell.Y + 1, Rogue.GameWorld.Player))
-                        {
-                            spell.Draw("white", true);
-                        }
-
-                        Terminal.Refresh();
-                    }
-
-                    spell.Y += 1;
+                    spell.Y += dy;
                     spell.OffsetY = 0;
                 }
             }

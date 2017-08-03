@@ -83,9 +83,9 @@ namespace CSharpRogueTutorial
         {
             GameMap map = new GameMap(true);
 
-            for (int x = 0; x < Constants.MapWidth - 1; x++)
+            for (int x = 10; x < Constants.MapWidth - 1 - 10; x++)
             {
-                for (int y = 0; y < Constants.MapHeight - 1; y++)
+                for (int y = 10; y < Constants.MapHeight - 1 - 10; y++)
                 {
                     if (x % 2 != 0 && y % 2 != 0)
                     {
@@ -96,12 +96,26 @@ namespace CSharpRogueTutorial
 
             CarveMaze(1, 1, ref map.Tiles);
 
-            Rogue.GameWorld.Player.X = 1;
-            Rogue.GameWorld.Player.Y = 1;
+            Rogue.GameWorld.Player.X = 11;
+            Rogue.GameWorld.Player.Y = 11;
 
             Camera.SetCamera();
 
+            CreateBorders(ref map.Tiles);
+
             return map;
+        }
+
+        public static void CreateBorders(ref Tile[,] tiles)
+        {
+            for (int x = 10; x < Constants.MapWidth - 1 - 10; x++)
+            {
+                tiles[x, 10].Blocked = true;
+            }
+            for (int y = 10; y < Constants.MapHeight - 1 - 10; y++)
+            {
+                tiles[10, y].Blocked = true;
+            }
         }
 
         public static void CarveMaze(int startx, int starty, ref Tile[,] tiles)
@@ -123,10 +137,10 @@ namespace CSharpRogueTutorial
         {
             List<Coordinate> neighbours = new List<Coordinate>();
 
-            if (x - 2 >= 0) neighbours.Add(new Coordinate(x - 2, y));
-            if (x + 2 <= Constants.MapWidth - 2) neighbours.Add(new Coordinate(x + 2, y));
-            if (y - 2 >= 0) neighbours.Add(new Coordinate(x, y - 2));
-            if (y + 2 <= Constants.MapHeight - 2) neighbours.Add(new Coordinate(x, y + 2));
+            if (x - 2 >= 10) neighbours.Add(new Coordinate(x - 2, y));
+            if (x + 2 <= Constants.MapWidth - 2 - 10) neighbours.Add(new Coordinate(x + 2, y));
+            if (y - 2 >= 10) neighbours.Add(new Coordinate(x, y - 2));
+            if (y + 2 <= Constants.MapHeight - 2 - 10) neighbours.Add(new Coordinate(x, y + 2));
 
             return neighbours.OrderBy(a => rand.Next()).ToList();
         }

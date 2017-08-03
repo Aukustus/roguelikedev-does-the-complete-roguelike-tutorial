@@ -50,8 +50,8 @@ namespace CSharpRogueTutorial
 
             Terminal.Color(Terminal.ColorFromName(color));
 
-            int offsetX = 24;
-            int offsetY = 24;
+            int offsetX = -40;
+            int offsetY = -40;
 
             if (movingObject == true)
             {

@@ -49,8 +49,8 @@ namespace CSharpRogueTutorial
 
             Terminal.Color(Terminal.ColorFromName(color));
 
-            int offsetX = 24 - Rogue.GameWorld.Player.OffsetX;
-            int offsetY = 24 - Rogue.GameWorld.Player.OffsetY;
+            int offsetX = -40 - Rogue.GameWorld.Player.OffsetX;
+            int offsetY = -40 - Rogue.GameWorld.Player.OffsetY;
 
             Terminal.PutExt(drawX, drawY, offsetX, offsetY, tile);
             Terminal.Color(Terminal.ColorFromName("white"));
