@@ -12,7 +12,7 @@ namespace RogueTutorial
         private static void Initialize()
         {
             Terminal.Open();
-            Terminal.Set("window: size=" + Constants.ScreenWidth.ToString() + "x" + Constants.ScreenHeight.ToString() + "; font: MainFont.png, transparent=red, size=16x16; input.filter={keyboard, mouse}");
+            Terminal.Set("window: size=" + Constants.ScreenWidth.ToString() + "x" + Constants.ScreenHeight.ToString() + "; font: MainFont.png, size=16x16; input.filter={keyboard, mouse}");
             Terminal.Set("0xE000: Tileset.png, size=64x64");
             Terminal.Set("0xE100: UI.png, size=16x16");
 
@@ -26,7 +26,9 @@ namespace RogueTutorial
             Constants.Layers.Add("Items", 1);
             Constants.Layers.Add("Monsters", 2);
             Constants.Layers.Add("Player", 3);
-            Constants.Layers.Add("UI", 4);
+            Constants.Layers.Add("Spells", 4);
+            Constants.Layers.Add("UI", 5);
+            Constants.Layers.Add("Messages", 6);
         }
 
         private static void PreCalcFov()
@@ -50,7 +52,7 @@ namespace RogueTutorial
             GameWorld.Player = new GameObject("Player", Constants.Tiles.PlayerTile, 0, 0);
             GameWorld.Objects.Add(GameWorld.Player);
 
-            GameWorld.Player.Fighter = new Fighter(GameWorld.Player, 24, 6, 4, Constants.AI.None, Constants.Death.PlayerDeath);
+            GameWorld.Player.Fighter = new Fighter(GameWorld.Player, 24, 6, 4, Constants.AI.Player, Constants.Death.PlayerDeath);
 
             GameWorld.Map = MapMethods.MakeMap();
 
@@ -76,7 +78,11 @@ namespace RogueTutorial
 
                 if (action == Constants.PlayerAction.ExitGame)
                 {
-                    File.SaveGame();
+                    if (GameWorld.State == Constants.GameState.Playing)
+                    {
+                        File.SaveGame();
+                    }
+                    
                     MainMenu();
                     break;
                 }

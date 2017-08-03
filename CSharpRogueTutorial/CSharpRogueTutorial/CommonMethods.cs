@@ -49,5 +49,21 @@ namespace CSharpRogueTutorial
 
             return objects;
         }
+
+        public static bool TargetInCoordinate(int x, int y)
+        {
+            foreach (GameObject obj in Rogue.GameWorld.Objects)
+            {
+                if (obj != Rogue.GameWorld.Player && obj.Fighter != null && obj.Fighter.AI.Type != Constants.AI.None)
+                {
+                    if (obj.X == x && obj.Y == y)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }

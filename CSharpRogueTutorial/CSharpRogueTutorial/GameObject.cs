@@ -22,6 +22,7 @@ namespace CSharpRogueTutorial
 
         public Fighter Fighter = null;
         public Item Item = null;
+        public bool Spell = false;
 
         public GameObject(string name, char tile, int x, int y, bool blocks = true)
         {
@@ -33,12 +34,14 @@ namespace CSharpRogueTutorial
             AlwaysVisible = false;
         }
 
-        internal void Draw(string color, bool monsterMoving = false)
+        internal void Draw(string color, bool movingObject = false)
         {
             if (this == Rogue.GameWorld.Player)
                 Terminal.Layer(Constants.Layers["Player"]);
-            else if (Fighter != null) 
+            else if (Fighter != null)
                 Terminal.Layer(Constants.Layers["Monsters"]);
+            else if (Spell != false)
+                Terminal.Layer(Constants.Layers["Spells"]);
             else
                 Terminal.Layer(Constants.Layers["Items"]);
 
@@ -50,7 +53,7 @@ namespace CSharpRogueTutorial
             int offsetX = 24;
             int offsetY = 24;
 
-            if (monsterMoving == true)
+            if (movingObject == true)
             {
                 offsetX += OffsetX;
                 offsetY += OffsetY;

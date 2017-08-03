@@ -54,8 +54,7 @@ namespace CSharpRogueTutorial
                     }
                     return Constants.PlayerAction.UsedTurn;
                 }
-
-                if (LeftMovement.Contains(key))
+                else if (LeftMovement.Contains(key))
                 {
                     if (Rogue.GameWorld.Player.Fighter.Direction == 90)
                     {
@@ -113,7 +112,7 @@ namespace CSharpRogueTutorial
                 }
                 else if(key == Terminal.TK_G)
                 {
-                    Rogue.GameWorld.MessageLog.AddMessage(Guid.NewGuid().ToString());
+                    UseMethods.Fireball(Rogue.GameWorld.Player);
                 }
                 else if (ActionKeys.Contains(key))
                 {

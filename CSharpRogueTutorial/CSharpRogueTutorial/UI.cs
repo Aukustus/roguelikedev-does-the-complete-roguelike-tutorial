@@ -7,6 +7,8 @@ namespace CSharpRogueTutorial
     {
         private static void DrawBorders()
         {
+            Terminal.Layer(Constants.Layers["UI"]);
+
             Terminal.Put(0, 0, Constants.Symbols.NW);
 
             for (int x = 1; x < 79; x++)
@@ -94,6 +96,8 @@ namespace CSharpRogueTutorial
 
         private static void DrawStats()
         {
+            Terminal.Layer(Constants.Layers["UI"]);
+
             Terminal.Print(66, 1, "Health: " + Rogue.GameWorld.Player.Fighter.HP + "/" + Rogue.GameWorld.Player.Fighter.Max_HP);
             Terminal.Print(66, 2, "Attack: " + Rogue.GameWorld.Player.Fighter.Attack);
             Terminal.Print(66, 3, "Defense: " + Rogue.GameWorld.Player.Fighter.Defense);
@@ -101,6 +105,8 @@ namespace CSharpRogueTutorial
 
         private static void DrawMessages()
         {
+            Terminal.Layer(Constants.Layers["Messages"]);
+
             int y = 34;
 
             foreach (Message message in Rogue.GameWorld.MessageLog.Messages)
@@ -117,7 +123,9 @@ namespace CSharpRogueTutorial
 
         private static void MouseHoverLook()
         {
-            int mouseX = Terminal.State(Terminal.TK_MOUSE_X) - 1;
+            Terminal.Layer(Constants.Layers["UI"]);
+
+            int mouseX = Terminal.State(Terminal.TK_MOUSE_X) - 5;
             int mouseY = Terminal.State(Terminal.TK_MOUSE_Y) - 5;
 
             if (mouseX >= 0 && mouseY >= 0 && mouseX <= 61 && mouseY <= 25)
@@ -138,7 +146,7 @@ namespace CSharpRogueTutorial
                 {
                     if (obj.X == coord.X && obj.Y == coord.Y)
                     {
-                        Terminal.Print(mouseX + 1, mouseY + 4, obj.Name);
+                        Terminal.Print(mouseX + 4, mouseY + 4, obj.Name);
                     }
                 }
             }

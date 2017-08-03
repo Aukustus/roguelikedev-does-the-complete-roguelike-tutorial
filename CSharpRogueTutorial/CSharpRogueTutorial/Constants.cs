@@ -17,6 +17,8 @@ namespace CSharpRogueTutorial
         public const int FoVSteps = 1;
         public const int TurnSteps = 6;
 
+        public const int SpellRange = 6;
+
         public const int MoveSmoothSteps = 4;
 
         public const int MessageLogLength = 7;
@@ -25,7 +27,7 @@ namespace CSharpRogueTutorial
         public static Dictionary<int, double> PreCalcCos = new Dictionary<int, double>();
 
         public enum PlayerAction { UsedTurn, NotUsedTurn, ExitGame };
-        public enum AI { None, BasicMonster, ConfusedMonster };
+        public enum AI { None, Player, BasicMonster, ConfusedMonster };
         public enum Death { PlayerDeath, GenericDeath };
         public enum GameState { Playing, Dead };
         public enum UseFunctions { None, HealingPotion, LightningBolt, Confusion, Fireball }
@@ -62,6 +64,7 @@ namespace CSharpRogueTutorial
 
             public const char HealingPotionTile = (char)0xE008;
             public const char ScrollTile = (char)0xE009;
+            public const char FireballTile = (char)0xE00C;
         }
     }
 }
