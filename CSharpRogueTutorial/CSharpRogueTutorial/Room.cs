@@ -97,7 +97,6 @@ namespace CSharpRogueTutorial
                 {
                     monster = new GameObject("Troll", Constants.Tiles.TrollTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
                     monster.Fighter = new Fighter(monster, 10, 6, 3, 3, Constants.AI.BasicMonster, Constants.Death.GenericDeath);
-                    MessageLog.AddMessage("Troll");
                 }
 
                 if (monster != null && !GameMap.Blocked(monster.X, monster.Y))
