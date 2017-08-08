@@ -100,7 +100,7 @@ namespace CSharpRogueTutorial
             {
                 self.Fighter.AI.Type = self.Fighter.AI.OldAIType;
 
-                Rogue.GameWorld.MessageLog.AddMessage(self.Name + " is no longer confused.");
+                MessageLog.AddMessage(self.Name + " is no longer confused.");
                 return;
             }
 

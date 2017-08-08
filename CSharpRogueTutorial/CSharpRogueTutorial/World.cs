@@ -11,6 +11,7 @@ namespace CSharpRogueTutorial
         public List<GameObject> Objects;
         public MessageLog MessageLog;
         public Constants.GameState State;
+        public int DungeonLevel = 1;
 
         public World()
         {

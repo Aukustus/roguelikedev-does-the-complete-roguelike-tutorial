@@ -28,12 +28,12 @@ namespace CSharpRogueTutorial
             if (rand.Next(0, 2) == 1)
             {
                 monster = new GameObject("Orc", Constants.Tiles.OrcTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
-                monster.Fighter = new Fighter(monster, 8, 5, 2, Constants.AI.BasicMonster, Constants.Death.GenericDeath);
+                monster.Fighter = new Fighter(monster, 8, 5, 2, 2, Constants.AI.BasicMonster, Constants.Death.GenericDeath);
             }
             else
             {
                 monster = new GameObject("Troll", Constants.Tiles.TrollTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
-                monster.Fighter = new Fighter(monster, 10, 6, 3, Constants.AI.BasicMonster, Constants.Death.GenericDeath);
+                monster.Fighter = new Fighter(monster, 10, 6, 3, 3, Constants.AI.BasicMonster, Constants.Death.GenericDeath);
             }
 
             Rogue.GameWorld.Objects.Add(monster);
@@ -45,25 +45,10 @@ namespace CSharpRogueTutorial
 
             GameObject item;
 
-            if (rand.Next(0, 2) == 0)
+            if (rand.Next(0, 3) == 0)
             {
-                int type = rand.Next(0, 3);
-
-                if (type == 0)
-                {
-                    item = new GameObject("Scroll of Lightning", Constants.Tiles.ScrollTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
-                    item.Item = new Item(item, 1, Constants.UseFunctions.LightningBolt);
-                }
-                else if (type == 1)
-                {
-                    item = new GameObject("Scroll of Fireball", Constants.Tiles.ScrollTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
-                    item.Item = new Item(item, 1, Constants.UseFunctions.Fireball);
-                }
-                else
-                {
-                    item = new GameObject("Scroll of Confusion", Constants.Tiles.ScrollTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
-                    item.Item = new Item(item, 1, Constants.UseFunctions.Confusion);
-                }
+                item = new GameObject("Scroll of Fireball", Constants.Tiles.ScrollTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
+                item.Item = new Item(item, 1, Constants.UseFunctions.Fireball);
             }
             else
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RogueTutorial;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,15 +28,15 @@ namespace CSharpRogueTutorial
 
         }
 
-        public void AddMessage(string message, string color = "white")
+        public static void AddMessage(string message, string color = "white")
         {
             List<Message> wrappedMessages = WordWrap(message, color);
 
-            Messages.AddRange(wrappedMessages);
+            Rogue.GameWorld.MessageLog.Messages.AddRange(wrappedMessages);
 
-            while (Messages.Count() > Constants.MessageLogLength)
+            while (Rogue.GameWorld.MessageLog.Messages.Count() > Constants.MessageLogLength)
             {
-                Messages.RemoveAt(0);
+                Rogue.GameWorld.MessageLog.Messages.RemoveAt(0);
             }
         }
 

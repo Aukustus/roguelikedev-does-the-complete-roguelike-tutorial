@@ -67,8 +67,8 @@ namespace CSharpRogueTutorial
 
         public static bool WithinCamera(int x, int y)
         {
-            int drawX = (x - Rogue.GameWorld.Player.CameraX) * 2 + 1;
-            int drawY = (y - Rogue.GameWorld.Player.CameraY) * 2 + 1;
+            int drawX = (x - Rogue.GameWorld.Player.CameraX + 1) * 2 + 1;
+            int drawY = (y - Rogue.GameWorld.Player.CameraY + 1) * 2 + 1;
 
             return drawX >= 0 && drawX < 62 && drawY >= 0 && drawY < 27;
         }

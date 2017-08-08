@@ -21,9 +21,12 @@ namespace CSharpRogueTutorial
     {
         public static Random rand = new Random();          
 
-        public static GameMap MakeMap()
+        public static GameMap MakeMap(bool downDirection)
         {
             GameMap map = new GameMap(true);
+
+            Rogue.GameWorld.Objects = new List<GameObject>();
+            Rogue.GameWorld.Objects.Add(Rogue.GameWorld.Player);
 
             List<Room> roomList = new List<Room>();
 
@@ -31,8 +34,8 @@ namespace CSharpRogueTutorial
 
             for (int i = 0; i < 20; i++)
             {
-                int width = rand.Next(5, 8);
-                int height = rand.Next(5, 8);
+                int width = rand.Next(4, 7);
+                int height = rand.Next(4, 7);
 
                 int x = rand.Next(0 + 10, Constants.MapWidth - width - 1 - 10);
                 int y = rand.Next(0 + 10, Constants.MapHeight - height - 1 - 10);
@@ -49,6 +52,22 @@ namespace CSharpRogueTutorial
                     {
                         Rogue.GameWorld.Player.X = newCenter.X;
                         Rogue.GameWorld.Player.Y = newCenter.Y;
+                        Rogue.GameWorld.Player.Fighter.Direction = 180;
+
+                        if (downDirection)
+                        {
+                            GameObject up = new GameObject("Upstairs", Constants.Tiles.UpTile, newCenter.X, newCenter.Y, false);
+                            up.Upstairs = true;
+                            up.AlwaysVisible = true;
+                            Rogue.GameWorld.Objects.Add(up);
+                        }
+                        else
+                        {
+                            GameObject down = new GameObject("Downstairs", Constants.Tiles.DownTile, newCenter.X, newCenter.Y, false);
+                            down.Downstairs = true;
+                            down.AlwaysVisible = true;
+                            Rogue.GameWorld.Objects.Add(down);
+                        }
                     }
                     else
                     {
@@ -72,6 +91,23 @@ namespace CSharpRogueTutorial
                     roomList.Add(newRoom);
                     roomCount += 1;
                 }
+            }
+
+            Room lastRoom = roomList.Last();
+
+            if (downDirection)
+            {
+                GameObject downstairs = new GameObject("Downstairs", Constants.Tiles.DownTile, lastRoom.Center().X, lastRoom.Center().Y, false);
+                downstairs.Downstairs = true;
+                downstairs.AlwaysVisible = true;
+                Rogue.GameWorld.Objects.Add(downstairs);
+            }
+            else
+            {
+                GameObject upstairs = new GameObject("Upstairs", Constants.Tiles.UpTile, lastRoom.Center().X, lastRoom.Center().Y, false);
+                upstairs.Upstairs = true;
+                upstairs.AlwaysVisible = true;
+                Rogue.GameWorld.Objects.Add(upstairs);
             }
 
             Camera.SetCamera();
@@ -143,6 +179,37 @@ namespace CSharpRogueTutorial
             if (y + 2 <= Constants.MapHeight - 2 - 10) neighbours.Add(new Coordinate(x, y + 2));
 
             return neighbours.OrderBy(a => rand.Next()).ToList();
+        }
+
+        public static void NextLevel()
+        {
+            Rogue.GameWorld.DungeonLevel += 1;
+            MessageLog.AddMessage("You descend deeper into the dungeon.");
+            Rogue.GameWorld.Map = MakeMap(true);
+        }
+
+        public static Constants.PlayerAction PreviousLevel()
+        {
+            if (Rogue.GameWorld.DungeonLevel == 1)
+            {
+                int? choice = Menu.BasicMenu("Are you sure you want to exit the dungeon?", new List<string>() { "Yes" }, "No");
+
+                if (choice != null)
+                {
+                    return Constants.PlayerAction.ExitWithoutSave;
+                }
+                else
+                {
+                    return Constants.PlayerAction.NotUsedTurn;
+                }
+            }
+            else
+            {
+                Rogue.GameWorld.DungeonLevel -= 1;
+                MessageLog.AddMessage("You ascend higher into the dungeon.");
+                Rogue.GameWorld.Map = MakeMap(false);
+                return Constants.PlayerAction.UsedTurn;
+            }
         }
     }
 }

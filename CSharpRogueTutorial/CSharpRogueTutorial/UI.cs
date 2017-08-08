@@ -71,9 +71,12 @@ namespace CSharpRogueTutorial
         {
             Terminal.Layer(Constants.Layers["Messages"]);
 
-            Terminal.Print(64, 1, "Health: " + Rogue.GameWorld.Player.Fighter.HP + "/" + Rogue.GameWorld.Player.Fighter.Max_HP);
-            Terminal.Print(64, 2, "Attack: " + Rogue.GameWorld.Player.Fighter.Attack);
-            Terminal.Print(64, 3, "Defense: " + Rogue.GameWorld.Player.Fighter.Defense);
+            Terminal.Print(62, 1, "Health:  " + Rogue.GameWorld.Player.Fighter.HP + "/" + Rogue.GameWorld.Player.Fighter.Max_HP);
+            Terminal.Print(62, 2, "Attack:  " + Rogue.GameWorld.Player.Fighter.Attack);
+            Terminal.Print(62, 3, "Defense: " + Rogue.GameWorld.Player.Fighter.Defense);
+            Terminal.Print(62, 4, "Level:   " + Rogue.GameWorld.Player.Fighter.Level);
+            Terminal.Print(62, 5, "XP:      " + Rogue.GameWorld.Player.Fighter.XP + "/" + Constants.LevelProgression[Rogue.GameWorld.Player.Fighter.Level - 1]);
+            Terminal.Print(62, 6, "Floor:   " + Rogue.GameWorld.DungeonLevel);
         }
 
         private static void DrawMessages()
@@ -96,12 +99,12 @@ namespace CSharpRogueTutorial
 
         private static void MouseHoverLook()
         {
-            Terminal.Layer(Constants.Layers["UI"]);
+            Terminal.Layer(Constants.Layers["Messages"]);
 
             int mouseX = Terminal.State(Terminal.TK_MOUSE_X) - 1;
             int mouseY = Terminal.State(Terminal.TK_MOUSE_Y) - 1;
 
-            if (mouseX >= 0 && mouseY >= 0 && mouseX <= 61 && mouseY <= 25)
+            if (mouseX >= 0 && mouseY >= 0 && mouseX <= 60 && mouseY <= 34)
             {
                 if (mouseX % 2 != 0)
                 {

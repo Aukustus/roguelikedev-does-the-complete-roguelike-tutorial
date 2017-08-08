@@ -23,12 +23,13 @@ namespace RogueTutorial
         private static void AddLayers()
         {
             Constants.Layers.Add("Map", 0);
-            Constants.Layers.Add("Items", 1);
-            Constants.Layers.Add("Monsters", 2);
-            Constants.Layers.Add("Player", 3);
-            Constants.Layers.Add("Spells", 4);
-            Constants.Layers.Add("UI", 5);
-            Constants.Layers.Add("Messages", 6);
+            Constants.Layers.Add("MapFeatures", 1);
+            Constants.Layers.Add("Items", 2);
+            Constants.Layers.Add("Monsters", 3);
+            Constants.Layers.Add("Player", 4);
+            Constants.Layers.Add("Spells", 5);
+            Constants.Layers.Add("UI", 6);
+            Constants.Layers.Add("Messages", 7);
         }
 
         private static void PreCalcFov()
@@ -52,9 +53,9 @@ namespace RogueTutorial
             GameWorld.Player = new GameObject("Player", Constants.Tiles.PlayerTile, 0, 0);
             GameWorld.Objects.Add(GameWorld.Player);
 
-            GameWorld.Player.Fighter = new Fighter(GameWorld.Player, 24, 6, 4, Constants.AI.Player, Constants.Death.PlayerDeath);
+            GameWorld.Player.Fighter = new Fighter(GameWorld.Player, 24, 6, 4, 0, Constants.AI.Player, Constants.Death.PlayerDeath);
 
-            GameWorld.Map = MapMethods.MakeMap();
+            GameWorld.Map = MapMethods.MakeMap(true);
 
             GameWorld.State = Constants.GameState.Playing;
         }
@@ -65,7 +66,7 @@ namespace RogueTutorial
             
             GameWorld.State = Constants.GameState.Playing;
 
-            GameWorld.MessageLog.AddMessage("Game loaded.", "white");
+            MessageLog.AddMessage("Game loaded.", "white");
         }
 
         private static void MainLoop()
@@ -76,9 +77,9 @@ namespace RogueTutorial
 
                 Constants.PlayerAction action = Controls.HandleKeys();
 
-                if (action == Constants.PlayerAction.ExitGame)
+                if (action == Constants.PlayerAction.ExitGame || action == Constants.PlayerAction.ExitWithoutSave)
                 {
-                    if (GameWorld.State == Constants.GameState.Playing)
+                    if (GameWorld.State == Constants.GameState.Playing && action == Constants.PlayerAction.ExitGame)
                     {
                         File.SaveGame();
                     }
@@ -104,7 +105,7 @@ namespace RogueTutorial
 
         public static void MainMenu()
         {
-            int? choice = Menu.BasicMenu("Game", new List<string>() { "New Game", "Load Game" }, "Exit");
+            int? choice = Menu.BasicMenu("Main Menu", new List<string>() { "New Game", "Load Game" }, "Exit");
 
             if (choice == 0)
             {

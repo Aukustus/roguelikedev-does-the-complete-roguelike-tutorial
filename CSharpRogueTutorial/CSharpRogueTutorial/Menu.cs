@@ -8,9 +8,23 @@ namespace CSharpRogueTutorial
     {
         private static int HeaderY = 12;
 
+        private static void ClearMainRectangle()
+        {
+            Terminal.Layer(Constants.Layers["Map"]);
+            Terminal.ClearArea(1, 1, 64, 40);
+            Terminal.Layer(Constants.Layers["MapFeatures"]);
+            Terminal.ClearArea(1, 1, 64, 40);
+            Terminal.Layer(Constants.Layers["Player"]);
+            Terminal.ClearArea(1, 1, 64, 40);
+            Terminal.Layer(Constants.Layers["Monsters"]);
+            Terminal.ClearArea(1, 1, 64, 40);
+            Terminal.Layer(Constants.Layers["Items"]);
+            Terminal.ClearArea(1, 1, 64, 40);
+        }
+
         public static int? Inventory(string header, List<GameObject> options, string exitText)
         {
-            Terminal.Clear();
+            ClearMainRectangle();
 
             int selector = 0;
 
@@ -18,11 +32,10 @@ namespace CSharpRogueTutorial
 
             while (true)
             {
-                int y = HeaderY + 2;
+                int y = HeaderY + 3;
 
                 foreach (GameObject option in options)
                 {
-
                     Terminal.Print(5, y, "( ) " + option.Name + " (x" + option.Item.Count.ToString() + ")");
 
                     y += 1;
@@ -31,9 +44,9 @@ namespace CSharpRogueTutorial
                 Terminal.Print(5, y + 1, "( ) " + exitText);
 
                 if (selector == options.Count())
-                    Terminal.Print(6, HeaderY + 2 + selector + 1, "*");
+                    Terminal.Print(6, HeaderY + 3 + selector + 1, "*");
                 else
-                    Terminal.Print(6, HeaderY + 2 + selector, "*");
+                    Terminal.Print(6, HeaderY + 3 + selector, "*");
 
                 Terminal.Refresh();
 
@@ -68,7 +81,7 @@ namespace CSharpRogueTutorial
 
         public static int? ItemMenu(string header, List<string> options, string exitText)
         {
-            Terminal.Clear();
+            ClearMainRectangle();
 
             int selector = 0;
 
@@ -76,11 +89,10 @@ namespace CSharpRogueTutorial
 
             while (true)
             {
-                int y = HeaderY + 2;
+                int y = HeaderY + 3;
 
                 foreach (string option in options)
                 {
-
                     Terminal.Print(5, y, "( ) " + option);
 
                     y += 1;
@@ -89,9 +101,9 @@ namespace CSharpRogueTutorial
                 Terminal.Print(5, y + 1, "( ) " + exitText);
 
                 if (selector == options.Count())
-                    Terminal.Print(6, HeaderY + 2 + selector + 1, "*");
+                    Terminal.Print(6, HeaderY + 3 + selector + 1, "*");
                 else
-                    Terminal.Print(6, HeaderY + 2 + selector, "*");
+                    Terminal.Print(6, HeaderY + 3 + selector, "*");
 
                 Terminal.Refresh();
 
@@ -134,11 +146,10 @@ namespace CSharpRogueTutorial
 
             while (true)
             {
-                int y = HeaderY + 2;
+                int y = HeaderY + 3;
 
                 foreach (string option in options)
                 {
-
                     Terminal.Print(5, y, "( ) " + option);
 
                     y += 1;
@@ -147,9 +158,9 @@ namespace CSharpRogueTutorial
                 Terminal.Print(5, y + 1, "( ) " + exitText);
 
                 if (selector == options.Count())
-                    Terminal.Print(6, HeaderY + 2 + selector + 1, "*");
+                    Terminal.Print(6, HeaderY + 3 + selector + 1, "*");
                 else
-                    Terminal.Print(6, HeaderY + 2 + selector, "*");
+                    Terminal.Print(6, HeaderY + 3 + selector, "*");
 
                 Terminal.Refresh();
 

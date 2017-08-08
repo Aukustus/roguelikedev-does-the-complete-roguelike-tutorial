@@ -11,6 +11,7 @@ namespace CSharpRogueTutorial
         public int Max_HP;
         public int Attack;
         public int Defense;
+        public int XP;
 
         public List<GameObject> Inventory = new List<GameObject>();
 
@@ -24,15 +25,18 @@ namespace CSharpRogueTutorial
 
         public Constants.Death DeathFunction;
 
+        public int Level = 1;
+
         public GameObject Owner;
 
-        public Fighter(GameObject owner, int hp, int attack, int defense, Constants.AI ai, Constants.Death death)
+        public Fighter(GameObject owner, int hp, int attack, int defense, int xp, Constants.AI ai, Constants.Death death)
         {
             Owner = owner;
             HP = hp;
             Max_HP = hp;
             Attack = attack;
             Defense = defense;
+            XP = xp;
             AI = new AI(ai);
             DeathFunction = death;
         }
@@ -40,7 +44,7 @@ namespace CSharpRogueTutorial
         internal void MeleeAttack(GameObject target)
         {
             int damage = Attack - target.Fighter.Defense;
-            Rogue.GameWorld.MessageLog.AddMessage(Owner.Name + " hits " + target.Name + " for " + damage.ToString() + " Hit Points.", "white");
+            MessageLog.AddMessage(Owner.Name + " hits " + target.Name + " for " + damage.ToString() + " Hit Points.", "white");
 
             target.Fighter.TakeDamage(damage);
 
@@ -109,6 +113,10 @@ namespace CSharpRogueTutorial
                 if (HP <= 0)
                 {
                     Death();
+                    if (Owner != Rogue.GameWorld.Player)
+                    {
+                        Rogue.GameWorld.Player.Fighter.AddXP(XP);
+                    }
                 }
             }
         }
@@ -116,6 +124,22 @@ namespace CSharpRogueTutorial
         internal void Death()
         {
             typeof(DeathMethods).GetMethod(DeathFunction.ToString()).Invoke(null, new object[] { Owner });
+        }
+
+        internal void AddXP(int amount)
+        {
+            XP += amount;
+            if (XP >= Constants.LevelProgression[Level - 1])
+            {
+                MessageLog.AddMessage(string.Format("Level up! You reached level {0}.", Level + 1));
+
+                XP -= Constants.LevelProgression[Level - 1];
+                Level += 1;
+                Max_HP += 6;
+                HP += 6;
+                Attack += 1;
+                Defense += 1;
+            }
         }
 
         internal void TakeTurn()

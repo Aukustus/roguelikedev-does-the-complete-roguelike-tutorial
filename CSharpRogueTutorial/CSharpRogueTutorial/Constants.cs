@@ -26,15 +26,24 @@ namespace CSharpRogueTutorial
         public static Dictionary<int, double> PreCalcSin = new Dictionary<int, double>();
         public static Dictionary<int, double> PreCalcCos = new Dictionary<int, double>();
 
-        public enum PlayerAction { UsedTurn, NotUsedTurn, ExitGame };
+        public enum PlayerAction { UsedTurn, NotUsedTurn, ExitGame, ExitWithoutSave };
         public enum AI { None, Player, BasicMonster, ConfusedMonster };
         public enum Death { PlayerDeath, GenericDeath };
         public enum GameState { Playing, Dead };
-        public enum UseFunctions { None, HealingPotion, LightningBolt, Confusion, Fireball }
+        public enum UseFunctions { None, HealingPotion, Fireball }
 
         public static int[] Angles = { 0, 45, 90, 135, 180, 225, 270, 315 };
 
+        public static int[] LevelProgression = { 10, 30, 60, 100, 150 };
+
         public static Dictionary<string, int> Layers = new Dictionary<string, int>();
+
+        public static int[] PUA = { 0xE000, 0xE001, 0xE002, 0xE003, 0xE004, 0xE005,
+                                    0xE006, 0xE007, 0xE008, 0xE009, 0xE00A, 0xE00B,
+                                    0xE00C, 0xE00D, 0xE00E, 0xE00F, 0xE010, 0xE011,
+                                    0xE012, 0xE013, 0xE014, 0xE015, 0xE016, 0xE017,
+                                    0xE018, 0xE019, 0xE01A, 0xE01B, 0xE01C, 0xE01D,
+                                    0xE01E, 0xE01F, 0xE020, 0xE021, 0xE022, 0xE023 };
 
         public struct Symbols
         {
@@ -55,16 +64,20 @@ namespace CSharpRogueTutorial
 
         public struct Tiles
         {
-            public const char WallTile = (char)0xE000;
-            public const char FloorTile = (char)0xE001;
-            public const char PlayerTile = (char)0xE002;
-            public const char OrcTile = (char)0xE004;
-            public const char TrollTile = (char)0xE005;
-            public const char CorpseTile = (char)0xE006;
+            public static char WallTile = (char)PUA[0];
+            public static char FloorTile = (char)PUA[1];
+            public static char DownTile = (char)PUA[2];
+            public static char UpTile = (char)PUA[3];
 
-            public const char HealingPotionTile = (char)0xE008;
-            public const char ScrollTile = (char)0xE009;
-            public const char FireballTile = (char)0xE00C;
+            public static char PlayerTile = (char)PUA[6];
+
+            public static char OrcTile = (char)PUA[12];
+            public static char TrollTile = (char)PUA[13];
+            public static char CorpseTile = (char)PUA[14];
+
+            public static char HealingPotionTile = (char)PUA[18];
+            public static char ScrollTile = (char)PUA[19];
+            public static char FireballTile = (char)PUA[24];
         }
     }
 }

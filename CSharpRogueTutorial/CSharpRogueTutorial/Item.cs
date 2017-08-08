@@ -35,6 +35,18 @@ namespace CSharpRogueTutorial
             }
         }
 
+        internal void Throw(GameObject user)
+        {
+            UseMethods.Throw(Owner, user);
+
+            Count -= 1;
+
+            if (Count == 0)
+            {
+                Rogue.GameWorld.Player.Fighter.Inventory.Remove(Owner);
+            }
+        }
+
         internal void Drop(GameObject user)
         {
             user.Fighter.Inventory.Remove(Owner);
@@ -42,12 +54,12 @@ namespace CSharpRogueTutorial
             Owner.X = user.X;
             Owner.Y = user.Y;
 
-            Rogue.GameWorld.MessageLog.AddMessage(user.Name + " drops " + Owner.Name + ".", "white");
+            MessageLog.AddMessage(user.Name + " drops " + Owner.Name + ".", "white");
         }
 
         internal void Pick(GameObject user)
         {
-            Rogue.GameWorld.MessageLog.AddMessage(user.Name + " picks up " + Owner.Name + ".", "white");
+            MessageLog.AddMessage(user.Name + " picks up " + Owner.Name + ".", "white");
 
             Rogue.GameWorld.Objects.Remove(Owner);
 
@@ -77,16 +89,22 @@ namespace CSharpRogueTutorial
 
                     if (selectedItem.Item.UseMethod != Constants.UseFunctions.None)
                     {
-                        int? itemAction = Menu.ItemMenu(selectedItem.Name, new List<string> { "Use", "Drop" }, "Return");
+                        int? itemAction = Menu.ItemMenu(selectedItem.Name, new List<string> { "Use", "Throw", "Drop" }, "Return");
 
-                        if (itemAction != null && itemAction == 0)
+                        if (itemAction == 0)
                         {
                             selectedItem.Item.Use(Rogue.GameWorld.Player);
                             actionTaken = Constants.PlayerAction.UsedTurn;
                             break;
 
                         }
-                        if (itemAction != null && itemAction == 1)
+                        if (itemAction == 1)
+                        {
+                            selectedItem.Item.Throw(Rogue.GameWorld.Player);
+                            actionTaken = Constants.PlayerAction.UsedTurn;
+                            break;
+                        }
+                        if (itemAction == 2)
                         {
                             selectedItem.Item.Drop(Rogue.GameWorld.Player);
                             actionTaken = Constants.PlayerAction.UsedTurn;

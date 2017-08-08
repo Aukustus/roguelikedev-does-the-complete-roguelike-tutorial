@@ -2,6 +2,9 @@
 using RogueSharp;
 using RogueTutorial;
 using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace CSharpRogueTutorial
 {
@@ -24,6 +27,9 @@ namespace CSharpRogueTutorial
         public Item Item = null;
         public bool Spell = false;
 
+        public bool Downstairs = false;
+        public bool Upstairs = false;
+
         public GameObject(string name, char tile, int x, int y, bool blocks = true)
         {
             Name = name;
@@ -42,6 +48,8 @@ namespace CSharpRogueTutorial
                 Terminal.Layer(Constants.Layers["Monsters"]);
             else if (Spell != false)
                 Terminal.Layer(Constants.Layers["Spells"]);
+            else if (Downstairs || Upstairs)
+                Terminal.Layer(Constants.Layers["MapFeatures"]);
             else
                 Terminal.Layer(Constants.Layers["Items"]);
 
@@ -250,7 +258,7 @@ namespace CSharpRogueTutorial
 
             PathFinder pFinder = new PathFinder(pathMap);
 
-            Path path = pFinder.TryFindShortestPath(pathMap.GetCell(X, Y), pathMap.GetCell(targetX, targetY));
+            RogueSharp.Path path = pFinder.TryFindShortestPath(pathMap.GetCell(X, Y), pathMap.GetCell(targetX, targetY));
 
             if (path != null)
             {
@@ -265,6 +273,17 @@ namespace CSharpRogueTutorial
             path = null;
 
             return;
+        }
+
+        internal GameObject Clone()
+        {
+            IFormatter formatter = new BinaryFormatter();
+            using (Stream stream = new MemoryStream())
+            {
+                formatter.Serialize(stream, this);
+                stream.Seek(0, SeekOrigin.Begin);
+                return (GameObject)formatter.Deserialize(stream);
+            }
         }
     }
 }

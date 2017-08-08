@@ -5,44 +5,110 @@ namespace CSharpRogueTutorial
 {
     class UseMethods
     {
+        private static void ThrowingAnimation(GameObject obj, GameObject user)
+        {
+            for (int times = 0; times < Constants.SpellRange; times++)
+            {
+                if (user.Fighter.Direction == 90 || user.Fighter.Direction == 270)
+                {
+                    int dx = user.Fighter.Direction == 90 ? -1 : 1;
+
+                    if (GameMap.MapBlocked(obj.X + dx, obj.Y))
+                    {
+                        break;
+                    }
+                    if (CommonMethods.TargetInCoordinate(obj.X, obj.Y))
+                    {
+                        break;
+                    }
+
+                    for (int x = 0; x < 16; x++)
+                    {
+                        Rendering.RenderAll(obj);
+                        obj.OffsetX += Constants.MoveSmoothSteps * dx;
+
+                        if (GameMap.MapExplored(obj.X + dx, obj.Y) || FoV.InFov(user.X, user.Y, obj.X + dx, obj.Y, user))
+                        {
+                            obj.Draw("white", true);
+                        }
+
+                        Terminal.Refresh();
+                    }
+
+                    obj.X += dx;
+                    obj.OffsetX = 0;
+                }
+                else if (user.Fighter.Direction == 0 || user.Fighter.Direction == 180)
+                {
+                    int dy = user.Fighter.Direction == 0 ? -1 : 1;
+
+                    if (GameMap.MapBlocked(obj.X, obj.Y + dy))
+                    {
+                        break;
+                    }
+                    if (CommonMethods.TargetInCoordinate(obj.X, obj.Y))
+                    {
+                        break;
+                    }
+
+                    for (int x = 0; x < 16; x++)
+                    {
+                        Rendering.RenderAll(obj);
+                        obj.OffsetY += Constants.MoveSmoothSteps * dy;
+
+                        if (GameMap.MapExplored(obj.X, obj.Y + dy) || FoV.InFov(user.X, user.Y, obj.X, obj.Y + dy, user))
+                        {
+                            obj.Draw("white", true);
+                        }
+
+                        Terminal.Refresh();
+                    }
+
+                    obj.Y += dy;
+                    obj.OffsetY = 0;
+                }
+            }
+        }
+
+        public static bool Throw(GameObject item, GameObject user)
+        {
+            MessageLog.AddMessage("Throw: " + user.Name + " throws " + item.Name + ".", "white");
+
+            GameObject thrownItem = item.Clone();
+            thrownItem.Item.Count = 1;
+            thrownItem.X = user.X;
+            thrownItem.Y = user.Y;
+
+            Rogue.GameWorld.Objects.Add(thrownItem);
+
+            Rendering.RenderAll();
+            Terminal.Refresh();
+
+            ThrowingAnimation(thrownItem, user);
+
+            return false;
+        }
+
         public static bool HealingPotion(GameObject user)
         {
             if (Rogue.GameWorld.Player.Fighter.HP == Rogue.GameWorld.Player.Fighter.Max_HP)
             {
-                Rogue.GameWorld.MessageLog.AddMessage("You are already at full health", "white");
+                MessageLog.AddMessage("You are already at full health", "white");
                 return false;
             }
 
             int amount = 6;
 
-            Rogue.GameWorld.MessageLog.AddMessage(user.Name + " is healed for " + amount.ToString() + " Hit Points." , "white");
+            MessageLog.AddMessage(user.Name + " is healed for " + amount.ToString() + " Hit Points." , "white");
 
             Rogue.GameWorld.Player.Fighter.Heal(amount);
 
             return true;
         }
 
-        public static bool LightningBolt(GameObject user)
-        {
-            Rogue.GameWorld.MessageLog.AddMessage(user.Name + " casts Lightning Bolt.", "white");
-
-            GameObject target = CommonMethods.ClosestMonster(user);
-
-            if (target != null)
-            {
-                int amount = 12;
-
-                Rogue.GameWorld.MessageLog.AddMessage(target.Name + " is damaged for " + amount.ToString() + " Hit Points.", "white");
-
-                target.Fighter.TakeDamage(amount);
-            }
-
-            return true;
-        }
-
         public static bool Fireball(GameObject user)
         {
-            Rogue.GameWorld.MessageLog.AddMessage("Fireball: " + user.Name + " casts Fireball.", "white");
+            MessageLog.AddMessage("Fireball: " + user.Name + " casts Fireball.", "white");
 
             GameObject spell = new GameObject("Fireball", Constants.Tiles.FireballTile, user.X, user.Y);
             spell.Spell = true;
@@ -53,163 +119,25 @@ namespace CSharpRogueTutorial
             Rendering.RenderAll();
             Terminal.Refresh();
 
-            for (int times = 0; times < Constants.SpellRange; times++)
-            {
-                if (Rogue.GameWorld.Player.Fighter.Direction == 90 || Rogue.GameWorld.Player.Fighter.Direction == 270)
-                {
-                    int dx = Rogue.GameWorld.Player.Fighter.Direction == 90 ? -1 : 1;
+            ThrowingAnimation(spell, user);
 
-                    if (GameMap.MapBlocked(spell.X + dx, spell.Y))
-                    {
-                        break;
-                    }
-                    if (CommonMethods.TargetInCoordinate(spell.X, spell.Y))
-                    {
-                        break;
-                    }
-
-                    for (int x = 0; x < 16; x++)
-                    {
-                        Rendering.RenderAll(spell);
-                        spell.OffsetX += Constants.MoveSmoothSteps * dx;
-
-                        if (GameMap.MapExplored(spell.X + dx, spell.Y) || FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, spell.X + dx, spell.Y, Rogue.GameWorld.Player))
-                        {
-                            spell.Draw("white", true);
-                        }
-
-                        Terminal.Refresh();
-                    }
-
-                    spell.X += dx;
-                    spell.OffsetX = 0;
-                }
-                else if (Rogue.GameWorld.Player.Fighter.Direction == 0 || Rogue.GameWorld.Player.Fighter.Direction == 180)
-                {
-                    int dy = Rogue.GameWorld.Player.Fighter.Direction == 0 ? -1 : 1;
-
-                    if (GameMap.MapBlocked(spell.X, spell.Y + dy))
-                    {
-                        break;
-                    }
-                    if (CommonMethods.TargetInCoordinate(spell.X, spell.Y))
-                    {
-                        break;
-                    }
-
-                    for (int x = 0; x < 16; x++)
-                    {
-                        Rendering.RenderAll(spell);
-                        spell.OffsetY += Constants.MoveSmoothSteps * dy;
-
-                        if (GameMap.MapExplored(spell.X, spell.Y + dy) || FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, spell.X, spell.Y + dy, Rogue.GameWorld.Player))
-                        {
-                            spell.Draw("white", true);
-                        }
-
-                        Terminal.Refresh();
-                    }
-
-                    spell.Y += dy;
-                    spell.OffsetY = 0;
-                }
-            }
-
-            Rogue.GameWorld.MessageLog.AddMessage("Fireball: The fireball explodes.", "white");
-
-            FireballDamage(spell.X, spell.Y);
-
-            Rogue.GameWorld.Objects.Remove(spell);
-      
-            return false;
-        }
-
-        private static bool FireballDamage(int x, int y)
-        {
-            bool damaged = false;
+            MessageLog.AddMessage("Fireball: The fireball explodes.", "white");
 
             foreach (GameObject obj in Rogue.GameWorld.Objects)
             {
-                if (obj.Fighter != null && obj.Fighter.AI.Type != Constants.AI.None && obj.X == x && obj.Y == y)
+                if (obj.Fighter != null && obj.Fighter.AI.Type != Constants.AI.None && obj.X == spell.X && obj.Y == spell.Y)
                 {
                     int amount = 12;
-                    Rogue.GameWorld.MessageLog.AddMessage("Fireball: " + obj.Name + " is damaged for " + amount.ToString() + " Hit Points.", "white");
+                    MessageLog.AddMessage("Fireball: " + obj.Name + " is damaged for " + amount.ToString() + " Hit Points.", "white");
 
                     obj.Fighter.TakeDamage(amount);
-                    damaged = true;
                     break;
                 }
             }
 
-            return damaged;
-        }
-
-        public static bool Confusion(GameObject user)
-        {
-            Rogue.GameWorld.MessageLog.AddMessage(user.Name + " casts Confusion.", "white");
-
-            GameObject target = CommonMethods.ClosestMonster(user);
-
-            if (target != null)
-            {
-                Rogue.GameWorld.MessageLog.AddMessage(target.Name + " is confused for 5 turns.", "white");
-
-                target.Fighter.AI.OldAIType = target.Fighter.AI.Type;
-                target.Fighter.AI.Type = Constants.AI.ConfusedMonster;
-                target.Fighter.AI.TempAILength = 5;
-            }
-
-            return true;
-        }
-
-        public static Coordinate Targeting(string type)
-        {
-            Rogue.GameWorld.MessageLog.AddMessage(type + ": Select target");
-
-            while (true)
-            {
-                Rendering.RenderAll();
-
-                int mouseX = Terminal.State(Terminal.TK_MOUSE_X) - 1;
-                int mouseY = Terminal.State(Terminal.TK_MOUSE_Y) - 1;
-
-                if (mouseX >= 0 && mouseY >= 0 && mouseX <= 61 && mouseY <= 25)
-                {
-                    if (mouseX % 2 != 0)
-                    {
-                        mouseX -= 1;
-                    }
-                    if (mouseY % 2 != 0)
-                    {
-                        mouseY -= 1;
-                    }
-
-                    Coordinate coord = Camera.CameraToCoordinate(mouseX / 2, mouseY / 2);
-
-                    foreach (GameObject obj in Rogue.GameWorld.Objects)
-                    {
-                        if (obj.X == coord.X && obj.Y == coord.Y)
-                        {
-                            Terminal.Print(mouseX, mouseY, obj.Name);
-                        }
-                    }
-
-                    Terminal.Refresh();
-
-                    int key = Terminal.Read();
-
-                    if (key == Terminal.TK_MOUSE_LEFT)
-                    {
-                        return new Coordinate(coord.X, coord.Y);
-                    }
-                    if (key == Terminal.TK_ESCAPE)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return new Coordinate(-1, -1);
+            Rogue.GameWorld.Objects.Remove(spell);
+      
+            return false;
         }
     }
 }
