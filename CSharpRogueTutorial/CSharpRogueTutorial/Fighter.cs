@@ -112,11 +112,13 @@ namespace CSharpRogueTutorial
 
                 if (HP <= 0)
                 {
-                    Death();
                     if (Owner != Rogue.GameWorld.Player)
                     {
+                        MessageLog.AddMessage(string.Format("{0} dies. {1} receives {2} XP.", Owner.Name, Rogue.GameWorld.Player.Name, XP), "red");
                         Rogue.GameWorld.Player.Fighter.AddXP(XP);
                     }
+
+                    Death();
                 }
             }
         }

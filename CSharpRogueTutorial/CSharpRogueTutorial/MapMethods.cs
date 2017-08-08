@@ -21,9 +21,9 @@ namespace CSharpRogueTutorial
     {
         public static Random rand = new Random();          
 
-        public static GameMap MakeMap(bool downDirection)
+        public static void MakeMap(bool downDirection)
         {
-            GameMap map = new GameMap(true);
+            Rogue.GameWorld.Map = new GameMap(true);
 
             Rogue.GameWorld.Objects = new List<GameObject>();
             Rogue.GameWorld.Objects.Add(Rogue.GameWorld.Player);
@@ -44,7 +44,7 @@ namespace CSharpRogueTutorial
 
                 if (!newRoom.Intersects(roomList))
                 {
-                    newRoom.CarveRoomToMap(ref map.Tiles);
+                    newRoom.CarveRoomToMap();
 
                     Coordinate newCenter = newRoom.Center();
 
@@ -75,13 +75,13 @@ namespace CSharpRogueTutorial
 
                         if (rand.Next(0, 2) == 0)
                         {
-                            map.CreateHorizontalTunnel(previousCenter.X, newCenter.X, previousCenter.Y);
-                            map.CreateVerticalTunnel(previousCenter.Y, newCenter.Y, newCenter.X);
+                            Rogue.GameWorld.Map.CreateHorizontalTunnel(previousCenter.X, newCenter.X, previousCenter.Y);
+                            Rogue.GameWorld.Map.CreateVerticalTunnel(previousCenter.Y, newCenter.Y, newCenter.X);
                         }
                         else
                         {
-                            map.CreateVerticalTunnel(previousCenter.Y, newCenter.Y, previousCenter.X);
-                            map.CreateHorizontalTunnel(previousCenter.X, newCenter.X, newCenter.Y);
+                            Rogue.GameWorld.Map.CreateVerticalTunnel(previousCenter.Y, newCenter.Y, previousCenter.X);
+                            Rogue.GameWorld.Map.CreateHorizontalTunnel(previousCenter.X, newCenter.X, newCenter.Y);
                         }
 
                         newRoom.PlaceMonsters(rand);
@@ -111,8 +111,6 @@ namespace CSharpRogueTutorial
             }
 
             Camera.SetCamera();
-
-            return map;
         }
 
         public static GameMap MakeMaze()
@@ -185,7 +183,7 @@ namespace CSharpRogueTutorial
         {
             Rogue.GameWorld.DungeonLevel += 1;
             MessageLog.AddMessage("You descend deeper into the dungeon.");
-            Rogue.GameWorld.Map = MakeMap(true);
+            MakeMap(true);
         }
 
         public static Constants.PlayerAction PreviousLevel()
@@ -207,7 +205,7 @@ namespace CSharpRogueTutorial
             {
                 Rogue.GameWorld.DungeonLevel -= 1;
                 MessageLog.AddMessage("You ascend higher into the dungeon.");
-                Rogue.GameWorld.Map = MakeMap(false);
+                MakeMap(false);
                 return Constants.PlayerAction.UsedTurn;
             }
         }

@@ -65,21 +65,25 @@ namespace CSharpRogueTutorial
                     Terminal.Put(x, y, Constants.Symbols.Empty);
                 }
             }
+
+            Terminal.Put(64, 0, Constants.Symbols.LeftEnd);
+            Terminal.Put(76, 0, Constants.Symbols.LeftEnd);
+            Terminal.Print(65, 0, "Information");
         }
 
         private static void DrawStats()
         {
             Terminal.Layer(Constants.Layers["Messages"]);
 
-            Terminal.Print(62, 1, "Health:  " + Rogue.GameWorld.Player.Fighter.HP + "/" + Rogue.GameWorld.Player.Fighter.Max_HP);
-            Terminal.Print(62, 2, "Attack:  " + Rogue.GameWorld.Player.Fighter.Attack);
-            Terminal.Print(62, 3, "Defense: " + Rogue.GameWorld.Player.Fighter.Defense);
-            Terminal.Print(62, 4, "Level:   " + Rogue.GameWorld.Player.Fighter.Level);
-            Terminal.Print(62, 5, "XP:      " + Rogue.GameWorld.Player.Fighter.XP + "/" + Constants.LevelProgression[Rogue.GameWorld.Player.Fighter.Level - 1]);
-            Terminal.Print(62, 6, "Floor:   " + Rogue.GameWorld.DungeonLevel);
+            Terminal.Print(63, 2, "Health: " + Rogue.GameWorld.Player.Fighter.HP + "/" + Rogue.GameWorld.Player.Fighter.Max_HP);
+            Terminal.Print(63, 3, "Attack: " + Rogue.GameWorld.Player.Fighter.Attack);
+            Terminal.Print(63, 4, "Armor:  " + Rogue.GameWorld.Player.Fighter.Defense);
+            Terminal.Print(63, 5, "Level:  " + Rogue.GameWorld.Player.Fighter.Level);
+            Terminal.Print(63, 6, "XP:     " + Rogue.GameWorld.Player.Fighter.XP + "/" + Constants.LevelProgression[Rogue.GameWorld.Player.Fighter.Level - 1]);
+            Terminal.Print(63, 7, "Floor:  " + Rogue.GameWorld.DungeonLevel);
         }
 
-        private static void DrawMessages()
+        private static void PrintMessages()
         {
             Terminal.Layer(Constants.Layers["Messages"]);
 
@@ -135,7 +139,7 @@ namespace CSharpRogueTutorial
         {
             DrawBorders();
             DrawStats();
-            DrawMessages();
+            PrintMessages();
             MouseHoverLook();
         }
     }

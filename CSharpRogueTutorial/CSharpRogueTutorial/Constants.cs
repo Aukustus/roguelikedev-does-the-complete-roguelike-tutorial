@@ -30,7 +30,10 @@ namespace CSharpRogueTutorial
         public enum AI { None, Player, BasicMonster, ConfusedMonster };
         public enum Death { PlayerDeath, GenericDeath };
         public enum GameState { Playing, Dead };
-        public enum UseFunctions { None, HealingPotion, Fireball }
+        public enum UseFunctions { None, HealingPotion, Fireball };
+
+        public enum Items { Nothing, HealingPotion, Fireball };
+        public enum Monsters { Orc, Troll };
 
         public static int[] Angles = { 0, 45, 90, 135, 180, 225, 270, 315 };
 
@@ -58,6 +61,9 @@ namespace CSharpRogueTutorial
             public const int UpCross = (char)0xE108;
             public const int RightCross = (char)0xE106;
             public const int LeftCross = (char)0xE107;
+
+            public const int LeftEnd = (char)0xE10A;
+            public const int RightEnd = (char)0xE10B;
 
             public const int Empty = (char)0xE110;
         }

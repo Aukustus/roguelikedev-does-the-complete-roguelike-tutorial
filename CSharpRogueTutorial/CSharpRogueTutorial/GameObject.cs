@@ -278,6 +278,7 @@ namespace CSharpRogueTutorial
         internal GameObject Clone()
         {
             IFormatter formatter = new BinaryFormatter();
+
             using (Stream stream = new MemoryStream())
             {
                 formatter.Serialize(stream, this);

@@ -55,7 +55,7 @@ namespace RogueTutorial
 
             GameWorld.Player.Fighter = new Fighter(GameWorld.Player, 24, 6, 4, 0, Constants.AI.Player, Constants.Death.PlayerDeath);
 
-            GameWorld.Map = MapMethods.MakeMap(true);
+            MapMethods.MakeMap(true);
 
             GameWorld.State = Constants.GameState.Playing;
         }
