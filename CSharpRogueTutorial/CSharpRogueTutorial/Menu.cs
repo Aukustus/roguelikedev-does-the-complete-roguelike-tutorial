@@ -36,7 +36,22 @@ namespace CSharpRogueTutorial
 
                 foreach (GameObject option in options)
                 {
-                    Terminal.Print(5, y, "( ) " + option.Name + " (x" + option.Item.Count.ToString() + ")");
+                    if (option.Item.Equipment != null)
+                    {
+                        if (option.Item.Equipment.IsEquipped)
+                        {
+                            Terminal.Print(5, y, "( ) " + option.Name + " (Equipped)");
+                        }
+                        else
+                        {
+                            Terminal.Print(5, y, "( ) " + option.Name);
+                        }
+                        
+                    }
+                    else
+                    {
+                        Terminal.Print(5, y, "( ) " + option.Name + " (x" + option.Item.Count.ToString() + ")");
+                    }
 
                     y += 1;
                 }

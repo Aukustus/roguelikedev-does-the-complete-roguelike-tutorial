@@ -9,7 +9,30 @@ namespace CSharpRogueTutorial
     {
         public int HP;
         public int Max_HP;
-        public int Attack;
+
+        private int attack;
+        public int Attack
+        {
+            get
+            {
+                int bonus = 0;
+
+                foreach (GameObject item in Inventory)
+                {
+                    if (item.Item.Equipment != null && item.Item.Equipment.IsEquipped)
+                    {
+                        bonus += item.Item.Equipment.AttackBonus;
+                    }
+                }
+
+                return attack + bonus;
+            }
+            set
+            {
+
+            }
+        }
+
         public int Defense;
         public int XP;
 
@@ -34,7 +57,7 @@ namespace CSharpRogueTutorial
             Owner = owner;
             HP = hp;
             Max_HP = hp;
-            Attack = attack;
+            this.attack = attack;
             Defense = defense;
             XP = xp;
             AI = new AI(ai);

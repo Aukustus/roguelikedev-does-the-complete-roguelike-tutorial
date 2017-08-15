@@ -83,7 +83,14 @@ namespace RogueTutorial
                     {
                         File.SaveGame();
                     }
-                    
+                    if (GameWorld.State == Constants.GameState.Playing && action == Constants.PlayerAction.ExitWithoutSave)
+                    {
+                        if (System.IO.File.Exists("World.bin"))
+                        {
+                            System.IO.File.Delete("World.bin");
+                        }
+                    }
+
                     MainMenu();
                     break;
                 }
@@ -114,12 +121,12 @@ namespace RogueTutorial
             }
             else if (choice == 1)
             {
-                try
+                if (System.IO.File.Exists("World.bin"))
                 {
                     LoadGame();
                     MainLoop();
                 }
-                catch
+                else
                 {
                     MainMenu();
                 }

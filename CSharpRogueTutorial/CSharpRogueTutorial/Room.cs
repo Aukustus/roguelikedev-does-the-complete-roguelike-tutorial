@@ -26,9 +26,10 @@ namespace CSharpRogueTutorial
             MonsterChances.Add(Constants.Monsters.Troll, FromDungeonLevel(new List<Tuple<int, int>> { new Tuple<int, int>(15, 3) }));
 
             ItemChances = new Dictionary<Constants.Items, int>();
-            ItemChances.Add(Constants.Items.Nothing, 40);
+            ItemChances.Add(Constants.Items.Nothing, 30);
             ItemChances.Add(Constants.Items.HealingPotion, 40);
             ItemChances.Add(Constants.Items.Fireball, 20);
+            ItemChances.Add(Constants.Items.Sword, 10);
         }
 
         private static int RandomChoiceIndex(Random rand, int[] chances)
@@ -118,6 +119,12 @@ namespace CSharpRogueTutorial
             {
                 item = new GameObject("Scroll of Fireball", Constants.Tiles.ScrollTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
                 item.Item = new Item(item, 1, Constants.UseFunctions.Fireball);
+            }
+            else if (choice == Constants.Items.Sword)
+            {
+                item = new GameObject("Sword", Constants.Tiles.SwordTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
+                item.Item = new Item(item, 1, Constants.UseFunctions.Equip);
+                item.Item.Equipment = new Equipment(item.Item, Constants.Slots.MainHand, 2);
             }
             else if (choice == Constants.Items.HealingPotion)
             {

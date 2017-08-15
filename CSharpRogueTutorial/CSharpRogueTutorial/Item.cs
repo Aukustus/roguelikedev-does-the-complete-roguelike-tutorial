@@ -8,6 +8,8 @@ namespace CSharpRogueTutorial
     class Item
     {
         public GameObject Owner;
+        public Equipment Equipment = null;
+
         public int Count;
         public Constants.UseFunctions UseMethod;
 
@@ -63,12 +65,15 @@ namespace CSharpRogueTutorial
 
             Rogue.GameWorld.Objects.Remove(Owner);
 
-            foreach (GameObject existingItem in user.Fighter.Inventory)
+            if (Equipment == null)
             {
-                if (existingItem.Name == Owner.Name)
+                foreach (GameObject existingItem in user.Fighter.Inventory)
                 {
-                    existingItem.Item.Count += Count;
-                    return;
+                    if (existingItem.Name == Owner.Name)
+                    {
+                        existingItem.Item.Count += Count;
+                        return;
+                    }
                 }
             }
 
@@ -87,7 +92,25 @@ namespace CSharpRogueTutorial
                 {
                     GameObject selectedItem = Rogue.GameWorld.Player.Fighter.Inventory[selected.Value];
 
-                    if (selectedItem.Item.UseMethod != Constants.UseFunctions.None)
+                    if (selectedItem.Item.UseMethod == Constants.UseFunctions.Equip)
+                    {
+                        int? itemAction = Menu.ItemMenu(selectedItem.Name, new List<string> { "Equip/Unequip", "Drop" }, "Return");
+
+                        if (itemAction == 0)
+                        {
+                            selectedItem.Item.Equipment.EquipToggle(Rogue.GameWorld.Player);
+                            actionTaken = Constants.PlayerAction.UsedTurn;
+                            break;
+                        }
+                        if (itemAction == 1)
+                        {
+                            selectedItem.Item.Drop(Rogue.GameWorld.Player);
+                            actionTaken = Constants.PlayerAction.UsedTurn;
+                            break;
+                        }
+
+                    }
+                    else if (selectedItem.Item.UseMethod != Constants.UseFunctions.None)
                     {
                         int? itemAction = Menu.ItemMenu(selectedItem.Name, new List<string> { "Use", "Throw", "Drop" }, "Return");
 
@@ -96,7 +119,6 @@ namespace CSharpRogueTutorial
                             selectedItem.Item.Use(Rogue.GameWorld.Player);
                             actionTaken = Constants.PlayerAction.UsedTurn;
                             break;
-
                         }
                         if (itemAction == 1)
                         {
@@ -119,6 +141,19 @@ namespace CSharpRogueTutorial
             }
 
             return actionTaken;
+        }
+
+        public static GameObject GetEquippedInSlot(GameObject user, Constants.Slots slot)
+        {
+            foreach (GameObject item in user.Fighter.Inventory)
+            {
+                if (item.Item.Equipment != null && item.Item.Equipment.IsEquipped && item.Item.Equipment.Slot == slot)
+                {
+                    return item;
+                }
+            }
+
+            return null;
         }
     }
 }

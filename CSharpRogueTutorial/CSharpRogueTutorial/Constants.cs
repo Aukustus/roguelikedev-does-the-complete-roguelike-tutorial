@@ -30,10 +30,12 @@ namespace CSharpRogueTutorial
         public enum AI { None, Player, BasicMonster, ConfusedMonster };
         public enum Death { PlayerDeath, GenericDeath };
         public enum GameState { Playing, Dead };
-        public enum UseFunctions { None, HealingPotion, Fireball };
+        public enum UseFunctions { None, HealingPotion, Fireball, Equip };
 
-        public enum Items { Nothing, HealingPotion, Fireball };
+        public enum Items { Nothing, HealingPotion, Fireball, Sword };
         public enum Monsters { Orc, Troll };
+
+        public enum Slots { MainHand }
 
         public static int[] Angles = { 0, 45, 90, 135, 180, 225, 270, 315 };
 
@@ -84,6 +86,7 @@ namespace CSharpRogueTutorial
             public static char HealingPotionTile = (char)PUA[18];
             public static char ScrollTile = (char)PUA[19];
             public static char FireballTile = (char)PUA[24];
+            public static char SwordTile = (char)PUA[20];
         }
     }
 }

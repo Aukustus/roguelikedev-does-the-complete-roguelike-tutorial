@@ -25,6 +25,7 @@ namespace CSharpRogueTutorial
 
         public Fighter Fighter = null;
         public Item Item = null;
+
         public bool Spell = false;
 
         public bool Downstairs = false;
