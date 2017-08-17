@@ -11,15 +11,17 @@ namespace CSharpRogueTutorial
         private static void ClearMainRectangle()
         {
             Terminal.Layer(Constants.Layers["Map"]);
-            Terminal.ClearArea(1, 1, 64, 40);
+            Terminal.ClearArea(1, 1, 62, 37);
             Terminal.Layer(Constants.Layers["MapFeatures"]);
-            Terminal.ClearArea(1, 1, 64, 40);
+            Terminal.ClearArea(1, 1, 62, 37);
             Terminal.Layer(Constants.Layers["Player"]);
-            Terminal.ClearArea(1, 1, 64, 40);
+            Terminal.ClearArea(1, 1, 62, 37);
             Terminal.Layer(Constants.Layers["Monsters"]);
-            Terminal.ClearArea(1, 1, 64, 40);
+            Terminal.ClearArea(1, 1, 62, 37);
             Terminal.Layer(Constants.Layers["Items"]);
-            Terminal.ClearArea(1, 1, 64, 40);
+            Terminal.ClearArea(1, 1, 62, 37);
+            Terminal.Layer(Constants.Layers["Messages"]);
+            Terminal.ClearArea(1, 1, 62, 37);
         }
 
         public static int? Inventory(string header, List<GameObject> options, string exitText)
