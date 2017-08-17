@@ -10,7 +10,6 @@ namespace CSharpRogueTutorial
         public const int MapWidth = 100;
         public const int MapHeight = 35;
 
-        public const int TorchRadius = 3;
         public const int CameraWidth = 15;
         public const int CameraHeight = 8;
 

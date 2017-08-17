@@ -9,7 +9,7 @@ namespace CSharpRogueTutorial
         {
             int angle = Rogue.GameWorld.Player.Fighter.Direction;
 
-            for (int i = angle - 45; i < angle + 46; i += Constants.FoVSteps)
+            for (int i = angle - 45; i < angle + 45 + 1; i += Constants.FoVSteps)
             {
                 double ax = Constants.PreCalcSin[i];
                 double ay = Constants.PreCalcCos[i];
@@ -19,7 +19,7 @@ namespace CSharpRogueTutorial
 
                 Rogue.GameWorld.Map.Tiles[(int)x, (int)y].Explored = true;
 
-                for (int j = 0; j < Constants.TorchRadius; j++)
+                for (int j = 0; j < Rogue.GameWorld.Player.Fighter.Sight; j++)
                 {
                     x -= ax;
                     y -= ay;
@@ -48,7 +48,7 @@ namespace CSharpRogueTutorial
 
             int angle = owner.Fighter.Direction;
 
-            for (int i = angle - 45; i < angle + 46; i += Constants.FoVSteps)
+            for (int i = angle - 45; i < angle + 45 + 1; i += Constants.FoVSteps)
             {
                 double ax = Constants.PreCalcSin[i];
                 double ay = Constants.PreCalcCos[i];
@@ -56,7 +56,7 @@ namespace CSharpRogueTutorial
                 double x = sourceX;
                 double y = sourceY;
 
-                for (int j = 0; j < Constants.TorchRadius; j++)
+                for (int j = 0; j < owner.Fighter.Sight; j++)
                 {
                     x -= ax;
                     y -= ay;

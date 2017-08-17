@@ -14,7 +14,7 @@ namespace CSharpRogueTutorial
         public static GameObject ClosestMonster(GameObject owner)
         {
             GameObject closestObject = null;
-            int closestDist = Constants.TorchRadius;
+            int closestDist = owner.Fighter.Sight;
 
             foreach (GameObject obj in Rogue.GameWorld.Objects)
             {

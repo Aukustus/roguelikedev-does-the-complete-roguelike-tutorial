@@ -50,6 +50,8 @@ namespace CSharpRogueTutorial
 
         public int Level = 1;
 
+        public int Sight = 3;
+
         public GameObject Owner;
 
         public Fighter(GameObject owner, int hp, int attack, int defense, int xp, Constants.AI ai, Constants.Death death)
