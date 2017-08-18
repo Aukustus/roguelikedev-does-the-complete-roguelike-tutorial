@@ -21,6 +21,30 @@ namespace CSharpRogueTutorial
     {
         public static Random rand = new Random();          
 
+        public static void MakeFixedMap(List<string> map)
+        {
+            Rogue.GameWorld.Map = new GameMap(true);
+
+            Rogue.GameWorld.Objects = new List<GameObject>();
+            Rogue.GameWorld.Objects.Add(Rogue.GameWorld.Player);
+
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 35; j++)
+                {
+                    if (map.ElementAt(j)[i] == '.')
+                    {
+                        Rogue.GameWorld.Map.Tiles[i, j].Blocked = false;
+                    }
+                }
+            }
+
+            Rogue.GameWorld.Player.X = 11;
+            Rogue.GameWorld.Player.Y = 6;
+
+            Camera.SetCamera();
+        }
+
         public static void MakeMap(bool downDirection)
         {
             Rogue.GameWorld.Map = new GameMap(true);
@@ -37,8 +61,8 @@ namespace CSharpRogueTutorial
                 int width = rand.Next(4, 7);
                 int height = rand.Next(4, 7);
 
-                int x = rand.Next(0 + 10, Constants.MapWidth - width - 1 - 10);
-                int y = rand.Next(0 + 10, Constants.MapHeight - height - 1 - 10);
+                int x = rand.Next(10, Constants.MapWidth - width - 1 - 10);
+                int y = rand.Next(5, Constants.MapHeight - height - 1 - 5);
 
                 Room newRoom = new Room(x, y, width, height);
 
@@ -113,40 +137,41 @@ namespace CSharpRogueTutorial
             Camera.SetCamera();
         }
 
-        public static GameMap MakeMaze()
+        public static void MakeMaze()
         {
-            GameMap map = new GameMap(true);
+            Rogue.GameWorld.Map = new GameMap(true);
+
+            Rogue.GameWorld.Objects = new List<GameObject>();
+            Rogue.GameWorld.Objects.Add(Rogue.GameWorld.Player);
 
             for (int x = 10; x < Constants.MapWidth - 1 - 10; x++)
             {
-                for (int y = 10; y < Constants.MapHeight - 1 - 10; y++)
+                for (int y = 5; y < Constants.MapHeight - 1 - 5; y++)
                 {
-                    if (x % 2 != 0 && y % 2 != 0)
+                    if (x % 2 != 0 && y % 2 == 0)
                     {
-                        map.Tiles[x, y] = new Tile(false);
+                        Rogue.GameWorld.Map.Tiles[x, y] = new Tile(false);
                     }
                 }
             }
 
-            CarveMaze(1, 1, ref map.Tiles);
+            CarveMaze(11, 6, ref Rogue.GameWorld.Map.Tiles);
 
             Rogue.GameWorld.Player.X = 11;
-            Rogue.GameWorld.Player.Y = 11;
+            Rogue.GameWorld.Player.Y = 6;
 
             Camera.SetCamera();
 
-            CreateBorders(ref map.Tiles);
-
-            return map;
+            CreateBorders(ref Rogue.GameWorld.Map.Tiles);
         }
 
         public static void CreateBorders(ref Tile[,] tiles)
         {
             for (int x = 10; x < Constants.MapWidth - 1 - 10; x++)
             {
-                tiles[x, 10].Blocked = true;
+                tiles[x, 5].Blocked = true;
             }
-            for (int y = 10; y < Constants.MapHeight - 1 - 10; y++)
+            for (int y = 5; y < Constants.MapHeight - 1 - 5; y++)
             {
                 tiles[10, y].Blocked = true;
             }
@@ -173,8 +198,8 @@ namespace CSharpRogueTutorial
 
             if (x - 2 >= 10) neighbours.Add(new Coordinate(x - 2, y));
             if (x + 2 <= Constants.MapWidth - 2 - 10) neighbours.Add(new Coordinate(x + 2, y));
-            if (y - 2 >= 10) neighbours.Add(new Coordinate(x, y - 2));
-            if (y + 2 <= Constants.MapHeight - 2 - 10) neighbours.Add(new Coordinate(x, y + 2));
+            if (y - 2 >= 5) neighbours.Add(new Coordinate(x, y - 2));
+            if (y + 2 <= Constants.MapHeight - 2 - 5) neighbours.Add(new Coordinate(x, y + 2));
 
             return neighbours.OrderBy(a => rand.Next()).ToList();
         }

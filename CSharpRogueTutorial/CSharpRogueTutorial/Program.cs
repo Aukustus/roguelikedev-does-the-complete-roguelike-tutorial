@@ -48,14 +48,12 @@ namespace RogueTutorial
         {
             GameWorld = new World();
 
-            GameWorld.Objects = new List<GameObject>();
-            GameWorld.MessageLog = new MessageLog();
             GameWorld.Player = new GameObject("Player", Constants.Tiles.PlayerTile, 0, 0);
             GameWorld.Objects.Add(GameWorld.Player);
 
             GameWorld.Player.Fighter = new Fighter(GameWorld.Player, 24, 6, 4, 0, Constants.AI.Player, Constants.Death.PlayerDeath);
 
-            MapMethods.MakeMap(true);
+            MapMethods.MakeMaze();
 
             GameWorld.State = Constants.GameState.Playing;
         }

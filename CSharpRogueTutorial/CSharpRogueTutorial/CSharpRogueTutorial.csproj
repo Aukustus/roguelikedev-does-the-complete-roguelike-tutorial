@@ -59,10 +59,12 @@
     <Compile Include="Equipment.cs" />
     <Compile Include="Fighter.cs" />
     <Compile Include="File.cs" />
+    <Compile Include="FixedMaps.cs" />
     <Compile Include="FoV.cs" />
     <Compile Include="GameMap.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="LevelMemory.cs" />
     <Compile Include="MapMethods.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MessageLog.cs" />

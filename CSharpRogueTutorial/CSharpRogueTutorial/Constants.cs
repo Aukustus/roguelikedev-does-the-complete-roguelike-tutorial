@@ -31,6 +31,8 @@ namespace CSharpRogueTutorial
         public enum GameState { Playing, Dead };
         public enum UseFunctions { None, HealingPotion, Fireball, Equip };
 
+        public enum Direction { Up, Down };
+
         public enum Items { Nothing, HealingPotion, Fireball, Sword };
         public enum Monsters { Orc, Troll };
 
