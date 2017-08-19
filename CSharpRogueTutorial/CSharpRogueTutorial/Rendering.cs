@@ -18,22 +18,22 @@ namespace CSharpRogueTutorial
                         Terminal.Color(Terminal.ColorFromName("white"));
                         if (GameMap.MapBlocked(x, y))
                         {
-                            DrawMapTile(x, y, Constants.Tiles.WallTile, "white");
+                            DrawMapTile(x, y, Constants.Tiles.Terrain.WallTile, "white");
                         }
                         else
                         {
-                            DrawMapTile(x, y, Constants.Tiles.FloorTile, "white");
+                            DrawMapTile(x, y, Constants.Tiles.Terrain.FloorTile, "white");
                         }
                     }
                     else if (GameMap.MapExplored(x, y))
                     {
                         if (GameMap.MapBlocked(x, y))
                         {
-                            DrawMapTile(x, y, Constants.Tiles.WallTile, "grey");
+                            DrawMapTile(x, y, Constants.Tiles.Terrain.WallTile, "grey");
                         }
                         else
                         {
-                            DrawMapTile(x, y, Constants.Tiles.FloorTile, "grey");
+                            DrawMapTile(x, y, Constants.Tiles.Terrain.FloorTile, "grey");
                         }
                     }
                 }

@@ -91,12 +91,12 @@ namespace CSharpRogueTutorial
 
                 if (choice == Constants.Monsters.Orc)
                 {
-                    monster = new GameObject("Orc", Constants.Tiles.OrcTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
+                    monster = new GameObject("Orc", Constants.Tiles.Enemy.OrcTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
                     monster.Fighter = new Fighter(monster, 8, 5, 2, 2, Constants.AI.BasicMonster, Constants.Death.GenericDeath);
                 }
                 else if (choice == Constants.Monsters.Troll)
                 {
-                    monster = new GameObject("Troll", Constants.Tiles.TrollTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
+                    monster = new GameObject("Troll", Constants.Tiles.Enemy.TrollTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
                     monster.Fighter = new Fighter(monster, 10, 6, 3, 3, Constants.AI.BasicMonster, Constants.Death.GenericDeath);
                 }
 
@@ -117,18 +117,18 @@ namespace CSharpRogueTutorial
 
             if (choice == Constants.Items.Fireball)
             {
-                item = new GameObject("Scroll of Fireball", Constants.Tiles.ScrollTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
+                item = new GameObject("Scroll of Fireball", Constants.Tiles.Item.ScrollTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
                 item.Item = new Item(item, 1, Constants.UseFunctions.Fireball);
             }
             else if (choice == Constants.Items.Sword)
             {
-                item = new GameObject("Sword", Constants.Tiles.SwordTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
+                item = new GameObject("Sword", Constants.Tiles.Item.SwordTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
                 item.Item = new Item(item, 1, Constants.UseFunctions.Equip);
                 item.Item.Equipment = new Equipment(item.Item, Constants.Slots.MainHand, 2);
             }
             else if (choice == Constants.Items.HealingPotion)
             {
-                item = new GameObject("Healing Potion", Constants.Tiles.HealingPotionTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
+                item = new GameObject("Healing Potion", Constants.Tiles.Item.HealingPotionTile, center.X + rand.Next(-1, 2), center.Y + rand.Next(-1, 2));
                 item.Item = new Item(item, 1, Constants.UseFunctions.HealingPotion);
             }
 

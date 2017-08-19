@@ -81,14 +81,14 @@ namespace CSharpRogueTutorial
 
                         if (direction == Constants.Direction.Down)
                         {
-                            GameObject up = new GameObject("Upstairs", Constants.Tiles.UpTile, newCenter.X, newCenter.Y, false);
+                            GameObject up = new GameObject("Upstairs", Constants.Tiles.Terrain.UpTile, newCenter.X, newCenter.Y, false);
                             up.Upstairs = true;
                             up.AlwaysVisible = true;
                             Rogue.GameWorld.Objects.Add(up);
                         }
                         else
                         {
-                            GameObject down = new GameObject("Downstairs", Constants.Tiles.DownTile, newCenter.X, newCenter.Y, false);
+                            GameObject down = new GameObject("Downstairs", Constants.Tiles.Terrain.DownTile, newCenter.X, newCenter.Y, false);
                             down.Downstairs = true;
                             down.AlwaysVisible = true;
                             Rogue.GameWorld.Objects.Add(down);
@@ -122,14 +122,14 @@ namespace CSharpRogueTutorial
 
             if (direction == Constants.Direction.Down)
             {
-                GameObject downstairs = new GameObject("Downstairs", Constants.Tiles.DownTile, lastRoom.Center().X, lastRoom.Center().Y, false);
+                GameObject downstairs = new GameObject("Downstairs", Constants.Tiles.Terrain.DownTile, lastRoom.Center().X, lastRoom.Center().Y, false);
                 downstairs.Downstairs = true;
                 downstairs.AlwaysVisible = true;
                 Rogue.GameWorld.Objects.Add(downstairs);
             }
             else
             {
-                GameObject upstairs = new GameObject("Upstairs", Constants.Tiles.UpTile, lastRoom.Center().X, lastRoom.Center().Y, false);
+                GameObject upstairs = new GameObject("Upstairs", Constants.Tiles.Terrain.UpTile, lastRoom.Center().X, lastRoom.Center().Y, false);
                 upstairs.Upstairs = true;
                 upstairs.AlwaysVisible = true;
                 Rogue.GameWorld.Objects.Add(upstairs);

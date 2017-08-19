@@ -13,8 +13,12 @@ namespace RogueTutorial
         {
             Terminal.Open();
             Terminal.Set("window: size=" + Constants.ScreenWidth.ToString() + "x" + Constants.ScreenHeight.ToString() + "; font: MainFont.png, size=16x16; input.filter={keyboard, mouse}");
-            Terminal.Set("0xE000: Tileset.png, size=64x64");
+            Terminal.Set("0xE000: PlayerTileset.png, size=64x64");
             Terminal.Set("0xE100: UI.png, size=16x16");
+            Terminal.Set("0xE200: TerrainTileset.png, size=64x64");
+            Terminal.Set("0xE300: ItemTileset.png, size=64x64");
+            Terminal.Set("0xE400: EnemyTileset.png, size=64x64");
+            Terminal.Set("0xE600: EffectTileset.png, size=64x64");
 
             PreCalcFov();
             AddLayers();
@@ -48,7 +52,7 @@ namespace RogueTutorial
         {
             GameWorld = new World();
 
-            GameWorld.Player = new GameObject("Player", Constants.Tiles.PlayerTile, 0, 0);
+            GameWorld.Player = new GameObject("Player", Constants.Tiles.Player.PlayerTile, 0, 0);
             GameWorld.Objects.Add(GameWorld.Player);
 
             GameWorld.Player.Fighter = new Fighter(GameWorld.Player, 24, 6, 4, 0, Constants.AI.Player, Constants.Death.PlayerDeath);

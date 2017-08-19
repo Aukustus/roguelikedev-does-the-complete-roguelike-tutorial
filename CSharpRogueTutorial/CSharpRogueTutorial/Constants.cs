@@ -73,21 +73,38 @@ namespace CSharpRogueTutorial
 
         public struct Tiles
         {
-            public static char WallTile = (char)PUA[0];
-            public static char FloorTile = (char)PUA[1];
-            public static char DownTile = (char)PUA[2];
-            public static char UpTile = (char)PUA[3];
+            public struct Player
+            {
+                public static char PlayerTile = (char)0xE000;
 
-            public static char PlayerTile = (char)PUA[6];
+            }
 
-            public static char OrcTile = (char)PUA[12];
-            public static char TrollTile = (char)PUA[13];
-            public static char CorpseTile = (char)PUA[14];
+            public struct Terrain
+            {
+                public static char WallTile = (char)0xE200;
+                public static char FloorTile = (char)0xE201;
+                public static char DownTile = (char)0xE202;
+                public static char UpTile = (char)0xE203;
+            }
 
-            public static char HealingPotionTile = (char)PUA[18];
-            public static char ScrollTile = (char)PUA[19];
-            public static char FireballTile = (char)PUA[24];
-            public static char SwordTile = (char)PUA[20];
+            public struct Enemy
+            {
+                public static char OrcTile = (char)0xE400;
+                public static char TrollTile = (char)0xE401;
+                public static char CorpseTile = (char)0xE402;
+            }
+
+            public struct Item
+            {
+                public static char HealingPotionTile = (char)0xE300;
+                public static char ScrollTile = (char)0xE301;
+                public static char SwordTile = (char)0xE302;
+            }
+
+            public struct Effect
+            {
+                public static char FireballTile = (char)0xE600;
+            }
         }
     }
 }

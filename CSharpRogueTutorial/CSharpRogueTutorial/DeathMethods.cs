@@ -6,7 +6,7 @@ namespace CSharpRogueTutorial
     {
         public static void PlayerDeath(GameObject owner)
         {
-            owner.Tile = Constants.Tiles.CorpseTile;
+            owner.Tile = Constants.Tiles.Enemy.CorpseTile;
             owner.Name = "Remains of " + owner.Name;
             Rogue.GameWorld.State = Constants.GameState.Dead;
         }
@@ -18,7 +18,7 @@ namespace CSharpRogueTutorial
             owner.AlwaysVisible = true;
             owner.SendToBack();
             owner.Name = "Remains of " + owner.Name;
-            owner.Tile = Constants.Tiles.CorpseTile;
+            owner.Tile = Constants.Tiles.Enemy.CorpseTile;
         }
     }
 }
