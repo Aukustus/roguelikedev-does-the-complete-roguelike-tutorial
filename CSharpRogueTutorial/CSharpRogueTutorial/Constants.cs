@@ -44,13 +44,6 @@ namespace CSharpRogueTutorial
 
         public static Dictionary<string, int> Layers = new Dictionary<string, int>();
 
-        public static int[] PUA = { 0xE000, 0xE001, 0xE002, 0xE003, 0xE004, 0xE005,
-                                    0xE006, 0xE007, 0xE008, 0xE009, 0xE00A, 0xE00B,
-                                    0xE00C, 0xE00D, 0xE00E, 0xE00F, 0xE010, 0xE011,
-                                    0xE012, 0xE013, 0xE014, 0xE015, 0xE016, 0xE017,
-                                    0xE018, 0xE019, 0xE01A, 0xE01B, 0xE01C, 0xE01D,
-                                    0xE01E, 0xE01F, 0xE020, 0xE021, 0xE022, 0xE023 };
-
         public struct Symbols
         {
             public const int VerticalBar = (char)0xE104;
@@ -71,20 +64,29 @@ namespace CSharpRogueTutorial
             public const int Empty = (char)0xE110;
         }
 
+        public enum Terrain
+        {
+            TileWall,
+            TileFloor
+        }
+
         public struct Tiles
         {
             public struct Player
             {
                 public static char PlayerTile = (char)0xE000;
-
             }
 
             public struct Terrain
             {
                 public static char WallTile = (char)0xE200;
                 public static char FloorTile = (char)0xE201;
-                public static char DownTile = (char)0xE202;
-                public static char UpTile = (char)0xE203;
+            }
+
+            public struct Object
+            {
+                public static char DownTile = (char)0xE500;
+                public static char UpTile = (char)0xE501;
             }
 
             public struct Enemy

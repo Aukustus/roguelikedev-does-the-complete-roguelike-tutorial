@@ -15,23 +15,22 @@ namespace CSharpRogueTutorial
                 {
                     if (FoV.InFov(Rogue.GameWorld.Player.X, Rogue.GameWorld.Player.Y, x, y, Rogue.GameWorld.Player))
                     {
-                        Terminal.Color(Terminal.ColorFromName("white"));
-                        if (GameMap.MapBlocked(x, y))
+                        if (GameMap.IsTerrain(x, y, Constants.Terrain.TileWall))
                         {
                             DrawMapTile(x, y, Constants.Tiles.Terrain.WallTile, "white");
                         }
-                        else
+                        else if (GameMap.IsTerrain(x, y, Constants.Terrain.TileFloor))
                         {
                             DrawMapTile(x, y, Constants.Tiles.Terrain.FloorTile, "white");
                         }
                     }
                     else if (GameMap.MapExplored(x, y))
                     {
-                        if (GameMap.MapBlocked(x, y))
+                        if (GameMap.IsTerrain(x, y, Constants.Terrain.TileWall))
                         {
                             DrawMapTile(x, y, Constants.Tiles.Terrain.WallTile, "grey");
                         }
-                        else
+                        else if (GameMap.IsTerrain(x, y, Constants.Terrain.TileFloor))
                         {
                             DrawMapTile(x, y, Constants.Tiles.Terrain.FloorTile, "grey");
                         }
@@ -53,7 +52,6 @@ namespace CSharpRogueTutorial
             int offsetY = -40 - Rogue.GameWorld.Player.OffsetY;
 
             Terminal.PutExt(drawX, drawY, offsetX, offsetY, tile);
-            Terminal.Color(Terminal.ColorFromName("white"));
         }
 
         private static void DrawObjects(GameObject skip)

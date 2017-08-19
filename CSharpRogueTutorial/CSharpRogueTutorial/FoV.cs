@@ -31,7 +31,7 @@ namespace CSharpRogueTutorial
 
                     Rogue.GameWorld.Map.Tiles[(int)Math.Round(x), (int)Math.Round(y)].Explored = true;
 
-                    if (Rogue.GameWorld.Map.Tiles[(int)Math.Round(x), (int)Math.Round(y)].Blocked)
+                    if (Rogue.GameWorld.Map.Tiles[(int)Math.Round(x), (int)Math.Round(y)].BlocksSight)
                     {
                         break;
                     }
@@ -71,7 +71,7 @@ namespace CSharpRogueTutorial
                         return true;
                     }
 
-                    if (Rogue.GameWorld.Map.Tiles[(int)Math.Round(x), (int)Math.Round(y)].Blocked)
+                    if (Rogue.GameWorld.Map.Tiles[(int)Math.Round(x), (int)Math.Round(y)].BlocksSight)
                     {
                         break;
                     }

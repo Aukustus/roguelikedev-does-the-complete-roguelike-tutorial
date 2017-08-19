@@ -73,6 +73,8 @@ namespace CSharpRogueTutorial
 
         private static void DrawStats()
         {
+            Terminal.Color(Terminal.ColorFromName("white"));
+
             Terminal.Layer(Constants.Layers["Messages"]);
 
             Terminal.Print(63, 2, "Health: " + Rogue.GameWorld.Player.Fighter.HP + "/" + Rogue.GameWorld.Player.Fighter.Max_HP);
@@ -97,12 +99,12 @@ namespace CSharpRogueTutorial
 
                 y += 1;
             }
-
-            Terminal.Color(Terminal.ColorFromName("white"));
         }
 
         private static void MouseHoverLook()
         {
+            Terminal.Color(Terminal.ColorFromName("white"));
+
             Terminal.Layer(Constants.Layers["Messages"]);
 
             int mouseX = Terminal.State(Terminal.TK_MOUSE_X) - 1;

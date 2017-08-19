@@ -18,6 +18,7 @@ namespace RogueTutorial
             Terminal.Set("0xE200: TerrainTileset.png, size=64x64");
             Terminal.Set("0xE300: ItemTileset.png, size=64x64");
             Terminal.Set("0xE400: EnemyTileset.png, size=64x64");
+            Terminal.Set("0xE500: ObjectTileset.png, size=64x64");
             Terminal.Set("0xE600: EffectTileset.png, size=64x64");
 
             PreCalcFov();
@@ -57,7 +58,8 @@ namespace RogueTutorial
 
             GameWorld.Player.Fighter = new Fighter(GameWorld.Player, 24, 6, 4, 0, Constants.AI.Player, Constants.Death.PlayerDeath);
 
-            MapMethods.MakeMap(Constants.Direction.Down);
+            //MapMethods.MakeMap(Constants.Direction.Down);
+            MapMethods.MakeMaze();
 
             GameWorld.State = Constants.GameState.Playing;
         }

@@ -24,7 +24,7 @@ namespace CSharpRogueTutorial
 
         public static void MakeFixedMap(List<string> map)
         {
-            Rogue.GameWorld.Map = new GameMap(true);
+            Rogue.GameWorld.Map = new GameMap();
 
             Rogue.GameWorld.Objects = new List<GameObject>();
             Rogue.GameWorld.Objects.Add(Rogue.GameWorld.Player);
@@ -33,9 +33,10 @@ namespace CSharpRogueTutorial
             {
                 for (int j = 0; j < 35; j++)
                 {
-                    if (map.ElementAt(j)[i] == '.')
+                    if (map[j][i] == '.')
                     {
                         Rogue.GameWorld.Map.Tiles[i, j].Blocked = false;
+                        Rogue.GameWorld.Map.Tiles[i, j].BlocksSight = false;
                     }
                 }
             }
@@ -48,7 +49,7 @@ namespace CSharpRogueTutorial
 
         public static void MakeMap(Constants.Direction direction)
         {
-            Rogue.GameWorld.Map = new GameMap(true);
+            Rogue.GameWorld.Map = new GameMap();
 
             Rogue.GameWorld.Objects = new List<GameObject>();
             Rogue.GameWorld.Objects.Add(Rogue.GameWorld.Player);
@@ -81,14 +82,14 @@ namespace CSharpRogueTutorial
 
                         if (direction == Constants.Direction.Down)
                         {
-                            GameObject up = new GameObject("Upstairs", Constants.Tiles.Terrain.UpTile, newCenter.X, newCenter.Y, false);
+                            GameObject up = new GameObject("Upstairs", Constants.Tiles.Object.UpTile, newCenter.X, newCenter.Y, false);
                             up.Upstairs = true;
                             up.AlwaysVisible = true;
                             Rogue.GameWorld.Objects.Add(up);
                         }
                         else
                         {
-                            GameObject down = new GameObject("Downstairs", Constants.Tiles.Terrain.DownTile, newCenter.X, newCenter.Y, false);
+                            GameObject down = new GameObject("Downstairs", Constants.Tiles.Object.DownTile, newCenter.X, newCenter.Y, false);
                             down.Downstairs = true;
                             down.AlwaysVisible = true;
                             Rogue.GameWorld.Objects.Add(down);
@@ -122,25 +123,27 @@ namespace CSharpRogueTutorial
 
             if (direction == Constants.Direction.Down)
             {
-                GameObject downstairs = new GameObject("Downstairs", Constants.Tiles.Terrain.DownTile, lastRoom.Center().X, lastRoom.Center().Y, false);
+                GameObject downstairs = new GameObject("Downstairs", Constants.Tiles.Object.DownTile, lastRoom.Center().X, lastRoom.Center().Y, false);
                 downstairs.Downstairs = true;
                 downstairs.AlwaysVisible = true;
                 Rogue.GameWorld.Objects.Add(downstairs);
             }
             else
             {
-                GameObject upstairs = new GameObject("Upstairs", Constants.Tiles.Terrain.UpTile, lastRoom.Center().X, lastRoom.Center().Y, false);
+                GameObject upstairs = new GameObject("Upstairs", Constants.Tiles.Object.UpTile, lastRoom.Center().X, lastRoom.Center().Y, false);
                 upstairs.Upstairs = true;
                 upstairs.AlwaysVisible = true;
                 Rogue.GameWorld.Objects.Add(upstairs);
             }
 
             Camera.SetCamera();
+
+            SetTerrain(Constants.Terrain.TileWall, Constants.Terrain.TileFloor);
         }
 
         public static void MakeMaze()
         {
-            Rogue.GameWorld.Map = new GameMap(true);
+            Rogue.GameWorld.Map = new GameMap();
 
             Rogue.GameWorld.Objects = new List<GameObject>();
             Rogue.GameWorld.Objects.Add(Rogue.GameWorld.Player);
@@ -151,7 +154,7 @@ namespace CSharpRogueTutorial
                 {
                     if (x % 2 != 0 && y % 2 == 0)
                     {
-                        Rogue.GameWorld.Map.Tiles[x, y] = new Tile(false);
+                        Rogue.GameWorld.Map.Tiles[x, y] = new Tile(false, false);
                     }
                 }
             }
@@ -164,21 +167,43 @@ namespace CSharpRogueTutorial
             Camera.SetCamera();
 
             CreateBorders(ref Rogue.GameWorld.Map.Tiles);
+
+            SetTerrain(Constants.Terrain.TileWall, Constants.Terrain.TileFloor);
         }
 
-        public static void CreateBorders(ref Tile[,] tiles)
+        private static void SetTerrain(Constants.Terrain wall, Constants.Terrain floor)
+        {
+            for (int x = 0; x < Constants.MapWidth - 1; x++)
+            {
+                for (int y = 0; y < Constants.MapHeight - 1; y++)
+                {
+                    if (Rogue.GameWorld.Map.Tiles[x, y].Blocked && Rogue.GameWorld.Map.Tiles[x, y].BlocksSight)
+                    {
+                        Rogue.GameWorld.Map.Tiles[x, y].Terrain = wall;
+                    }
+                    else
+                    {
+                        Rogue.GameWorld.Map.Tiles[x, y].Terrain = floor;
+                    }
+                }
+            }
+        }
+
+        private static void CreateBorders(ref Tile[,] tiles)
         {
             for (int x = 10; x < Constants.MapWidth - 1 - 10; x++)
             {
                 tiles[x, 5].Blocked = true;
+                tiles[x, 5].BlocksSight = true;
             }
             for (int y = 5; y < Constants.MapHeight - 1 - 5; y++)
             {
                 tiles[10, y].Blocked = true;
+                tiles[10, y].BlocksSight = true;
             }
         }
 
-        public static void CarveMaze(int startx, int starty, ref Tile[,] tiles)
+        private static void CarveMaze(int startx, int starty, ref Tile[,] tiles)
         {
             tiles[startx, starty].Visited = true;
 
@@ -187,13 +212,14 @@ namespace CSharpRogueTutorial
                 if (tiles[tile.X, tile.Y].Visited == false)
                 {
                     tiles[(tile.X + startx) / 2, (tile.Y + starty) / 2].Blocked = false;
+                    tiles[(tile.X + startx) / 2, (tile.Y + starty) / 2].BlocksSight = false;
 
                     CarveMaze(tile.X, tile.Y, ref tiles);
                 }
             }
         }
 
-        public static List<Coordinate> GetMazeNeighbours(int x, int y)
+        private static List<Coordinate> GetMazeNeighbours(int x, int y)
         {
             List<Coordinate> neighbours = new List<Coordinate>();
 

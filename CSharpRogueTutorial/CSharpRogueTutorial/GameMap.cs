@@ -7,12 +7,15 @@ namespace CSharpRogueTutorial
     class Tile
     {
         public bool Blocked;
+        public bool BlocksSight;
         public bool Explored;
         public bool Visited;
+        public Constants.Terrain Terrain;
 
-        public Tile(bool blocked)
+        public Tile(bool blocked, bool blocksSight)
         {
             Blocked = blocked;
+            BlocksSight = blocksSight;
             Explored = false;
             Visited = false;
         }
@@ -23,12 +26,12 @@ namespace CSharpRogueTutorial
     {
         public Tile[,] Tiles;
 
-        public GameMap(bool solid)
+        public GameMap()
         {
-            Tiles = BlankTiles(solid);
+            Tiles = BlankTiles();
         }
 
-        private static Tile[,] BlankTiles(bool blocked)
+        private static Tile[,] BlankTiles()
         {
             Tile[,] map = new Tile[Constants.MapWidth, Constants.MapHeight];
 
@@ -36,7 +39,7 @@ namespace CSharpRogueTutorial
             {
                 for (int y = 0; y < Constants.MapHeight; y++)
                 {
-                    map[x, y] = new Tile(blocked);
+                    map[x, y] = new Tile(true, true);
                 }
             }
 
@@ -48,6 +51,7 @@ namespace CSharpRogueTutorial
             for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2) + 1; x++)
             {
                 Tiles[x, y].Blocked = false;
+                Tiles[x, y].BlocksSight = false;
             }
         }
 
@@ -56,6 +60,7 @@ namespace CSharpRogueTutorial
             for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2) + 1; y++)
             {
                 Tiles[x, y].Blocked = false;
+                Tiles[x, y].BlocksSight = false;
             }
         }
 
@@ -75,6 +80,16 @@ namespace CSharpRogueTutorial
             }
 
             return Rogue.GameWorld.Map.Tiles[x, y].Blocked;
+        }
+
+        public static bool IsTerrain(int x, int y, Constants.Terrain type)
+        {
+            if (x < 0 || y < 0 && x >= Constants.MapWidth || y >= Constants.MapHeight)
+            {
+                return true;
+            }
+
+            return Rogue.GameWorld.Map.Tiles[x, y].Terrain == type;
         }
 
         public static bool MapBlocked(int x, int y)

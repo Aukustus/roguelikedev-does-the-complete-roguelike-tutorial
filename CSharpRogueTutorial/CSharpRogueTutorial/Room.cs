@@ -153,6 +153,7 @@ namespace CSharpRogueTutorial
                 for (int y = StartY + 1; y < EndY; y++)
                 {
                     Rogue.GameWorld.Map.Tiles[x, y].Blocked = false;
+                    Rogue.GameWorld.Map.Tiles[x, y].BlocksSight = false;
                 }
             }
         }
