@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace CSharpRogueTutorial
 {
+    [Serializable]
     struct Coordinate
     {
         public int X;
@@ -45,7 +46,7 @@ namespace CSharpRogueTutorial
             Camera.SetCamera();
         }
 
-        public static void MakeMap(bool downDirection)
+        public static void MakeMap(Constants.Direction direction)
         {
             Rogue.GameWorld.Map = new GameMap(true);
 
@@ -78,7 +79,7 @@ namespace CSharpRogueTutorial
                         Rogue.GameWorld.Player.Y = newCenter.Y;
                         Rogue.GameWorld.Player.Fighter.Direction = 180;
 
-                        if (downDirection)
+                        if (direction == Constants.Direction.Down)
                         {
                             GameObject up = new GameObject("Upstairs", Constants.Tiles.UpTile, newCenter.X, newCenter.Y, false);
                             up.Upstairs = true;
@@ -119,7 +120,7 @@ namespace CSharpRogueTutorial
 
             Room lastRoom = roomList.Last();
 
-            if (downDirection)
+            if (direction == Constants.Direction.Down)
             {
                 GameObject downstairs = new GameObject("Downstairs", Constants.Tiles.DownTile, lastRoom.Center().X, lastRoom.Center().Y, false);
                 downstairs.Downstairs = true;
@@ -206,9 +207,27 @@ namespace CSharpRogueTutorial
 
         public static void NextLevel()
         {
+            Rogue.GameWorld.StoreLevel();
+
             Rogue.GameWorld.DungeonLevel += 1;
             MessageLog.AddMessage("You descend deeper into the dungeon.");
-            MakeMap(true);
+
+            LevelMemory loadedLevel = Rogue.GameWorld.LoadLevel();
+            if (loadedLevel != null)
+            {
+                Rogue.GameWorld.Map = loadedLevel.Map;
+                Rogue.GameWorld.Objects = loadedLevel.Objects;
+                Rogue.GameWorld.Objects.Add(Rogue.GameWorld.Player);
+
+                Rogue.GameWorld.Player.X = loadedLevel.Upstairs.X;
+                Rogue.GameWorld.Player.Y = loadedLevel.Upstairs.Y;
+
+                Camera.SetCamera();
+            }
+            else
+            {
+                MakeMap(Constants.Direction.Down);
+            }
         }
 
         public static Constants.PlayerAction PreviousLevel()
@@ -228,9 +247,28 @@ namespace CSharpRogueTutorial
             }
             else
             {
+                Rogue.GameWorld.StoreLevel();
+
                 Rogue.GameWorld.DungeonLevel -= 1;
                 MessageLog.AddMessage("You ascend higher into the dungeon.");
-                MakeMap(false);
+
+                LevelMemory loadedLevel = Rogue.GameWorld.LoadLevel();
+                if (loadedLevel != null)
+                {
+                    Rogue.GameWorld.Map = loadedLevel.Map;
+                    Rogue.GameWorld.Objects = loadedLevel.Objects;
+                    Rogue.GameWorld.Objects.Add(Rogue.GameWorld.Player);
+
+                    Rogue.GameWorld.Player.X = loadedLevel.Downstairs.X;
+                    Rogue.GameWorld.Player.Y = loadedLevel.Downstairs.Y;
+
+                    Camera.SetCamera();
+                }
+                else
+                {
+                    MakeMap(Constants.Direction.Up);
+                }
+
                 return Constants.PlayerAction.UsedTurn;
             }
         }
