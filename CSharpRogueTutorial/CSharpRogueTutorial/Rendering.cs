@@ -17,29 +17,29 @@ namespace CSharpRogueTutorial
                     {
                         if (GameMap.IsTerrain(x, y, Constants.Terrain.TileWall))
                         {
-                            DrawMapTile(x, y, Constants.Tiles.Terrain.WallTile, "white");
+                            DrawMapTile(x, y, Tiles.Terrain.WallTile, "white");
                         }
                         else if (GameMap.IsTerrain(x, y, Constants.Terrain.TileFloor))
                         {
-                            DrawMapTile(x, y, Constants.Tiles.Terrain.FloorTile, "white");
+                            DrawMapTile(x, y, Tiles.Terrain.FloorTile, "white");
                         }
                     }
                     else if (GameMap.MapExplored(x, y))
                     {
                         if (GameMap.IsTerrain(x, y, Constants.Terrain.TileWall))
                         {
-                            DrawMapTile(x, y, Constants.Tiles.Terrain.WallTile, "grey");
+                            DrawMapTile(x, y, Tiles.Terrain.WallTile, "grey");
                         }
                         else if (GameMap.IsTerrain(x, y, Constants.Terrain.TileFloor))
                         {
-                            DrawMapTile(x, y, Constants.Tiles.Terrain.FloorTile, "grey");
+                            DrawMapTile(x, y, Tiles.Terrain.FloorTile, "grey");
                         }
                     }
                 }
             }
         }
 
-        private static void DrawMapTile(int x, int y, char tile, string color)
+        private static void DrawMapTile(int x, int y, int tile, string color)
         {
             Terminal.Layer(Constants.Layers["Map"]);
 

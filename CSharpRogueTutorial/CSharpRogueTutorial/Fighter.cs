@@ -50,7 +50,7 @@ namespace CSharpRogueTutorial
 
         public int Level = 1;
 
-        public int Sight = 3;
+        public int Sight = 4;
 
         public GameObject Owner;
 
@@ -93,35 +93,48 @@ namespace CSharpRogueTutorial
         {
             if (attacker.X == Owner.X && attacker.Y == Owner.Y - 1 && Direction != 0)
             {
-                TurnDirection = 0;
-            }
-            else if (attacker.X == Owner.X - 1 && attacker.Y == Owner.Y - 1 && Direction != 45)
-            {
-                TurnDirection = 45;
+                if (Direction == 180)
+                {
+                    TurnDirection = 90;
+                }
+                else
+                {
+                    TurnDirection = 0;
+                }
             }
             else if (attacker.X == Owner.X - 1 && attacker.Y == Owner.Y && Direction != 90)
             {
-                TurnDirection = 90;
-            }
-            else if (attacker.X == Owner.X - 1 && attacker.Y == Owner.Y + 1 && Direction != 135)
-            {
-                TurnDirection = 135;
+                if (Direction == 270)
+                {
+                    TurnDirection = 180;
+                }
+                else
+                {
+                    TurnDirection = 90;
+                }
+                
             }
             else if (attacker.X == Owner.X && attacker.Y == Owner.Y + 1 && Direction != 180)
             {
-                TurnDirection = 180;
-            }
-            else if (attacker.X == Owner.X + 1 && attacker.Y == Owner.Y + 1 && Direction != 225)
-            {
-                TurnDirection = 225;
+                if (Direction == 0)
+                {
+                    TurnDirection = 90;
+                }
+                else
+                {
+                    TurnDirection = 180;
+                }
             }
             else if (attacker.X == Owner.X + 1 && attacker.Y == Owner.Y && Direction != 270)
             {
-                TurnDirection = 270;
-            }
-            else if (attacker.X == Owner.X + 1 && attacker.Y == Owner.Y - 1 && Direction != 315)
-            {
-                TurnDirection = 315;
+                if (Direction == 90)
+                {
+                    TurnDirection = 0;
+                }
+                else
+                {
+                    TurnDirection = 270;
+                }
             }
             else
             {

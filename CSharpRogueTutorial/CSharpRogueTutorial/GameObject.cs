@@ -11,7 +11,7 @@ namespace CSharpRogueTutorial
     [Serializable]
     class GameObject
     {
-        public char Tile;
+        public int Tile;
         public int X;
         public int Y;
         public bool Blocks;
@@ -31,7 +31,7 @@ namespace CSharpRogueTutorial
         public bool Downstairs = false;
         public bool Upstairs = false;
 
-        public GameObject(string name, char tile, int x, int y, bool blocks = true)
+        public GameObject(string name, int tile, int x, int y, bool blocks = true)
         {
             Name = name;
             X = x;
@@ -76,7 +76,7 @@ namespace CSharpRogueTutorial
                 }
             }
 
-            Terminal.Print(drawX, drawY, "[offset=" + offsetX.ToString() + "," + offsetY.ToString() + "]" + Tile.ToString());
+            Terminal.PutExt(drawX, drawY, offsetX, offsetY, Tile);
         }
 
         internal void PlayerMoveOrAttack(int dx, int dy)
@@ -113,27 +113,11 @@ namespace CSharpRogueTutorial
                         return;
                     }
                 }
-                if (dx == -1 && dy == -1)
-                {
-                    if (Fighter.Direction != 45)
-                    {
-                        Fighter.Direction = 45;
-                        return;
-                    }
-                }
                 if (dx == -1 && dy == 0)
                 {
                     if (Fighter.Direction != 90)
                     {
                         Fighter.Direction = 90;
-                        return;
-                    }
-                }
-                if (dx == -1 && dy == 1)
-                {
-                    if (Fighter.Direction != 135)
-                    {
-                        Fighter.Direction = 135;
                         return;
                     }
                 }
@@ -145,27 +129,11 @@ namespace CSharpRogueTutorial
                         return;
                     }
                 }
-                if (dx == 1 && dy == 1)
-                {
-                    if (Fighter.Direction != 225)
-                    {
-                        Fighter.Direction = 225;
-                        return;
-                    }
-                }
                 if (dx == 1 && dy == 0)
                 {
                     if (Fighter.Direction != 270)
                     {
                         Fighter.Direction = 270;
-                        return;
-                    }
-                }
-                if (dx == 1 && dy == -1)
-                {
-                    if (Fighter.Direction != 315)
-                    {
-                        Fighter.Direction = 315;
                         return;
                     }
                 }

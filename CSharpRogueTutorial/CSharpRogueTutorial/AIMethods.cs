@@ -51,33 +51,17 @@ namespace CSharpRogueTutorial
                     {
                         self.Move(0, -1);
                     }
-                    else if (self.Fighter.Direction == 45)
-                    {
-                        self.Move(-1, -1);
-                    }
                     else if (self.Fighter.Direction == 90)
                     {
                         self.Move(-1, 0);
-                    }
-                    else if (self.Fighter.Direction == 135)
-                    {
-                        self.Move(-1, 1);
                     }
                     else if (self.Fighter.Direction == 180)
                     {
                         self.Move(0, 1);
                     }
-                    else if (self.Fighter.Direction == 225)
-                    {
-                        self.Move(1, 1);
-                    }
                     else if (self.Fighter.Direction == 270)
                     {
                         self.Move(1, 0);
-                    }
-                    else if (self.Fighter.Direction == 315)
-                    {
-                        self.Move(1, -1);
                     }
                 }
                 else
@@ -112,33 +96,17 @@ namespace CSharpRogueTutorial
                 {
                     self.Move(0, -1);
                 }
-                else if (self.Fighter.Direction == 45)
-                {
-                    self.Move(-1, -1);
-                }
                 else if (self.Fighter.Direction == 90)
                 {
                     self.Move(-1, 0);
-                }
-                else if (self.Fighter.Direction == 135)
-                {
-                    self.Move(-1, 1);
                 }
                 else if (self.Fighter.Direction == 180)
                 {
                     self.Move(0, 1);
                 }
-                else if (self.Fighter.Direction == 225)
-                {
-                    self.Move(1, 1);
-                }
                 else if (self.Fighter.Direction == 270)
                 {
                     self.Move(1, 0);
-                }
-                else if (self.Fighter.Direction == 315)
-                {
-                    self.Move(1, -1);
                 }
             }
             else

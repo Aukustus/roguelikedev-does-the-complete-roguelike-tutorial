@@ -110,7 +110,7 @@ namespace CSharpRogueTutorial
         {
             MessageLog.AddMessage("Fireball: " + user.Name + " casts Fireball.", "white");
 
-            GameObject spell = new GameObject("Fireball", Constants.Tiles.Effect.FireballTile, user.X, user.Y);
+            GameObject spell = new GameObject("Fireball", Tiles.Effect.FireballTile, user.X, user.Y);
             spell.Spell = true;
             spell.AlwaysVisible = false;
 

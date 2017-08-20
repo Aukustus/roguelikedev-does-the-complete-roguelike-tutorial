@@ -9,52 +9,52 @@ namespace CSharpRogueTutorial
         {
             Terminal.Layer(Constants.Layers["UI"]);
 
-            Terminal.Put(0, 0, Constants.Symbols.NW);
+            Terminal.Put(0, 0, Tiles.Symbols.NW);
 
             for (int x = 1; x < 79; x++)
             {
-                Terminal.Put(x, 0, Constants.Symbols.HorizonalBar);
-                Terminal.Put(x, Constants.ScreenHeight - 1, Constants.Symbols.HorizonalBar);
+                Terminal.Put(x, 0, Tiles.Symbols.HorizonalBar);
+                Terminal.Put(x, Constants.ScreenHeight - 1, Tiles.Symbols.HorizonalBar);
             }
 
-            Terminal.Put(61, 0, Constants.Symbols.DownCross);
-            Terminal.Put(79, 0, Constants.Symbols.NE);
+            Terminal.Put(61, 0, Tiles.Symbols.DownCross);
+            Terminal.Put(79, 0, Tiles.Symbols.NE);
 
             for (int y = 1; y < Constants.ScreenHeight - 1; y++)
             {
-                Terminal.Put(0, y, Constants.Symbols.VerticalBar);
-                Terminal.Put(61, y, Constants.Symbols.VerticalBar);
-                Terminal.Put(79, y, Constants.Symbols.VerticalBar);
+                Terminal.Put(0, y, Tiles.Symbols.VerticalBar);
+                Terminal.Put(61, y, Tiles.Symbols.VerticalBar);
+                Terminal.Put(79, y, Tiles.Symbols.VerticalBar);
             }
 
-            Terminal.Put(0, Constants.ScreenHeight - 1, Constants.Symbols.SW);
-            Terminal.Put(61, Constants.ScreenHeight - 1, Constants.Symbols.UpCross);
+            Terminal.Put(0, Constants.ScreenHeight - 1, Tiles.Symbols.SW);
+            Terminal.Put(61, Constants.ScreenHeight - 1, Tiles.Symbols.UpCross);
 
-            Terminal.Put(79, Constants.ScreenHeight - 1, Constants.Symbols.SE);
+            Terminal.Put(79, Constants.ScreenHeight - 1, Tiles.Symbols.SE);
 
-            Terminal.Put(61, Constants.ScreenHeight - 8, Constants.Symbols.LeftCross);
-            Terminal.Put(0, Constants.ScreenHeight - 8, Constants.Symbols.RightCross);
+            Terminal.Put(61, Constants.ScreenHeight - 8, Tiles.Symbols.LeftCross);
+            Terminal.Put(0, Constants.ScreenHeight - 8, Tiles.Symbols.RightCross);
 
             for (int x = 1; x < 61; x++)
             {
-                Terminal.Put(x, Constants.ScreenHeight - 8, Constants.Symbols.HorizonalBar);
+                Terminal.Put(x, Constants.ScreenHeight - 8, Tiles.Symbols.HorizonalBar);
             }
 
             for (int x = 1; x < 5; x++)
             {
-                Terminal.Put(x, Constants.ScreenHeight - 1, Constants.Symbols.HorizonalBar);
+                Terminal.Put(x, Constants.ScreenHeight - 1, Tiles.Symbols.HorizonalBar);
             }
 
             for (int x = 66; x < 79; x++)
             {
-                Terminal.Put(x, Constants.ScreenHeight - 1, Constants.Symbols.HorizonalBar);
+                Terminal.Put(x, Constants.ScreenHeight - 1, Tiles.Symbols.HorizonalBar);
             }
 
             for (int x = Constants.ScreenWidth - 18; x < Constants.ScreenWidth - 1; x++)
             {
                 for (int y = 1; y < Constants.ScreenHeight - 1; y++)
                 {
-                    Terminal.Put(x, y, Constants.Symbols.Empty);
+                    Terminal.Put(x, y, Tiles.Symbols.Empty);
                 }
             }
 
@@ -62,12 +62,12 @@ namespace CSharpRogueTutorial
             {
                 for (int y = Constants.ScreenHeight - 7; y < Constants.ScreenHeight - 1; y++)
                 {
-                    Terminal.Put(x, y, Constants.Symbols.Empty);
+                    Terminal.Put(x, y, Tiles.Symbols.Empty);
                 }
             }
 
-            Terminal.Put(64, 0, Constants.Symbols.LeftEnd);
-            Terminal.Put(76, 0, Constants.Symbols.LeftEnd);
+            Terminal.Put(64, 0, Tiles.Symbols.LeftEnd);
+            Terminal.Put(76, 0, Tiles.Symbols.LeftEnd);
             Terminal.Print(65, 0, "Information");
         }
 
