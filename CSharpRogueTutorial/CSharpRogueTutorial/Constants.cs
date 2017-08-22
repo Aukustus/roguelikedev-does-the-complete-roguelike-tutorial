@@ -14,7 +14,7 @@ namespace CSharpRogueTutorial
         public const int CameraHeight = 8;
 
         public const int FoVSteps = 1;
-        public const int TurnSteps = 6;
+        public const int TurnSteps = 9;
 
         public const int SpellRange = 6;
 

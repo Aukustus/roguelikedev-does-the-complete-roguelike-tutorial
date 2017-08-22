@@ -22,7 +22,7 @@ namespace CSharpRogueTutorial
                         break;
                     }
 
-                    for (int x = 0; x < 16; x++)
+                    for (int x = 0; x < 64 / Constants.MoveSmoothSteps; x++)
                     {
                         Rendering.RenderAll(obj);
                         obj.OffsetX += Constants.MoveSmoothSteps * dx;
@@ -51,7 +51,7 @@ namespace CSharpRogueTutorial
                         break;
                     }
 
-                    for (int x = 0; x < 16; x++)
+                    for (int x = 0; x < 64 / Constants.MoveSmoothSteps; x++)
                     {
                         Rendering.RenderAll(obj);
                         obj.OffsetY += Constants.MoveSmoothSteps * dy;

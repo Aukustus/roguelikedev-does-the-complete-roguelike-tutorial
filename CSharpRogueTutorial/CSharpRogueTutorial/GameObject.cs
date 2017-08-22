@@ -145,7 +145,7 @@ namespace CSharpRogueTutorial
                 {
                     if (dx == 1 || dx == -1)
                     {
-                        for (int i = 0; i < 16; i++)
+                        for (int x = 0; x < 64 / Constants.MoveSmoothSteps; x++)
                         {
                             OffsetX += Constants.MoveSmoothSteps * dx;
                             if (this != Rogue.GameWorld.Player)
@@ -164,7 +164,7 @@ namespace CSharpRogueTutorial
                     }
                     if (dy == 1 || dy == -1)
                     {
-                        for (int i = 0; i < 16; i++)
+                        for (int x = 0; x < 64 / Constants.MoveSmoothSteps; x++)
                         {
                             OffsetY += Constants.MoveSmoothSteps * dy;
                             if (this != Rogue.GameWorld.Player)
